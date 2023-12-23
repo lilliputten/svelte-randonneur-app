@@ -6,7 +6,7 @@
 
 <header>
 	<div class="corner">
-		<a href="https://kit.svelte.dev">
+		<a href="https://kit.svelte.dev" target="_blank">
 			<img src={logo} alt="Based on SvelteKit" />
 		</a>
 	</div>
@@ -29,7 +29,7 @@
 	</nav>
 
 	<div class="corner">
-		<a href="https://github.com/lilliputten/svelte-randonneur-app">
+		<a href="https://github.com/lilliputten/svelte-randonneur-app" target="_blank">
 			<img src={github} alt="GitHub repository" />
 		</a>
 	</div>
