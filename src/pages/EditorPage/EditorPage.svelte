@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { hasData, getHasData } from '@/src/store/hasData';
+	// TODO: Mount hook to check if data has already loaded
 </script>
 
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<h1>Edit loaded data</h1>
 <p><button on:click={() => hasData.update((value) => !value)}>Toggle data: {$hasData}</button></p>

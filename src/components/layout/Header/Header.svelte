@@ -7,7 +7,7 @@
 <header>
 	<div class="corner">
 		<a href="https://kit.svelte.dev">
-			<img src={logo} alt="SvelteKit" />
+			<img src={logo} alt="Based on SvelteKit" />
 		</a>
 	</div>
 
@@ -17,10 +17,10 @@
 		</svg>
 		<ul>
 			<li aria-current={$page.url.pathname === '/' ? 'page' : undefined}>
-				<a href="/">Load data</a>
+				<a href="/">Start</a>
 			</li>
-			<li aria-current={$page.url.pathname === '/about' ? 'page' : undefined}>
-				<a href="/edit">Edit tables</a>
+			<li aria-current={$page.url.pathname === '/editor' ? 'page' : undefined}>
+				<a href="/editor">Editor</a>
 			</li>
 		</ul>
 		<svg viewBox="0 0 2 3" aria-hidden="true">

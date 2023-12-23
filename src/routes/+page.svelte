@@ -1,5 +1,6 @@
 <script lang="ts">
-	import Main from '@/src/pages/Main';
+	// Default (root) app route...
+	import LoadDataPage from '@/src/pages/LoadDataPage';
 </script>
 
-<Main />
+<LoadDataPage />
