@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 .LoadDataPage {
 	transition: all 250ms;
 	&.loading {
@@ -5,7 +7,12 @@
 		pointer-events: none;
 	}
 }
-.section {
+section {
 	margin: 16px 0;
-	border-top: 1px solid #999;
+	&.vpadded {
+		padding: 16px 0;
+	}
+	&.delimited {
+		border-top: 1px solid color.change(black, $alpha: 0.1);
+	}
 }

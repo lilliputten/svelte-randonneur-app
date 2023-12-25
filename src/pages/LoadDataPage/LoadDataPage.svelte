@@ -5,22 +5,34 @@
 
 	import { hasDataStore, setHasData, toggleHasData } from '@/src/store/hasData';
 	import { setRandonneurData } from '@/src/store/randonneurData';
-	import { demoDataFiles, defaultDataFileIdx, loadDemoDataByIdx, getDemoDataFileId } from './loadDemoData';
+	import {
+		demoDataFiles,
+		defaultDataFileIdx,
+		loadDemoDataByIdx,
+		getDemoDataFileId
+	} from './loadDemoData';
+	import { loadDataFile } from './loadLocalData';
 
-	let currentDemoDataFileIdx = defaultDataFileIdx;
+	let demoDataFileIdx = defaultDataFileIdx;
 	let loadingDemoData = false;
-	// let loading = loadingDemoData;
-	$: loading = loadingDemoData;
 
+	let localDataFile: File | undefined = undefined;
+	let loadingLocalData = false;
+
+	/* // DEBUG
+	 * $: console.log('localDataFile', localDataFile);
+	 */
+
+	$: loading = loadingDemoData || loadingLocalData;
 
 	function loadDemoData() {
-		const dataId = getDemoDataFileId(currentDemoDataFileIdx);
+		const dataId = getDemoDataFileId(demoDataFileIdx);
 		console.log('[LoadDataPage:loadDemoData] start', {
-			dataId,
+			dataId
 		});
 		// TODO: Show notification
 		loadingDemoData = true;
-		loadDemoDataByIdx(currentDemoDataFileIdx)
+		loadDemoDataByIdx(demoDataFileIdx)
 			.then((data) => {
 				console.log('[LoadDataPage:loadDemoData] sucess', {
 					dataId,
@@ -33,7 +45,7 @@
 			.catch((error) => {
 				console.error('[LoadDataPage:loadDemoData] error', {
 					error,
-					dataId,
+					dataId
 				});
 				debugger;
 				// TODO: Show an error?
@@ -43,6 +55,83 @@
 			});
 	}
 
+	function handleLocalFile(ev: Event) {
+		const target = ev.target as HTMLInputElement;
+		//
+		const files = target.files;
+		const file = files && files[0];
+		if (!file) {
+			// Error...
+			const error = new Error('No file selected!');
+		  console.warn('[LoadDataPage:handleLocalFile] error', {
+			error,
+			});
+			return;
+		}
+		const {
+			name: fileName,
+			type: fileType,
+			// size: fileSize,
+		} = file;
+		// const fileInfo = { fileName, fileType, fileSize };
+		if (!/\.json$/.test(fileName) || fileType !== 'application/json') {
+			// Error...
+			const error = new Error('Expected json data file!');
+		  console.warn('[LoadDataPage:handleLocalFile] error', {
+				error,
+			});
+			return;
+		}
+		/* console.log('[LoadDataPage:handleLocalFile]', {
+		 *   fileInfo,
+		 *   files,
+		 *   file,
+		 *   ev,
+		 * });
+		 */
+		localDataFile = file;
+	}
+
+	function loadLocalData<TRandonneurData>() {
+		if (!localDataFile) {
+			const error = new Error('No local file defined');
+			console.warn('[LoadDataPage:loadLocalData] error', {
+				error,
+			});
+			debugger;
+			return;
+		}
+		console.log('[LoadDataPage:loadLocalData] start', {
+			localDataFile
+		});
+		// TODO: Show notification
+		loadingLocalData = true;
+		loadDataFile<TRandonneurData>(localDataFile, {
+			timeout: 5000
+			// onProgress: handleLoadingProgress,
+		}).then((data) => {
+			console.log('[LoadDataPage:loadLocalData] success', {
+				localDataFile,
+				data,
+			});
+			setRandonneurData(data);
+			setHasData(true);
+			// TODO: Show notification
+		})
+		.catch((error) => {
+				console.error('[LoadDataPage:loadLocalData] error', {
+					error,
+					localDataFile
+				});
+				debugger;
+				// TODO: Show an error?
+			})
+			.finally(() => {
+				loadingLocalData = false;
+			});
+	}
+
+	/** Go to data editor */
 	function goToEditor() {
 		if (get(hasDataStore)) {
 			goto('/editor');
@@ -50,28 +139,54 @@
 	}
 </script>
 
-<div class={classNames("LoadDataPage", loading && 'loading')}>
+<div class={classNames('LoadDataPage', loading && 'loading')}>
 	<h1>Load data to edit</h1>
-	<section id="loadDemoData">
+
+	<section id="loadDemoData" class="delimited">
 		<h2>Load demo data</h2>
 		<div>
-			<select id="demoDataFile" bind:value={currentDemoDataFileIdx}>
+			<select id="demoDataFile" bind:value={demoDataFileIdx}>
 				{#each demoDataFiles as file, idx}
-					<option value={idx} selected={idx === currentDemoDataFileIdx}>
+					<option value={idx} selected={idx === demoDataFileIdx}>
 						{file.id}
 					</option>
 				{/each}
 			</select>
-			<button id="loadDemoData" on:click={loadDemoData}>Load demo data</button>
+			<button id="loadDemoDataAction" on:click={loadDemoData}>Load demo data</button>
 		</div>
 	</section>
-	<section id="actions">
+
+	<section id="loadLocalData" class="delimited">
+		<h2>Load local data</h2>
+		<div>
+			<input
+				type="file"
+				id="localDataFile"
+				name="localDataFile"
+				accept="application/json"
+				on:change={handleLocalFile}
+			/>
+			<button
+				id="loadLocalDataAction"
+				on:click={loadLocalData}
+				disabled={!localDataFile}
+				>
+					Load local data
+				</button
+			>
+		</div>
+	</section>
+
+	<!--
+	<section id="debug">
+		<div><button on:click={toggleHasData}>Toggle data: {$hasDataStore}</button></div>
+		<div>idx: {demoDataFileIdx}</div>
+	</section>
+	-->
+
+	<section id="actions" class="delimited vpadded">
 		<button id="goToEditor" on:click={goToEditor} disabled={!$hasDataStore}>Go to editor</button>
 	</section>
 </div>
-
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
-<p><button on:click={toggleHasData}>Toggle data: {$hasDataStore}</button></p>
-<p>idx: {currentDemoDataFileIdx}</p>
 
 <style src="./LoadDataPage.scss"></style>
