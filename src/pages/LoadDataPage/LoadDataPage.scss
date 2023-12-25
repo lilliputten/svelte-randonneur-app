@@ -1,0 +1,11 @@
+.LoadDataPage {
+	transition: all 250ms;
+	&.loading {
+		opacity: .25;
+		pointer-events: none;
+	}
+}
+.section {
+	margin: 16px 0;
+	border-top: 1px solid #999;
+}

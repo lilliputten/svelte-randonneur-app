@@ -3,7 +3,7 @@
 	import { onDestroy, onMount } from 'svelte';
 	import { get } from 'svelte/store';
 
-	import { hasData, toggleHasData } from '@/src/store/hasData';
+	import { hasDataStore, toggleHasData } from '@/src/store/hasData';
 
 	/** Local state: to check if we're already going out of this page and it's not required to do it one more time. */
 	let goingOut = false;
@@ -23,16 +23,16 @@
 	}
 
 	// Check data status on change...
-	const unsubscribe = hasData.subscribe(checkReadiness);
+	const unsubscribe = hasDataStore.subscribe(checkReadiness);
 	onDestroy(unsubscribe);
 
 	// Mount hook to check if data has already loaded...
 	onMount(() => {
-		// UNUSED: Probably it's not required here: `hasData.subscribe` already works as initializatior hook too.
-	  checkReadiness(get(hasData));
+		// UNUSED: Probably it's not required here: `hasDataStore.subscribe` already works as initializatior hook too.
+	  checkReadiness($hasDataStore);
 	});
 </script>
 
 <h1>Edit loaded data</h1>
 
-<p><button on:click={toggleHasData}>Toggle data: {$hasData}</button></p>
+<p><button on:click={toggleHasData}>Toggle data: {$hasDataStore}</button></p>

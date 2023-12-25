@@ -1,18 +1,15 @@
-import {
-	get,
-	writable
-} from 'svelte/store';
+import { get, writable } from 'svelte/store';
 
-export const hasData = writable<boolean>(false);
+export const hasDataStore = writable<boolean>(false);
 
 export function setHasData(val: boolean) {
-	hasData.set(val);
+	hasDataStore.set(val);
 }
 
 export function toggleHasData() {
-	hasData.update((value) => !value);
+	hasDataStore.update((value) => !value);
 }
 
 export function getHasData() {
-	return get(hasData);
+	return get(hasDataStore);
 }
