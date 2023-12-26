@@ -5,7 +5,7 @@
 </script>
 
 {#if $toasts}
-	<section>
+	<section class="Tosats">
 		{#each $toasts as toast (toast.id)}
 			<Toast
 				type={toast.type}
@@ -16,7 +16,7 @@
 	</section>
 {/if}
 
-<style lang="postcss">
+<style lang="scss">
 	section {
 		position: fixed;
 		top: 0;

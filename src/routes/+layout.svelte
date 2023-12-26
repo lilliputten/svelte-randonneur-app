@@ -1,7 +1,6 @@
 <script lang="ts">
   import Toasts from '@/src/components/ui/Toasts';
 
-	// import Header from './Header.svelte';
 	import Header from '@/src/components/layout/Header';
 
 	import './styles.css';

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
 	import { fade } from 'svelte/transition';
+	import classNames from 'classnames';
 
 	import { TToastType } from './toastsTypes';
 
@@ -11,17 +12,22 @@
 
 	const dispatch = createEventDispatcher();
 
+	// @see https://svelte.dev/docs/svelte-transition
+	const fadeTimeout = 250; // ms
+
+	const iconWidth = '1.1em';
+
 	export let type: TToastType = 'error';
 	export let dismissible = true;
 </script>
 
-<article class={type} role="alert" transition:fade>
+<article class={classNames('Toast', type)} role="alert" transition:fade={{ duration: fadeTimeout }}>
 	{#if type === 'success'}
-		<SuccessIcon width="1.1em" />
+		<SuccessIcon width={iconWidth} />
 	{:else if type === 'error'}
-		<ErrorIcon width="1.1em" />
+		<ErrorIcon width={iconWidth} />
 	{:else}
-		<InfoIcon width="1.1em" />
+		<InfoIcon width={iconWidth} />
 	{/if}
 
 	<div class="text">
@@ -35,12 +41,13 @@
 	{/if}
 </article>
 
-<style lang="postcss">
+<style lang="scss">
 	article {
 		color: white;
-		padding: 0.75rem 1.5rem;
+		padding: 0.75rem 1.25rem;
 		border-radius: 0.2rem;
 		display: flex;
+		gap: .3em;
 		align-items: center;
 		margin: 0 auto 0.5rem auto;
 		width: 20rem;
@@ -58,6 +65,9 @@
 		margin-left: 1rem;
 	}
 	button {
+		display: flex;
+		align-items: center;
+		justify-content: center;
 		color: white;
 		background: transparent;
 		border: 0 none;
@@ -65,5 +75,6 @@
 		margin: 0 0 0 auto;
 		line-height: 1;
 		font-size: 1rem;
+		cursor: pointer;
 	}
 </style>
