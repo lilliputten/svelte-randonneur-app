@@ -78,6 +78,7 @@ pre {
 	margin: 0 auto;
 }
 
+select,
 input,
 button {
 	font-size: inherit;

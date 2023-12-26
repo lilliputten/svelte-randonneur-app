@@ -5,4 +5,4 @@ export const demoDataFiles = [
 	{ id: 'UVEK-2022-to-ecoinvent-3.9-partial-mining', filename: 'UVEK-2022-to-ecoinvent-3.9-partial-mining.json' },
 	{ id: 'UVEK-2022-to-ecoinvent-3.9-partial-transport', filename: 'UVEK-2022-to-ecoinvent-3.9-partial-transport.json' },
 ];
-export const defaultDataFileIdx = 2;
+export const defaultDataFileIdx = 0;

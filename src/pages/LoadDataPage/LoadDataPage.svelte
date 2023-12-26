@@ -3,6 +3,9 @@
 	import { goto } from '$app/navigation';
 	import classNames from 'classnames';
 
+	import { addToast } from '@/src/components/ui/Toasts';
+	import { getErrorText } from '@/src/core/helpers/basic';
+
 	import { hasDataStore, setHasData, toggleHasData } from '@/src/store/hasData';
 	import { setRandonneurData } from '@/src/store/randonneurData';
 	import {
@@ -30,8 +33,9 @@
 		console.log('[LoadDataPage:loadDemoData] start', {
 			dataId
 		});
-		// TODO: Show notification
 		loadingDemoData = true;
+		// Show notification
+		addToast({ message: 'Demo data loading started', type: 'info' });
 		loadDemoDataByIdx(demoDataFileIdx)
 			.then((data) => {
 				console.log('[LoadDataPage:loadDemoData] sucess', {
@@ -40,15 +44,18 @@
 				});
 				setRandonneurData(data);
 				setHasData(true);
-				// TODO: Show notification
+				// Show notification
+				addToast({ message: 'Demo data loading successfully finished', type: 'success' });
 			})
 			.catch((error) => {
-				console.error('[LoadDataPage:loadDemoData] error', {
+				const errorMsg = getErrorText(error);
+				console.error('[LoadDataPage:loadDemoData] error', errorMsg, {
 					error,
 					dataId
 				});
 				debugger;
 				// TODO: Show an error?
+				addToast({ message: errorMsg, type: 'error' });
 			})
 			.finally(() => {
 				loadingDemoData = false;
@@ -64,7 +71,7 @@
 			// Error...
 			const error = new Error('No file selected!');
 		  console.warn('[LoadDataPage:handleLocalFile] error', {
-			error,
+				error,
 			});
 			return;
 		}
@@ -104,7 +111,8 @@
 		console.log('[LoadDataPage:loadLocalData] start', {
 			localDataFile
 		});
-		// TODO: Show notification
+		// Show notification
+		addToast({ message: 'Local data loading started', type: 'info' });
 		loadingLocalData = true;
 		loadDataFile<TRandonneurData>(localDataFile, {
 			timeout: 5000
@@ -116,15 +124,18 @@
 			});
 			setRandonneurData(data);
 			setHasData(true);
-			// TODO: Show notification
+			// Show notification
+			addToast({ message: 'Local data loading successfully finished', type: 'success' });
 		})
 		.catch((error) => {
-				console.error('[LoadDataPage:loadLocalData] error', {
+				const errorMsg = getErrorText(error);
+				console.error('[LoadDataPage:loadLocalData] error', errorMsg, {
 					error,
 					localDataFile
 				});
 				debugger;
-				// TODO: Show an error?
+				// Show an error?
+				addToast({ message: errorMsg, type: 'error' });
 			})
 			.finally(() => {
 				loadingLocalData = false;
@@ -144,7 +155,7 @@
 
 	<section id="loadDemoData" class="delimited">
 		<h2>Load demo data</h2>
-		<div>
+		<div class="formGroup">
 			<select id="demoDataFile" bind:value={demoDataFileIdx}>
 				{#each demoDataFiles as file, idx}
 					<option value={idx} selected={idx === demoDataFileIdx}>
@@ -158,7 +169,7 @@
 
 	<section id="loadLocalData" class="delimited">
 		<h2>Load local data</h2>
-		<div>
+		<div class="formGroup">
 			<input
 				type="file"
 				id="localDataFile"
@@ -184,8 +195,14 @@
 	</section>
 	-->
 
+	<!--
+		TODO: Show loaded data info?
+	-->
+
 	<section id="actions" class="delimited vpadded">
-		<button id="goToEditor" on:click={goToEditor} disabled={!$hasDataStore}>Go to editor</button>
+		<div class="formGroup">
+			<button id="goToEditor" on:click={goToEditor} disabled={!$hasDataStore}>Go to editor</button>
+		</div>
 	</section>
 </div>
 

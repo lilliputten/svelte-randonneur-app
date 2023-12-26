@@ -1,7 +1,10 @@
 <script lang="ts">
+	import { browser } from '$app/environment';
 	import { goto } from '$app/navigation';
 	import { onDestroy, onMount } from 'svelte';
 	import { get } from 'svelte/store';
+
+	import { addToast } from '@/src/components/ui/Toasts';
 
 	import { hasDataStore, toggleHasData } from '@/src/store/hasData';
 
@@ -9,22 +12,22 @@
 	let goingOut = false;
 
 	function checkReadiness(hasData: boolean) {
-		console.log('checkReadiness', hasData);
 		if (!hasData && !goingOut) {
-			const error = new Error('Data has not been initialized. Go to the main page.');
-			console.warn('[EditorPage:checkReadiness]', error.message, {
-				error,
-				goingOut,
-			});
+			const errorMsg = 'Data has not been initialized. Goong to the main page.';
+			const error = new Error(errorMsg);
+			console.warn('[EditorPage:checkReadiness]', error.message);
+			addToast({ message: errorMsg, type: 'error' });
 			// Leave page if no data anymore...
 			goingOut = true;
-			goto('/', { replaceState: true });
+			if (browser) {
+				goto('/', { replaceState: true });
+			}
 		}
 	}
 
 	// Check data status on change...
-	const unsubscribe = hasDataStore.subscribe(checkReadiness);
-	onDestroy(unsubscribe);
+	const checkReadinessUnsubscribe = hasDataStore.subscribe(checkReadiness);
+	onDestroy(checkReadinessUnsubscribe);
 
 	// Mount hook to check if data has already loaded...
 	onMount(() => {
@@ -35,4 +38,6 @@
 
 <h1>Edit loaded data</h1>
 
-<p><button on:click={toggleHasData}>Toggle data: {$hasDataStore}</button></p>
+<div class="formGroup">
+	<button on:click={toggleHasData}>Toggle data: {$hasDataStore}</button>
+</div>
