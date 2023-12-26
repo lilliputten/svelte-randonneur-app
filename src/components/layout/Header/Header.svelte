@@ -16,10 +16,10 @@
 			<path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z" />
 		</svg>
 		<ul>
-			<li aria-current={$page.url.pathname === '/' ? 'page' : undefined}>
+			<li aria-current={$page.url.pathname === '/' && 'page'}>
 				<a href="/">Start</a>
 			</li>
-			<li aria-current={$page.url.pathname === '/editor' ? 'page' : undefined}>
+			<li aria-current={$page.url.pathname.startsWith('/editor') && 'page'}>
 				<a href="/editor">Editor</a>
 			</li>
 		</ul>

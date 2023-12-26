@@ -1,3 +1,12 @@
+@use 'sass:color';
+
+$primaryColor: #1976D2;
+
+:root {
+	--primaryColor: #1976D2;
+	--transitionTimeout: 250ms;
+}
+
 $formItemHeight: 32px;
 
 .formGroup {
@@ -10,5 +19,31 @@ $formItemHeight: 32px;
 	input::file-selector-button,
 	input {
 		height: $formItemHeight;
+		border-radius: 4px;
+		transition: all var(--transitionTimeout);
+		box-sizing: border-box;
+	}
+	select,
+	input[type="file"],
+	button {
+		border: 1px solid color.change(black, $alpha: 0.2);
+		&:not(:disabled) {
+			background-color: $primaryColor;
+			color: #fff;
+			cursor: pointer;
+			&:hover {
+				box-shadow: 0 0 4px 1px $primaryColor;
+				background-color: darken($primaryColor, 5%);
+			}
+		}
+		&:disabled {
+			cursor: default;
+			// opacity: .8;
+		}
+	}
+	input::file-selector-button {
+		border-width: 0;
+		background: none;
+		color: #fff;
 	}
 }

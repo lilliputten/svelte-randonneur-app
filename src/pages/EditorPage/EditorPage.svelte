@@ -31,7 +31,7 @@
 	// Mount hook to check if data has already loaded...
 	onMount(() => {
 		// UNUSED: Probably it's not required here: `hasDataStore.subscribe` already works as initializatior hook too.
-		checkReadiness($hasDataStore, goingOut);
+		checkReadiness($hasDataStore);
 	});
 </script>
 
