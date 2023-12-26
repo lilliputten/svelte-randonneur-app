@@ -35,8 +35,28 @@
 	});
 </script>
 
-<h1>Edit loaded data</h1>
+<div class="EditorPage">
+	<h1 class="header">Edit loaded data</h1>
 
-<div class="formGroup">
-	<button on:click={toggleHasData}>Toggle data: {$hasDataStore}</button>
+	<div class="layout">
+		<div class="column sideColumn leftColumn">
+			sideColumn leftColumn
+			{#each Array(25) as _, idx}
+				<p>{idx + 1}</p>
+			{/each}
+		</div>
+		<div class="column mainColumn">
+			<div class="formGroup">
+				<button on:click={toggleHasData}>Toggle data: {$hasDataStore}</button>
+			</div>
+			<p>mainColumn</p>
+			{#each Array(25) as _, idx}
+				<p>{idx + 1}</p>
+			{/each}
+		</div>
+	</div>
+
 </div>
+
+<style src="./EditorPage.scss"></style>
+

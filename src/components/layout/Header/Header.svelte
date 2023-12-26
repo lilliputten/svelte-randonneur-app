@@ -2,9 +2,12 @@
 	import { page } from '$app/stores';
 	import logo from '@/src/lib/images/svelte-logo.svg';
 	import github from '@/src/lib/images/github.svg';
+	import classNames from 'classnames';
+
+	export let className = '';
 </script>
 
-<header>
+<header class={classNames(className, 'Header')}>
 	<div class="corner">
 		<a href="https://kit.svelte.dev" target="_blank">
 			<img src={logo} alt="Based on SvelteKit" />

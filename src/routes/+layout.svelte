@@ -8,18 +8,18 @@
 
 </script>
 
-<div class="app">
-	<Header />
+<div class="AppLayout">
+	<Header className="AppLayout-Header" />
 
-	<main>
+	<main class="AppLayout-Main">
 		<slot />
 	</main>
 
-	<footer>
+	<footer class="AppLayout-Footer">
 		<p>visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to learn SvelteKit</p>
 	</footer>
 
 	<Toasts />
 </div>
 
-<style src="./layout.scss"></style>
+<style src="./AppLayout.scss"></style>

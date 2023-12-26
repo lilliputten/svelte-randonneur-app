@@ -151,7 +151,7 @@
 </script>
 
 <div class={classNames('LoadDataPage', loading && 'loading')}>
-	<h1>Load data to edit</h1>
+	<h1 class="header">Load data to edit</h1>
 
 	<section id="loadDemoData" class="delimited">
 		<h2>Load demo data</h2>
