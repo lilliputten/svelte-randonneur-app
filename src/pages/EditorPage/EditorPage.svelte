@@ -40,7 +40,6 @@
 
 	<div class="layout">
 		<div class="column sideColumn leftColumn">
-			sideColumn leftColumn
 			{#each Array(25) as _, idx}
 				<p>{idx + 1}</p>
 			{/each}
@@ -49,7 +48,6 @@
 			<div class="formGroup">
 				<button on:click={toggleHasData}>Toggle data: {$hasDataStore}</button>
 			</div>
-			<p>mainColumn</p>
 			{#each Array(25) as _, idx}
 				<p>{idx + 1}</p>
 			{/each}

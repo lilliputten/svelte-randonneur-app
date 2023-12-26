@@ -13,6 +13,7 @@ $formItemHeight: 32px;
 	display: flex;
 	align-items: center;
 	gap: 8px;
+	flex-wrap: wrap;
 
 	button,
 	select,
@@ -27,6 +28,10 @@ $formItemHeight: 32px;
 	input[type="file"],
 	button {
 		border: 1px solid color.change(black, $alpha: 0.2);
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		max-width: 100%;
 		&:not(:disabled) {
 			background-color: $primaryColor;
 			color: #fff;
