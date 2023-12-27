@@ -18,17 +18,4 @@
 	</section>
 {/if}
 
-<style lang="scss">
-	section {
-		position: fixed;
-		top: 0;
-		left: 0;
-		right: 0;
-		width: 100%;
-		display: flex;
-		margin-top: 1rem;
-		justify-content: center;
-		flex-direction: column;
-		z-index: 1000;
-	}
-</style>
+<style lang="scss" src="./Toasts.scss"></style>

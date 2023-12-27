@@ -1,11 +1,5 @@
-@use 'sass:color';
-
-$primaryColor: #1976D2;
-
-:root {
-	--primaryColor: #1976D2;
-	--transitionTimeout: 250ms;
-}
+// @use "sass:color" as *;
+// @use "./src/core/assets/scss/variables.scss" as *;
 
 $formItemHeight: 32px;
 
@@ -21,7 +15,7 @@ $formItemHeight: 32px;
 	input {
 		height: $formItemHeight;
 		border-radius: 4px;
-		transition: all var(--transitionTimeout);
+		transition: all $transitionTimeMs;
 		box-sizing: border-box;
 	}
 	select,
@@ -38,7 +32,8 @@ $formItemHeight: 32px;
 			cursor: pointer;
 			&:hover {
 				box-shadow: 0 0 4px 1px $primaryColor;
-				background-color: darken($primaryColor, 5%);
+				background-color: color.adjust($primaryColor, $lightness: -5%);
+				// background-color: darken($primaryColor, 5%);
 			}
 		}
 		&:disabled {

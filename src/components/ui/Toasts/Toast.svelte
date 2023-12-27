@@ -41,40 +41,4 @@
 	{/if}
 </article>
 
-<style lang="scss">
-	article {
-		color: white;
-		padding: 0.75rem 1.25rem;
-		border-radius: 0.2rem;
-		display: flex;
-		gap: .3em;
-		align-items: center;
-		margin: 0 auto 0.5rem auto;
-		width: 20rem;
-	}
-	.error {
-		background: IndianRed;
-	}
-	.success {
-		background: MediumSeaGreen;
-	}
-	.info {
-		background: SkyBlue;
-	}
-	.text {
-		margin-left: 1rem;
-	}
-	button {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		color: white;
-		background: transparent;
-		border: 0 none;
-		padding: 0;
-		margin: 0 0 0 auto;
-		line-height: 1;
-		font-size: 1rem;
-		cursor: pointer;
-	}
-</style>
+<style lang="scss" src="./Toast.scss"></style>
