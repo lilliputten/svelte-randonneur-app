@@ -1,209 +1,205 @@
 <script lang="ts">
-	import { get, writable } from 'svelte/store';
-	import { goto } from '$app/navigation';
-	import classNames from 'classnames';
+  import { get } from 'svelte/store';
+  import { goto } from '$app/navigation';
+  import classNames from 'classnames';
 
-	import { addToast } from '@/src/components/ui/Toasts';
-	import { getErrorText } from '@/src/core/helpers/basic';
+  import { addToast } from '@/src/components/ui/Toasts';
+  import { getErrorText } from '@/src/core/helpers/basic';
 
-	import { hasDataStore, setHasData, toggleHasData } from '@/src/store/hasData';
-	import { setRandonneurData } from '@/src/store/randonneurData';
-	import {
-		demoDataFiles,
-		defaultDataFileIdx,
-		loadDemoDataByIdx,
-		getDemoDataFileId
-	} from './loadDemoData';
-	import { loadDataFile } from './loadLocalData';
+  import { hasDataStore, setHasData, toggleHasData } from '@/src/store/hasData';
+  import { setRandonneurData } from '@/src/store/randonneurData';
+  import {
+    demoDataFiles,
+    defaultDataFileIdx,
+    loadDemoDataByIdx,
+    getDemoDataFileId,
+  } from './loadDemoData';
+  import { loadDataFile } from './loadLocalData';
 
-	let demoDataFileIdx = defaultDataFileIdx;
-	let loadingDemoData = false;
+  let demoDataFileIdx = defaultDataFileIdx;
+  let loadingDemoData = false;
 
-	let localDataFile: File | undefined = undefined;
-	let loadingLocalData = false;
+  let localDataFile: File | undefined = undefined;
+  let loadingLocalData = false;
 
-	/* // DEBUG
-	 * $: console.log('localDataFile', localDataFile);
-	 */
+  /* // DEBUG
+   * $: console.log('localDataFile', localDataFile);
+   */
 
-	$: loading = loadingDemoData || loadingLocalData;
+  $: loading = loadingDemoData || loadingLocalData;
 
-	function loadDemoData() {
-		const dataId = getDemoDataFileId(demoDataFileIdx);
-		console.log('[LoadDataPage:loadDemoData] start', {
-			dataId
-		});
-		loadingDemoData = true;
-		// Show notification
-		addToast({ message: 'Demo data loading started', type: 'info' });
-		loadDemoDataByIdx(demoDataFileIdx)
-			.then((data) => {
-				console.log('[LoadDataPage:loadDemoData] sucess', {
-					dataId,
-					data
-				});
-				setRandonneurData(data);
-				setHasData(true);
-				// Show notification
-				addToast({ message: 'Demo data loading successfully finished', type: 'success' });
-			})
-			.catch((error) => {
-				const errorMsg = getErrorText(error);
-				console.error('[LoadDataPage:loadDemoData] error', errorMsg, {
-					error,
-					dataId
-				});
-				debugger;
-				// TODO: Show an error?
-				addToast({ message: errorMsg, type: 'error' });
-			})
-			.finally(() => {
-				loadingDemoData = false;
-			});
-	}
+  function loadDemoData() {
+    const dataId = getDemoDataFileId(demoDataFileIdx);
+    console.log('[LoadDataPage:loadDemoData] start', {
+      dataId,
+    });
+    loadingDemoData = true;
+    // Show notification
+    addToast({ message: 'Demo data loading started', type: 'info' });
+    loadDemoDataByIdx(demoDataFileIdx)
+      .then((data) => {
+        console.log('[LoadDataPage:loadDemoData] sucess', {
+          dataId,
+          data,
+        });
+        setRandonneurData(data);
+        setHasData(true);
+        // Show notification
+        addToast({ message: 'Demo data loading successfully finished', type: 'success' });
+      })
+      .catch((error) => {
+        const errorMsg = getErrorText(error);
+        console.error('[LoadDataPage:loadDemoData] error', errorMsg, {
+          error,
+          dataId,
+        });
+        debugger;
+        // TODO: Show an error?
+        addToast({ message: errorMsg, type: 'error' });
+      })
+      .finally(() => {
+        loadingDemoData = false;
+      });
+  }
 
-	function handleLocalFile(ev: Event) {
-		const target = ev.target as HTMLInputElement;
-		//
-		const files = target.files;
-		const file = files && files[0];
-		if (!file) {
-			// Error...
-			const error = new Error('No file selected!');
-		  console.warn('[LoadDataPage:handleLocalFile] error', {
-				error,
-			});
-			return;
-		}
-		const {
-			name: fileName,
-			type: fileType,
-			// size: fileSize,
-		} = file;
-		// const fileInfo = { fileName, fileType, fileSize };
-		if (!/\.json$/.test(fileName) || fileType !== 'application/json') {
-			// Error...
-			const error = new Error('Expected json data file!');
-		  console.warn('[LoadDataPage:handleLocalFile] error', {
-				error,
-			});
-			return;
-		}
-		/* console.log('[LoadDataPage:handleLocalFile]', {
-		 *   fileInfo,
-		 *   files,
-		 *   file,
-		 *   ev,
-		 * });
-		 */
-		localDataFile = file;
-	}
+  function handleLocalFile(ev: Event) {
+    const target = ev.target as HTMLInputElement;
+    //
+    const files = target.files;
+    const file = files && files[0];
+    if (!file) {
+      // Error...
+      const error = new Error('No file selected!');
+      console.warn('[LoadDataPage:handleLocalFile] error', {
+        error,
+      });
+      return;
+    }
+    const {
+      name: fileName,
+      type: fileType,
+      // size: fileSize,
+    } = file;
+    // const fileInfo = { fileName, fileType, fileSize };
+    if (!/\.json$/.test(fileName) || fileType !== 'application/json') {
+      // Error...
+      const error = new Error('Expected json data file!');
+      console.warn('[LoadDataPage:handleLocalFile] error', {
+        error,
+      });
+      return;
+    }
+    /* console.log('[LoadDataPage:handleLocalFile]', {
+     *   fileInfo,
+     *   files,
+     *   file,
+     *   ev,
+     * });
+     */
+    localDataFile = file;
+  }
 
-	function loadLocalData<TRandonneurData>() {
-		if (!localDataFile) {
-			const error = new Error('No local file defined');
-			console.warn('[LoadDataPage:loadLocalData] error', {
-				error,
-			});
-			debugger;
-			return;
-		}
-		console.log('[LoadDataPage:loadLocalData] start', {
-			localDataFile
-		});
-		// Show notification
-		addToast({ message: 'Local data loading started', type: 'info' });
-		loadingLocalData = true;
-		loadDataFile<TRandonneurData>(localDataFile, {
-			timeout: 5000
-			// onProgress: handleLoadingProgress,
-		}).then((data) => {
-			console.log('[LoadDataPage:loadLocalData] success', {
-				localDataFile,
-				data,
-			});
-			setRandonneurData(data);
-			setHasData(true);
-			// Show notification
-			addToast({ message: 'Local data loading successfully finished', type: 'success' });
-		})
-		.catch((error) => {
-				const errorMsg = getErrorText(error);
-				console.error('[LoadDataPage:loadLocalData] error', errorMsg, {
-					error,
-					localDataFile
-				});
-				debugger;
-				// Show an error?
-				addToast({ message: errorMsg, type: 'error' });
-			})
-			.finally(() => {
-				loadingLocalData = false;
-			});
-	}
+  function loadLocalData<TRandonneurData>() {
+    if (!localDataFile) {
+      const error = new Error('No local file defined');
+      console.warn('[LoadDataPage:loadLocalData] error', {
+        error,
+      });
+      debugger;
+      return;
+    }
+    console.log('[LoadDataPage:loadLocalData] start', {
+      localDataFile,
+    });
+    // Show notification
+    addToast({ message: 'Local data loading started', type: 'info' });
+    loadingLocalData = true;
+    loadDataFile<TRandonneurData>(localDataFile, {
+      timeout: 5000,
+      // onProgress: handleLoadingProgress,
+    })
+      .then((data) => {
+        console.log('[LoadDataPage:loadLocalData] success', {
+          localDataFile,
+          data,
+        });
+        setRandonneurData(data);
+        setHasData(true);
+        // Show notification
+        addToast({ message: 'Local data loading successfully finished', type: 'success' });
+      })
+      .catch((error) => {
+        const errorMsg = getErrorText(error);
+        console.error('[LoadDataPage:loadLocalData] error', errorMsg, {
+          error,
+          localDataFile,
+        });
+        debugger;
+        // Show an error?
+        addToast({ message: errorMsg, type: 'error' });
+      })
+      .finally(() => {
+        loadingLocalData = false;
+      });
+  }
 
-	/** Go to data editor */
-	function goToEditor() {
-		if (get(hasDataStore)) {
-			goto('/editor');
-		}
-	}
+  /** Go to data editor */
+  function goToEditor() {
+    if (get(hasDataStore)) {
+      goto('/editor');
+    }
+  }
 </script>
 
 <div class={classNames('LoadDataPage', loading && 'loading')}>
-	<h1 class="header">Load data to edit</h1>
+  <h1 class="header">Load data to edit</h1>
 
-	<section id="loadDemoData" class="delimited">
-		<h2>Load demo data</h2>
-		<div class="formGroup">
-			<select id="demoDataFile" bind:value={demoDataFileIdx}>
-				{#each demoDataFiles as file, idx}
-					<option value={idx} selected={idx === demoDataFileIdx}>
-						{file.id}
-					</option>
-				{/each}
-			</select>
-			<button id="loadDemoDataAction" on:click={loadDemoData}>Load demo data</button>
-		</div>
-	</section>
+  <section id="loadDemoData" class="delimited">
+    <h2>Load demo data</h2>
+    <div class="formGroup">
+      <select id="demoDataFile" bind:value={demoDataFileIdx}>
+        {#each demoDataFiles as file, idx}
+          <option value={idx} selected={idx === demoDataFileIdx}>
+            {file.id}
+          </option>
+        {/each}
+      </select>
+      <button id="loadDemoDataAction" on:click={loadDemoData}>Load demo data</button>
+    </div>
+  </section>
 
-	<section id="loadLocalData" class="delimited">
-		<h2>Load local data</h2>
-		<div class="formGroup">
-			<input
-				type="file"
-				id="localDataFile"
-				name="localDataFile"
-				accept="application/json"
-				on:change={handleLocalFile}
-			/>
-			<button
-				id="loadLocalDataAction"
-				on:click={loadLocalData}
-				disabled={!localDataFile}
-				>
-					Load local data
-				</button
-			>
-		</div>
-	</section>
+  <section id="loadLocalData" class="delimited">
+    <h2>Load local data</h2>
+    <div class="formGroup">
+      <input
+        type="file"
+        id="localDataFile"
+        name="localDataFile"
+        accept="application/json"
+        on:change={handleLocalFile}
+      />
+      <button id="loadLocalDataAction" on:click={loadLocalData} disabled={!localDataFile}>
+        Load local data
+      </button>
+    </div>
+  </section>
 
-	<!--
+  <!--
 	<section id="debug">
 		<div><button on:click={toggleHasData}>Toggle data: {$hasDataStore}</button></div>
 		<div>idx: {demoDataFileIdx}</div>
 	</section>
 	-->
 
-	<!--
+  <!--
 		TODO: Show loaded data info?
 	-->
 
-	<section id="actions" class="delimited vpadded">
-		<div class="formGroup">
-			<button id="goToEditor" on:click={goToEditor} disabled={!$hasDataStore}>Go to editor</button>
-		</div>
-	</section>
+  <section id="actions" class="delimited vpadded">
+    <div class="formGroup">
+      <button id="goToEditor" on:click={goToEditor} disabled={!$hasDataStore}>Go to editor</button>
+    </div>
+  </section>
 </div>
 
 <style src="./LoadDataPage.scss" lang="scss"></style>

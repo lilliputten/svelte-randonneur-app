@@ -1,1 +1,3 @@
-{ "main": "LoadDataPage.svelte" }
+{
+  "main": "LoadDataPage.svelte"
+}
