@@ -1,6 +1,7 @@
-import { demoDataFiles, demoDataPath, defaultDataFileIdx } from './constants';
-
 import { get, writable } from 'svelte/store';
+
+import { safeParseJson } from '@/src/core/helpers/data';
+import { demoDataFiles, demoDataPath, defaultDataFileIdx } from './constants';
 
 export const currentDemoDataFileIdx = writable<number>(defaultDataFileIdx);
 
@@ -17,7 +18,7 @@ export function getDemoDataFileId(idx: number) {
 	return demoDataFiles[idx].id;
 }
 
-export function loadDemoDataByIdx(idx: number) {
+export function loadDemoDataByIdx<T = unknown>(idx: number): Promise<T | unknown> {
 	const dataUrl = getDemoDataFileUrl(idx);
 	// const dataId = getDemoDataFileId(idx);
 	console.log('[loadDemoData:loadDemoDataByIdx:start]', {
@@ -46,6 +47,7 @@ export function loadDemoDataByIdx(idx: number) {
 			res,
 		});
 		// All is ok: return json data...
-		return res.json();
-	});
+		// NOTE: `res.json()` could fail due to NaN in the data
+		return res.text();
+	}).then(safeParseJson<T>);
 }

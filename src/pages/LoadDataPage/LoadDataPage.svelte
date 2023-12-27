@@ -206,4 +206,4 @@
 	</section>
 </div>
 
-<style src="./LoadDataPage.scss"></style>
+<style src="./LoadDataPage.scss" lang="scss"></style>

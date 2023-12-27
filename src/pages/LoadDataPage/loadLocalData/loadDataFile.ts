@@ -1,4 +1,5 @@
 import { getErrorText } from '@/src/core/helpers/basic';
+import { safeParseJson } from '@/src/core/helpers/data';
 
 export interface TLoadDataFileProgressParams {
 	/** Percents of loaded data amount */
@@ -128,7 +129,7 @@ export function loadDataFile<T = unknown>(file: File, opts: TLoadDataFileOptions
 			try {
 				const rawResult = target?.result as string;
 				// TODO: Catch parse errors...
-				const data = rawResult && JSON.parse(rawResult);
+				const data = rawResult && safeParseJson(rawResult);
 				/* console.log('[loadDataFile] onloadend', {
 				 *   data,
 				 *   rawResult,
