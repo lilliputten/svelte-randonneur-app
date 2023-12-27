@@ -11,7 +11,7 @@ export interface TLoadDataFileProgressParams {
 
 export interface TLoadDataFileOptions<T> {
   onProgress?: (params: TLoadDataFileProgressParams) => void;
-  onLoaded?: (p: { data: T; fileReader: FileReader }) => void;
+  onLoaded?: (p: { data: T | unknown; fileReader: FileReader }) => void;
   onError?: (p: { error: Error; fileReader: FileReader }) => void;
   /** Async load waiting timeout (ms) */
   timeout?: number;
@@ -129,7 +129,7 @@ export function loadDataFile<T = unknown>(file: File, opts: TLoadDataFileOptions
       try {
         const rawResult = target?.result as string;
         // TODO: Catch parse errors...
-        const data = rawResult && safeParseJson(rawResult);
+        const data = rawResult && safeParseJson<T>(rawResult);
         /* console.log('[loadDataFile] onloadend', {
          *   data,
          *   rawResult,
