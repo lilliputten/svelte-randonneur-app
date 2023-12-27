@@ -1,5 +1,6 @@
 {
 	"name": "svelte-randonneur-app",
+	"changed": "2023.12.27, 15:23",
 	"version": "0.0.0",
 	"private": true,
 	"type": "module",
@@ -14,9 +15,11 @@
 		"classnames": "^2.3.3",
 		"eslint": "^8.28.0",
 		"eslint-config-prettier": "^9.1.0",
+		"eslint-plugin-prettier": "^5.1.2",
 		"eslint-plugin-svelte": "^2.30.0",
 		"prettier": "^3.1.1",
 		"prettier-plugin-svelte": "^3.1.2",
+		"rollup-plugin-svelte": "^7.1.6",
 		"sass": "^1.69.5",
 		"svelte": "^4.2.7",
 		"svelte-check": "^3.6.0",
@@ -27,6 +30,7 @@
 		"vitest": "^1.0.0"
 	},
 	"scripts": {
+		"prettier": "echo --Run prettier-- && prettier --write --cache . | grep -v '(cached)' || true",
 		"start": "vite dev",
 		"build": "vite build",
 		"preview": "vite preview",
