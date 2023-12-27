@@ -16,9 +16,11 @@
     & > * {
       overflow: hidden;
       padding: 0 20px;
-      &.scrollable {
-        oveflow: auto;
-      }
+      /* // TODO?
+       * &.scrollable {
+       *   oveflow: auto;
+       * }
+       */
     }
   }
   .column {

@@ -6,7 +6,7 @@
   import { addToast } from '@/src/components/ui/Toasts';
   import { getErrorText } from '@/src/core/helpers/basic';
 
-  import { hasDataStore, setHasData, toggleHasData } from '@/src/store/hasData';
+  import { hasDataStore, setHasData } from '@/src/store/hasData';
   import { setRandonneurData } from '@/src/store/randonneurData';
   import {
     demoDataFiles,
@@ -30,18 +30,20 @@
 
   function loadDemoData() {
     const dataId = getDemoDataFileId(demoDataFileIdx);
-    console.log('[LoadDataPage:loadDemoData] start', {
-      dataId,
-    });
+    /* console.log('[LoadDataPage:loadDemoData] start', {
+     *   dataId,
+     * });
+     */
     loadingDemoData = true;
     // Show notification
     addToast({ message: 'Demo data loading started', type: 'info' });
     loadDemoDataByIdx(demoDataFileIdx)
       .then((data) => {
-        console.log('[LoadDataPage:loadDemoData] sucess', {
-          dataId,
-          data,
-        });
+        /* console.log('[LoadDataPage:loadDemoData] success', {
+         *   dataId,
+         *   data,
+         * });
+         */
         setRandonneurData(data);
         setHasData(true);
         // Show notification
@@ -49,10 +51,12 @@
       })
       .catch((error) => {
         const errorMsg = getErrorText(error);
+        // eslint-disable-next-line no-console
         console.error('[LoadDataPage:loadDemoData] error', errorMsg, {
           error,
           dataId,
         });
+        // eslint-disable-next-line no-debugger
         debugger;
         // TODO: Show an error?
         addToast({ message: errorMsg, type: 'error' });
@@ -70,6 +74,7 @@
     if (!file) {
       // Error...
       const error = new Error('No file selected!');
+      // eslint-disable-next-line no-console
       console.warn('[LoadDataPage:handleLocalFile] error', {
         error,
       });
@@ -84,6 +89,7 @@
     if (!/\.json$/.test(fileName) || fileType !== 'application/json') {
       // Error...
       const error = new Error('Expected json data file!');
+      // eslint-disable-next-line no-console
       console.warn('[LoadDataPage:handleLocalFile] error', {
         error,
       });
@@ -102,15 +108,18 @@
   function loadLocalData<TRandonneurData>() {
     if (!localDataFile) {
       const error = new Error('No local file defined');
+      // eslint-disable-next-line no-console
       console.warn('[LoadDataPage:loadLocalData] error', {
         error,
       });
+      // eslint-disable-next-line no-debugger
       debugger;
       return;
     }
-    console.log('[LoadDataPage:loadLocalData] start', {
-      localDataFile,
-    });
+    /* console.log('[LoadDataPage:loadLocalData] start', {
+     *   localDataFile,
+     * });
+     */
     // Show notification
     addToast({ message: 'Local data loading started', type: 'info' });
     loadingLocalData = true;
@@ -119,10 +128,11 @@
       // onProgress: handleLoadingProgress,
     })
       .then((data) => {
-        console.log('[LoadDataPage:loadLocalData] success', {
-          localDataFile,
-          data,
-        });
+        /* console.log('[LoadDataPage:loadLocalData] success', {
+         *   localDataFile,
+         *   data,
+         * });
+         */
         setRandonneurData(data);
         setHasData(true);
         // Show notification
@@ -130,10 +140,12 @@
       })
       .catch((error) => {
         const errorMsg = getErrorText(error);
+        // eslint-disable-next-line no-console
         console.error('[LoadDataPage:loadLocalData] error', errorMsg, {
           error,
           localDataFile,
         });
+        // eslint-disable-next-line no-debugger
         debugger;
         // Show an error?
         addToast({ message: errorMsg, type: 'error' });

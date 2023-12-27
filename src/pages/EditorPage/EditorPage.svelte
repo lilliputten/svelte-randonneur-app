@@ -14,6 +14,7 @@
     if (!hasData && !goingOut) {
       const errorMsg = 'Data has not been initialized. Going to the main page.';
       const error = new Error(errorMsg);
+      // eslint-disable-next-line no-console
       console.warn('[EditorPage:checkReadiness]', error.message);
       // Leave page if no data anymore...
       goingOut = true;

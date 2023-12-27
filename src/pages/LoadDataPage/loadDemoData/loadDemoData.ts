@@ -21,9 +21,10 @@ export function getDemoDataFileId(idx: number) {
 export function loadDemoDataByIdx<T = unknown>(idx: number): Promise<T | unknown> {
   const dataUrl = getDemoDataFileUrl(idx);
   // const dataId = getDemoDataFileId(idx);
-  console.log('[loadDemoData:loadDemoDataByIdx:start]', {
-    dataUrl,
-  });
+  /* console.log('[loadDemoData:loadDemoDataByIdx:start]', {
+   *   dataUrl,
+   * });
+   */
   return fetch(dataUrl)
     .then((res) => {
       const { ok, status, statusText } = res;
@@ -42,10 +43,11 @@ export function loadDemoDataByIdx<T = unknown>(idx: number): Promise<T | unknown
         debugger;
         throw error;
       }
-      console.log('[loadDemoData:loadDemoDataByIdx:start] success', {
-        dataUrl,
-        res,
-      });
+      /* console.log('[loadDemoData:loadDemoDataByIdx:start] success', {
+       *   dataUrl,
+       *   res,
+       * });
+       */
       // All is ok: return json data...
       // NOTE: `res.json()` could fail due to NaN in the data
       return res.text();
