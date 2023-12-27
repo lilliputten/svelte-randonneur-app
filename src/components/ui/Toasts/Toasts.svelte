@@ -1,7 +1,7 @@
 <script lang="ts">
   import Toast from './Toast.svelte';
 
-  import { dismissToast, toasts } from './toastsStore';
+  import { dismissToast, pauseDismissToast, resumeDismissToast, toasts } from './toastsStore';
 </script>
 
 {#if $toasts}
@@ -11,6 +11,8 @@
         type={toast.type}
         dismissible={toast.dismissible}
         on:dismiss={() => dismissToast(toast.id)}
+        on:focus={() => pauseDismissToast(toast.id)}
+        on:unfocus={() => resumeDismissToast(toast.id)}
       >
         {toast.message}
       </Toast>

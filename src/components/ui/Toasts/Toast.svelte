@@ -21,7 +21,13 @@
   export let dismissible = true;
 </script>
 
-<article class={classNames('Toast', type)} role="alert" transition:fade={{ duration: fadeTimeout }}>
+<article
+  class={classNames('Toast', type)}
+  role="alert"
+  transition:fade={{ duration: fadeTimeout }}
+  on:mouseenter={() => dispatch('focus')}
+  on:mouseleave={() => dispatch('unfocus')}
+>
   {#if type === 'success'}
     <SuccessIcon width={iconWidth} />
   {:else if type === 'error'}

@@ -9,15 +9,12 @@ article {
   width: 20rem;
 }
 .error {
-  // background: IndianRed;
   background-color: $errorColor;
 }
 .success {
-  // background: MediumSeaGreen;
   background-color: $successColor;
 }
 .info {
-  // background: SkyBlue;
   background-color: $infoColor;
 }
 .text {
@@ -35,4 +32,9 @@ button {
   line-height: 1;
   font-size: 1rem;
   cursor: pointer;
+  transition: all $transitionTimeMs;
+  opacity: 0.8;
+  &:hover {
+    opacity: 1;
+  }
 }
