@@ -26,4 +26,4 @@ tsconfig.tsbuildinfo
 *.session
 /temp*
 
-
+static/data/.*

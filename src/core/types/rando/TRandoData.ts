@@ -1,8 +1,4 @@
-/**
- * @see [randonneur documentation](https://randonneur.readthedocs.io/en/latest/#data-format)
- */
-
-/** Randonneur data properties
+/** Basic randonneur data properties
  * @see https://specs.frictionlessdata.io/data-package/#metadata
  */
 export interface TRandoProperties {
@@ -16,23 +12,75 @@ export interface TRandoProperties {
   created: string; // '2023-03-11T09:53:59.74Z'
 }
 
-/** Randonneur data sets */
-export interface TRandoSets {
-  /*
-   * Data sets regexp: \<\(create-datasets\|create-exchanges\|replace\|update\|delete\|disaggregate\)\>
-   */
+// Specific set types...
 
-  // Data sets...
-  'create-datasets': unknown[]; // (1) [{…}]
-  'create-exchanges': unknown[]; // (1) [{…}]
-  delete: unknown[]; // (1) [{…}]
-  mapping: unknown[]; // (4800) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, …]
-  replace: unknown[]; // (854) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, …]
-  update: unknown[]; // (2) [{…}, {…}]
+/* Expected datasets:
+ *
+ * @see https://github.com/brightway-lca/randonneur#migrating-exchanges
+ * @see https://randonneur.readthedocs.io/en/latest/#data-format
+ *
+ * // (key, varaiable, type)
+ *
+ * create-datasets	createDatasetsSetItem	TCreateDatasetsSetItem
+ * delete	deleteSetItem	TDeleteSetItem
+ * disaggregate	disaggregateSetItem	TDisaggregateSetItem
+ * mapping	mappingSetItem	TMappingSetItem
+ * replace	replaceSetItem	TReplaceSetItem
+ * update	updateSetItem	TUpdateSetItem
+ *
+ * Unused sets:
+ *
+ * create-exchanges	createExchangesSetItem	TCreateExchangesSetItem
+ *
+ * // Parse regexp: ^ \* \(\S\+\)\t\(\w\+\)\t\(\w\+\)
+ */
+
+type TDataSetItemValue = string | number | boolean;
+type TDataSetItemSlot = TDataSetItemValue | TDataSetItemValue[] | undefined;
+type TDataSetDict = Record<string, TDataSetItemSlot>;
+
+// Exchange data set types...
+type TCreateDatasetsSetItem = TDataSetDict;
+type TCreateExchangesSetItem = TDataSetDict; // UNUSED
+type TDeleteSetItem = TDataSetDict;
+interface TMappingSetItem {
+  conversion_factor: number; // 1;
+  comment: string; // 'Identical names'
+  source: TDataSetDict;
+  target: TDataSetDict;
+}
+interface TReplaceSetItem {
+  source: TDataSetDict;
+  target: TDataSetDict;
+  dataset?: TDataSetDict;
+}
+interface TDisaggregateSetItem {
+  source: TDataSetDict;
+  target: TDataSetDict[];
+  dataset?: TDataSetDict;
+}
+interface TUpdateSetItem {
+  source: TDataSetDict;
+  target: TDataSetDict;
+  dataset?: TDataSetDict;
+}
+
+/** Randonneur data sets */
+export interface TRandoDataSets {
+  /*
+   * Data sets regexp: \<\(create-datasets\|create-exchanges\|replace\|update\|delete\|disaggregate\|mapping\)\>
+   */
+  'create-datasets'?: TCreateDatasetsSetItem[];
+  'create-exchanges'?: TCreateExchangesSetItem[];
+  delete?: TDeleteSetItem[];
+  disaggregate?: TDisaggregateSetItem[];
+  mapping?: TMappingSetItem[];
+  replace?: TReplaceSetItem[];
+  update?: TUpdateSetItem[];
 }
 
 /** Full randoneeur data */
-export type TRandoData = TRandoProperties & TRandoSets;
+export type TRandoData = TRandoProperties & TRandoDataSets;
 
 /* // Sample data object
  * const testData: TRandoData = {
@@ -47,6 +95,7 @@ export type TRandoData = TRandoProperties & TRandoSets;
  *   // Data sets...
  *   'create-datasets': [], // (1) [{…}]
  *   'create-exchanges': [], // (1) [{…}]
+ *   disaggregate: [],
  *   delete: [], // (1) [{…}]
  *   mapping: [], // (4800) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, …]
  *   replace: [], // (854) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, …]

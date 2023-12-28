@@ -1,6 +1,10 @@
 export const demoDataPath = '/data/';
 export const demoDataFiles = [
   {
+    id: 'minimal-1',
+    filename: 'minimal-1.json',
+  },
+  {
     id: 'ecoinvent-biosphere-3.8-3.9-example',
     filename: 'ecoinvent-biosphere-3.8-3.9-example.json',
   },
