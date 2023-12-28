@@ -4,13 +4,14 @@
   import { onDestroy, onMount } from 'svelte';
 
   import { addToast } from '@/src/components/ui/Toasts';
-
-  import { hasDataStore, toggleHasData } from '@/src/store/hasDataStore';
+  import { hasDataStore } from '@/src/store/hasDataStore';
+  import SectionsNavigator from '@/src/components/RandoEditor/SectionsNavigator';
+  import DataEditorWrapper from '@/src/components/RandoEditor/DataEditorWrapper';
 
   /** Local state: to check if we're already going out of this page and it's not required to do it one more time. */
   let goingOut = false;
 
-  export function checkReadiness(hasData: boolean) {
+  function checkReadiness(hasData: boolean) {
     if (!hasData && !goingOut) {
       const errorMsg = 'Data has not been initialized. Going to the main page.';
       const error = new Error(errorMsg);
@@ -41,19 +42,12 @@
 
   <div class="layout">
     <div class="column sideColumn leftColumn">
-      {#each Array(25) as _, idx}
-        <p>{idx + 1}</p>
-      {/each}
+      <SectionsNavigator />
     </div>
     <div class="column mainColumn">
-      <div class="formGroup">
-        <button on:click={toggleHasData}>Toggle data: {$hasDataStore}</button>
-      </div>
-      {#each Array(25) as _, idx}
-        <p>{idx + 1}</p>
-      {/each}
+      <DataEditorWrapper />
     </div>
   </div>
 </div>
 
-<style src="./EditorPage.scss"></style>
+<style src="./EditorPage.scss" lang="scss"></style>

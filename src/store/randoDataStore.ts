@@ -1,6 +1,6 @@
 import { get, writable } from 'svelte/store';
 
-import { TRandoData } from '@/src/core/types/randonneur';
+import { TRandoData } from '@/src/core/types/rando';
 
 export const randoDataStore = writable<TRandoData | undefined>(undefined);
 
