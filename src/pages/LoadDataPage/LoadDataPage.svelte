@@ -6,6 +6,7 @@
   import { addToast } from '@/src/components/ui/Toasts';
   import { getErrorText } from '@/src/core/helpers/basic';
 
+  import { TRandoData } from '@/src/core/types/rando';
   import { hasDataStore, setHasData } from '@/src/store/hasDataStore';
   import { setRandonneurData } from '@/src/store/randoDataStore';
   import {
@@ -15,7 +16,6 @@
     getDemoDataFileId,
   } from './loadDemoData';
   import { loadDataFile } from './loadLocalData';
-  import { TRandoData } from '@/src/core/types/rando';
 
   let demoDataFileIdx = defaultDataFileIdx;
   let loadingDemoData = false;
