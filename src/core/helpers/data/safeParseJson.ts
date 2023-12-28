@@ -9,7 +9,7 @@ export function safeParseJson<T = unknown>(jsonText?: string): T | undefined {
    * });
    */
   if (jsonText.includes('NaN')) {
-    // jsonText = jsonText.replace(/(:\s*)NaN($|,)/g, '$1null$2');
+    jsonText = jsonText.replace(/(:\s*)NaN($|,)/g, '$1null$2');
   }
   // TODO: Check json validity
   try {
