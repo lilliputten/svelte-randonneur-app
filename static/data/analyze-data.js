@@ -1,9 +1,5 @@
 import fs from 'fs';
-import {
-  resolve,
-  dirname,
-  // basename,
-} from 'path';
+import { resolve, dirname, basename } from 'path';
 import { fileURLToPath } from 'url';
 
 const fileUrl = import.meta.url;
@@ -11,7 +7,7 @@ const __filename = fileURLToPath(fileUrl);
 const __dirname = dirname(__filename);
 
 const currPath = resolve(__dirname);
-// const prjPath = resolve(dirname(basename(currPath)));
+const _prjPath = resolve(dirname(basename(currPath)));
 
 function getErrorText(err) {
   return err ? (err instanceof Error ? err.message : String(err)) : '';
@@ -87,8 +83,23 @@ function combineObjects(a, b) {
       }
     });
     const result = {};
+    if (keys.includes('replace')) {
+      // debugger;
+    }
     keys.forEach((k) => {
-      result[k] = combineObjects(a[k], b[k]);
+      const ao = a[k];
+      const bo = b[k];
+      const combined = combineObjects(ao, bo);
+      /* // DEBUG
+       * if (k === 'replace') {
+       *   console.log('Combining replace', {
+       *     ao,
+       *     bo,
+       *     combined,
+       *   });
+       * }
+       */
+      result[k] = combined;
     });
     return result;
   }
@@ -130,5 +141,8 @@ console.log('combinedData', {
   // allData,
   // combinedData,
 });
-// eslint-disable-next-line no-debugger
-debugger;
+
+// Write data to temporarily json...
+const firstLevelDataFilePath = resolve(currPath, '.first-level-data.json');
+const firstLevelDataJsonText = JSON.stringify(firstLevelData, null, 2);
+fs.writeFileSync(firstLevelDataFilePath, firstLevelDataJsonText, 'utf8');
