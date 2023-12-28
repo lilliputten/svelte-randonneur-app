@@ -50,6 +50,7 @@
         addToast({ message: 'Demo data loading successfully finished', type: 'success' });
       })
       .catch((error) => {
+        // TODO: Append explaining message...
         const errorMsg = getErrorText(error);
         // eslint-disable-next-line no-console
         console.error('[LoadDataPage:loadDemoData] error', errorMsg, {
