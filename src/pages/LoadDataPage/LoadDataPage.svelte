@@ -107,7 +107,7 @@
     localDataFile = file;
   }
 
-  function loadLocalData<TRandoData>() {
+  function loadLocalData() {
     if (!localDataFile) {
       const error = new Error('No local file defined');
       // eslint-disable-next-line no-console
@@ -164,6 +164,10 @@
     }
   }
 </script>
+
+<svelte:head>
+  <title>Load data</title>
+</svelte:head>
 
 <div class={classNames('LoadDataPage', loading && 'loading')}>
   <h1 class="header">Load data to edit</h1>

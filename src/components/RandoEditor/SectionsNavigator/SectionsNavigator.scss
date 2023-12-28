@@ -1,0 +1,16 @@
+.SectionsNavigator {
+  /*!KEEP*/
+  display: flex;
+  flex-direction: column;
+  .container {
+    flex: 1;
+    overflow: hidden;
+    &.scrollable {
+      overflow: auto;
+    }
+    .content {
+      // border: 1px solid red;
+    }
+  }
+  flex: 1;
+}
