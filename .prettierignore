@@ -24,4 +24,4 @@ yarn.lock
 
 **/*_
 
-/static/data
+/static/data/**/*.json
