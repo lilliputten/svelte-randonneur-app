@@ -5,7 +5,7 @@
 
   import { addToast } from '@/src/components/ui/Toasts';
 
-  import { hasDataStore, toggleHasData } from '@/src/store/hasData';
+  import { hasDataStore, toggleHasData } from '@/src/store/hasDataStore';
 
   /** Local state: to check if we're already going out of this page and it's not required to do it one more time. */
   let goingOut = false;
