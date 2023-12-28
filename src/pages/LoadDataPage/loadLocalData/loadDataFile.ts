@@ -19,14 +19,17 @@ export interface TLoadDataFileOptions<T> {
 
 // TODO: Add possibility to cancel the loading for user?
 
-export function loadDataFile<T = unknown>(file: File, opts: TLoadDataFileOptions<T> = {}) {
+export function loadDataFile<T = unknown>(
+  file: File,
+  opts: TLoadDataFileOptions<T> = {},
+): Promise<T> {
   const {
     name: fileName,
     // type: fileType,
     // size: fileSize,
   } = file;
   const { onProgress, onLoaded, onError, timeout } = opts;
-  return new Promise(function loadDataFile_promise(resolve, reject) {
+  return new Promise<T>(function loadDataFile_promise(resolve, reject) {
     const fileReader = new FileReader();
     /* console.log('[loadDataFile:onloadend] start', {
      *   fileReader,
@@ -127,12 +130,15 @@ export function loadDataFile<T = unknown>(file: File, opts: TLoadDataFileOptions
         // total, // 5878
       } = ev;
       try {
-        const rawResult = target?.result as string;
+        const jsonText = target?.result as string;
         // TODO: Catch parse errors...
-        const data = rawResult && safeParseJson<T>(rawResult);
+        const data = jsonText && safeParseJson<T>(jsonText);
+        if (!data) {
+          throw 'Received empty data';
+        }
         /* console.log('[loadDataFile] onloadend', {
          *   data,
-         *   rawResult,
+         *   jsonText,
          *   // loaded, // 5878
          *   target, // FileReader {readyState: 2, result: '[\n  {\n    "producer_graph_id": 0,\n    "consumer_gr…_id": 53,\n    "amount": 0.07788214412864229\n  }\n]', error: null, onloadstart: null, onprogress: null, …}
          *   // total, // 5878

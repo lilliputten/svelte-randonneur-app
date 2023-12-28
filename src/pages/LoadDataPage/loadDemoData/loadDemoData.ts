@@ -18,7 +18,7 @@ export function getDemoDataFileId(idx: number) {
   return demoDataFiles[idx].id;
 }
 
-export function loadDemoDataByIdx<T = unknown>(idx: number): Promise<T | unknown> {
+export function loadDemoDataByIdx<T = unknown>(idx: number): Promise<T> {
   const dataUrl = getDemoDataFileUrl(idx);
   // const dataId = getDemoDataFileId(idx);
   /* console.log('[loadDemoData:loadDemoDataByIdx:start]', {
@@ -52,5 +52,11 @@ export function loadDemoDataByIdx<T = unknown>(idx: number): Promise<T | unknown
       // NOTE: `res.json()` could fail due to NaN in the data
       return res.text();
     })
-    .then(safeParseJson<T>);
+    .then((jsonText) => {
+      const data = jsonText && safeParseJson<T>(jsonText);
+      if (!data) {
+        throw 'Received empty data';
+      }
+      return data;
+    });
 }

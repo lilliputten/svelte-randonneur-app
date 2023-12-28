@@ -6,8 +6,8 @@
   import { addToast } from '@/src/components/ui/Toasts';
   import { getErrorText } from '@/src/core/helpers/basic';
 
-  import { hasDataStore, setHasData } from '@/src/store/hasData';
-  import { setRandonneurData } from '@/src/store/randonneurData';
+  import { hasDataStore, setHasData } from '@/src/store/hasDataStore';
+  import { setRandonneurData } from '@/src/store/randoDataStore';
   import {
     demoDataFiles,
     defaultDataFileIdx,
@@ -15,6 +15,7 @@
     getDemoDataFileId,
   } from './loadDemoData';
   import { loadDataFile } from './loadLocalData';
+  import { TRandoData } from '@/src/core/types/rando';
 
   let demoDataFileIdx = defaultDataFileIdx;
   let loadingDemoData = false;
@@ -37,7 +38,7 @@
     loadingDemoData = true;
     // Show notification
     addToast({ message: 'Demo data loading started', type: 'info' });
-    loadDemoDataByIdx(demoDataFileIdx)
+    loadDemoDataByIdx<TRandoData>(demoDataFileIdx)
       .then((data) => {
         /* console.log('[LoadDataPage:loadDemoData] success', {
          *   dataId,
@@ -106,7 +107,7 @@
     localDataFile = file;
   }
 
-  function loadLocalData<TRandonneurData>() {
+  function loadLocalData<TRandoData>() {
     if (!localDataFile) {
       const error = new Error('No local file defined');
       // eslint-disable-next-line no-console
@@ -124,7 +125,7 @@
     // Show notification
     addToast({ message: 'Local data loading started', type: 'info' });
     loadingLocalData = true;
-    loadDataFile<TRandonneurData>(localDataFile, {
+    loadDataFile<TRandoData>(localDataFile, {
       timeout: 5000,
       // onProgress: handleLoadingProgress,
     })
