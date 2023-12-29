@@ -1,35 +1,49 @@
 <script lang="ts">
-  /* // Tabulator
-   * import {
-   *   // prettier-ignore
-   *   Tabulator,
-   *   TabulatorFull,
-   *   FormatModule,
-   *   EditModule,
-   *   ColumnDefinition,
-   * } from 'tabulator-tables';
-   * // NOTE: Getting:
-   * // [vite] Named export 'EditModule' not found.
-   */
-  import { onMount } from 'svelte';
+  import { onMount, onDestroy } from 'svelte';
+  import { writable } from 'svelte/store';
+  import { Render, Subscribe, createTable, createRender, DataBodyRow } from 'svelte-headless-table';
+  import {
+    addColumnFilters,
+    addColumnOrder,
+    addHiddenColumns,
+    addSortBy,
+    addTableFilter,
+    addPagination,
+    addExpandedRows,
+    matchFilter,
+    numberRangeFilter,
+    textPrefixFilter,
+    addSubRows,
+    addGroupBy,
+    addSelectedRows,
+    addResizedColumns,
+  } from 'svelte-headless-table/plugins';
 
-  import { TRandoDataSetKey, randoDataSetKeys } from '@/src/core/types/rando';
+  import {
+    TDataSetDict,
+    TDataSetDictItemValue,
+    TRandoDataSetKey,
+    randoDataSetKeys,
+  } from '@/src/core/types/rando';
   import { randoDataSetsStores } from '@/src/store';
-
-  /* // External params...
-   * export let data: unknown[], columns: ColumnDefinition[];
-   */
-
-  // Tabulator component
-  let tableComponent: HTMLElement;
-
-  /* // Tabulator setup
-   * Tabulator.registerModule([FormatModule, EditModule]);
-   */
 
   // TODO: Get current data set id from stores?
   const dataSetKey: TRandoDataSetKey = 'delete';
   const dataSetStore = randoDataSetsStores[dataSetKey];
+
+  let tableDataStore = writable<TDataSetDictItemValue[]>([]);
+
+  const setTableDataStoreUnsubscribe = dataSetStore.subscribe((data) => {
+    if (data && Array.isArray(data)) {
+      tableDataStore.set(data);
+    }
+  });
+  onDestroy(setTableDataStoreUnsubscribe);
+
+  const table = createTable(tableDataStore);
+
+  // Tabulator component
+  let tableComponent: HTMLElement;
 
   console.log('[DemoTable:DEBUG]', {
     dataSetKey,
@@ -40,17 +54,6 @@
 
   // DEBUG
   $: console.log('dataSetStore', $dataSetStore);
-
-  /* // Tabulator initialize
-   * onMount(() => {
-   *   // @see https://tabulator.info/docs/5.5/svelte#svelte
-   *   new Tabulator(tableComponent, {
-   *     data: data, // Link data to table
-   *     reactiveData: true, // Enable data reactivity
-   *     columns: columns, // Define table columns
-   *   });
-   * });
-   */
 </script>
 
 <div class="DemoTable">

@@ -9,6 +9,7 @@
     "tabulator-tables": "^5.5.2"
   },
   "dependencies": {
+    "svelte-headless-table": "^0.17.7"
   },
   "devDependencies": {
     "@playwright/test": "^1.28.1",

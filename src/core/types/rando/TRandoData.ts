@@ -52,13 +52,14 @@ type TDataSetDictItemScalar = string | number | boolean | undefined;
 type TDataSetDictItemAny = TDataSetDictItemScalar | Record<TDataSetDictKey, TDataSetDictItemScalar>;
 // interface TDataSetDictItemAnyArray extends Array<TDataSetDictItemAny> {}
 // type TDataSetDictItemValue = TDataSetDictItemAny | TDataSetDictItemAnyArray;
-type TDataSetDictItemValue = TDataSetDictItemAny | TDataSetDictItemAny[];
+export type TDataSetDictItemValue = TDataSetDictItemAny | TDataSetDictItemAny[] | undefined;
 // type TDataSetDictItemDict = Record<TDataSetDictKey, TDataSetDictItemValue>;
 // interface TDataSetDictItemDict extends Record<TDataSetDictKey, TDataSetDictItemValue> {}
 // interface TDataSetDictItemDict {
 //   [key: TDataSetDictKey]: TDataSetDictItemValue;
 // }
 export type TDataSetDict = Record<TDataSetDictKey, TDataSetDictItemValue>;
+// export type TDataSetDict = unknown;
 export type TDataSetDictSlot = TDataSetDict | undefined;
 
 /* // TODO: Unused detailed data set typings...
