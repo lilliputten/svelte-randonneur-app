@@ -7,8 +7,7 @@
   import { getErrorText } from '@/src/core/helpers/basic';
 
   import { TRandoData } from '@/src/core/types/rando';
-  import { hasDataStore, setHasData } from '@/src/store/hasDataStore';
-  import { setRandonneurData } from '@/src/store/randoDataStore';
+  import { setRandData, hasDataStore, setHasData } from '@/src/store';
   import {
     demoDataFiles,
     defaultDataFileIdx,
@@ -45,7 +44,7 @@
          *   data,
          * });
          */
-        setRandonneurData(data);
+        setRandData(data);
         setHasData(true);
         // Show notification
         addToast({ message: 'Demo data loading successfully finished', type: 'success' });
@@ -135,7 +134,7 @@
          *   data,
          * });
          */
-        setRandonneurData(data);
+        setRandData(data);
         setHasData(true);
         // Show notification
         addToast({ message: 'Local data loading successfully finished', type: 'success' });

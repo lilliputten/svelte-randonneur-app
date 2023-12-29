@@ -4,7 +4,7 @@
   // import { onDestroy, onMount } from 'svelte';
   //
   // import { addToast } from '@/src/components/ui/Toasts';
-  // import { hasDataStore, toggleHasData } from '@/src/store/hasDataStore';
+  // import { hasDataStore, toggleHasData } from '@/src/store';
 </script>
 
 <svelte:head>
