@@ -11,6 +11,7 @@
 
   /** Local state: to check if we're already going out of this page and it's not required to do it one more time. */
   let goingOut = false;
+  let ready = false;
 
   function checkReadiness(hasData: boolean) {
     if (!hasData && !goingOut) {
@@ -24,6 +25,8 @@
         addToast({ message: errorMsg, type: 'error' });
         goto('/', { replaceState: true });
       }
+    } else {
+      ready = true;
     }
   }
 
@@ -38,17 +41,23 @@
   });
 </script>
 
-<div class="EditorPage">
-  <h1 class="header">Edit loaded data</h1>
+<svelte:head>
+  <title>Edit data</title>
+</svelte:head>
 
-  <div class="layout">
-    <div class="column sideColumn leftColumn">
-      <SectionsNavigator />
-    </div>
-    <div class="column mainColumn">
-      <DataEditorWrapper />
+{#if ready}
+  <div class="EditorPage">
+    <h1 class="header">Edit loaded data</h1>
+
+    <div class="layout">
+      <div class="column sideColumn leftColumn">
+        <SectionsNavigator />
+      </div>
+      <div class="column mainColumn">
+        <DataEditorWrapper />
+      </div>
     </div>
   </div>
-</div>
+{/if}
 
 <style src="./EditorPage.scss" lang="scss"></style>
