@@ -1,6 +1,7 @@
 {
   "extends": "./.svelte-kit/tsconfig.json",
   "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
     "allowJs": true,
     "checkJs": true,
     "esModuleInterop": true,
@@ -13,7 +14,7 @@
     "strict": true,
     "moduleResolution": "node",
     "types": ["node"],
-    "typeRoots": ["node_modules/@types"]
+    "typeRoots": ["src/@types", "node_modules/@types"]
   }
   // Path aliases are handled by https://kit.svelte.dev/docs/configuration#alias
   //

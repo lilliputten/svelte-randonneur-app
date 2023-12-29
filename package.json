@@ -4,8 +4,11 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "dependencies": {
+  "unusedDependencies": {
+    "@types/tabulator-tables": "^5.5.4",
     "tabulator-tables": "^5.5.2"
+  },
+  "dependencies": {
   },
   "devDependencies": {
     "@playwright/test": "^1.28.1",
