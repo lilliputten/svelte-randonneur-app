@@ -1,8 +1,10 @@
 import { Writable, writable } from 'svelte/store';
 
-import { TDataSetDictSlot, TRandoDataSetKey, TRandoPropertiesSlot } from '@/src/core/types/rando';
+import { TDataSetDictSlot, TRandoDataSetKey } from '@/src/core/types/rando';
 
-export const randoPropertiesStore = writable<TRandoPropertiesSlot>(undefined);
+// TODO:
+// - Initialize stores using `randoDataSetKeys`
+// - Use properties as a regular data set too?
 
 export const createDatasetsSetStore = writable<TDataSetDictSlot>(undefined);
 export const deleteSetStore = writable<TDataSetDictSlot>(undefined);

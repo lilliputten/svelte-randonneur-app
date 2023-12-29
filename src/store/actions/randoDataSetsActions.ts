@@ -1,7 +1,8 @@
 import { TRandoDataSets, randoDataSetKeys, TRandoData } from '@/src/core/types/rando';
 import { get } from 'svelte/store';
 
-import { randoDataSetsStores, getRandoData, randoDataStore } from '../stores';
+import { getRandoData, randoDataStore } from '../stores/randoDataStore';
+import { randoDataSetsStores } from '../stores/randoDataSetsStore';
 
 /** Extract randoneeur data sets from common data store */
 export function extractRandoDataSets() {
@@ -13,7 +14,7 @@ export function extractRandoDataSets() {
   });
 }
 
-/** Save randoneeur data sets from common data store */
+/** Save randoneeur data sets to common data store */
 export function saveRandoDataSets() {
   const updateSets = randoDataSetKeys.reduce((updateSets, key) => {
     const setStore = randoDataSetsStores[key];

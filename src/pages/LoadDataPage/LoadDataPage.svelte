@@ -7,7 +7,13 @@
   import { getErrorText } from '@/src/core/helpers/basic';
 
   import { TRandoData } from '@/src/core/types/rando';
-  import { setRandData, hasDataStore, setHasData } from '@/src/store';
+  import {
+    setRandData,
+    hasDataStore,
+    setHasData,
+    extractRandoDataSets,
+    extractRandoProperties,
+  } from '@/src/store';
   import {
     demoDataFiles,
     defaultDataFileIdx,
@@ -45,6 +51,8 @@
          * });
          */
         setRandData(data);
+        extractRandoDataSets();
+        extractRandoProperties();
         setHasData(true);
         // Show notification
         addToast({ message: 'Demo data loading successfully finished', type: 'success' });
@@ -202,15 +210,15 @@
   </section>
 
   <!--
-	<section id="debug">
-		<div><button on:click={toggleHasData}>Toggle data: {$hasDataStore}</button></div>
-		<div>idx: {demoDataFileIdx}</div>
-	</section>
-	-->
+  <section id="debug">
+    <div><button on:click={toggleHasData}>Toggle data: {$hasDataStore}</button></div>
+    <div>idx: {demoDataFileIdx}</div>
+  </section>
+  -->
 
   <!--
-		TODO: Show loaded data info?
-	-->
+    TODO: Show loaded data info?
+  -->
 
   <section id="actions" class="delimited vpadded">
     <div class="formGroup">
