@@ -3,8 +3,9 @@
   import { goto } from '$app/navigation';
   import { onDestroy, onMount } from 'svelte';
 
+  import { hasDataStore } from '@/src/store';
+
   import { addToast } from '@/src/components/ui/Toasts';
-  import { hasDataStore } from '@/src/store/hasDataStore';
   import SectionsNavigator from '@/src/components/RandoEditor/SectionsNavigator';
   import DataEditorWrapper from '@/src/components/RandoEditor/DataEditorWrapper';
 
