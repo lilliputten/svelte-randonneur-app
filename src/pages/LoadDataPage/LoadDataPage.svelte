@@ -1,11 +1,11 @@
 <script lang="ts">
   import { get } from 'svelte/store';
   import { goto } from '$app/navigation';
-  import { Button } from '@svelteuidev/core';
+  import { NativeSelect, Button } from '@svelteuidev/core';
   import classNames from 'classnames';
 
   import { addToast } from '@/src/components/ui/Toasts';
-  import { getErrorText } from '@/src/core/helpers/basic';
+  import { getApproxSize, getErrorText } from '@/src/core/helpers/basic';
 
   import { TRandoData } from '@/src/core/types/rando';
   import {
@@ -23,17 +23,25 @@
   } from './loadDemoData';
   import { loadDataFile } from './loadLocalData';
 
+  import styles from './LoadDataPage.module.scss';
+
   let demoDataFileIdx = defaultDataFileIdx;
   let loadingDemoData = false;
 
   let localDataFile: File | undefined = undefined;
   let loadingLocalData = false;
 
+  const demoDataFilesSelectData = demoDataFiles.map(({ id /* , filename */ }, idx) => {
+    return { label: id, value: String(idx) };
+  });
+
   /* // DEBUG
    * $: console.log('localDataFile', localDataFile);
    */
 
   $: loading = loadingDemoData || loadingLocalData;
+
+  let localFileText = 'Upload file';
 
   function loadDemoData() {
     const dataId = getDemoDataFileId(demoDataFileIdx);
@@ -91,9 +99,10 @@
       return;
     }
     const {
+      // prettier-ignore
       name: fileName,
       type: fileType,
-      // size: fileSize,
+      size: fileSize,
     } = file;
     // const fileInfo = { fileName, fileType, fileSize };
     if (!/\.json$/.test(fileName) || fileType !== 'application/json') {
@@ -113,6 +122,8 @@
      * });
      */
     localDataFile = file;
+    const size = getApproxSize(fileSize, { normalize: true }).join('');
+    localFileText = `${fileName} (${size})`;
   }
 
   function loadLocalData() {
@@ -165,7 +176,7 @@
       });
   }
 
-  /** Go to data editor */
+  /** Go to the data editor */
   function goToEditor() {
     if (get(hasDataStore)) {
       goto('/editor');
@@ -177,58 +188,77 @@
   <title>Load data</title>
 </svelte:head>
 
-<div class={classNames('LoadDataPage', loading && 'loading')}>
-  <h1 class="header">Load data to edit</h1>
+<div class={classNames(styles.LoadDataPage, loading && 'loading')}>
+  <div class={classNames(styles.LoadDataPage_Wrapper)}>
+    <h1 class={classNames(styles.header)}>Load data to edit</h1>
 
-  <section id="loadDemoData" class="delimited">
-    <h2>Load demo data</h2>
-    <div class="formGroup">
-      <select id="demoDataFile" bind:value={demoDataFileIdx}>
-        {#each demoDataFiles as file, idx}
-          <option value={idx} selected={idx === demoDataFileIdx}>
-            {file.id}
-          </option>
-        {/each}
-      </select>
-      <button id="loadDemoDataAction" on:click={loadDemoData}>Load demo data</button>
-    </div>
-  </section>
+    <section id="loadDemoData" class={classNames(styles.delimited)}>
+      <h2>Load demo data</h2>
+      <div class={classNames(styles.formGroup)}>
+        <!--
+        <select id="demoDataFile" bind:value={demoDataFileIdx}>
+          {#each demoDataFiles as file, idx}
+            <option value={idx} selected={idx === demoDataFileIdx}>
+              {file.id}
+            </option>
+          {/each}
+        </select>
+        -->
+        <NativeSelect
+          data={demoDataFilesSelectData}
+          id="demoDataFile"
+          bind:value={demoDataFileIdx}
+          placeholder="Pick one"
+        />
+        <Button id="loadDemoDataAction" on:click={loadDemoData}>Load demo data</Button>
+      </div>
+    </section>
 
-  <section id="loadLocalData" class="delimited">
-    <h2>Load local data</h2>
-    <div class="formGroup">
-      <input
-        type="file"
-        id="localDataFile"
-        name="localDataFile"
-        accept="application/json"
-        on:change={handleLocalFile}
-      />
-      <button id="loadLocalDataAction" on:click={loadLocalData} disabled={!localDataFile}>
-        Load local data
-      </button>
-    </div>
-  </section>
+    <section id="loadLocalData" class={classNames(styles.delimited)}>
+      <h2>Load local data</h2>
+      <div class={classNames(styles.formGroup)}>
+        <Button
+          class={classNames(styles.FileUploadField)}
+          id="localDataFile"
+          name="localDataFile"
+          title={localFileText}
+        >
+          <span>
+            {localFileText}
+          </span>
+          <input
+            type="file"
+            id="localDataFile"
+            name="localDataFile"
+            accept="application/json"
+            on:change={handleLocalFile}
+          />
+        </Button>
+        <Button id="loadLocalDataAction" on:click={loadLocalData} disabled={!localDataFile}>
+          Load local data
+        </Button>
+      </div>
+    </section>
 
-  <!--
-  <section id="debug">
-    <div><button on:click={toggleHasData}>Toggle data: {$hasDataStore}</button></div>
-    <div>idx: {demoDataFileIdx}</div>
-  </section>
-  -->
+    <!--
+    <section id="debug">
+      <div><button on:click={toggleHasData}>Toggle data: {$hasDataStore}</button></div>
+      <div>idx: {demoDataFileIdx}</div>
+    </section>
+    -->
 
-  <!--
-    TODO: Show loaded data info?
-  -->
+    <!--
+      TODO: Show loaded data info?
+    -->
 
-  <section id="actions" class="delimited vpadded">
-    <div class="formGroup">
-      <!--
-      <button id="goToEditor" on:click={goToEditor} disabled={!$hasDataStore}>Go to editor</button>
-      -->
-      <Button id="goToEditor" on:click={goToEditor} disabled={!$hasDataStore}>Go to editor</Button>
-    </div>
-  </section>
+    <section id="actions" class={classNames('delimited', 'vpadded')}>
+      <div class={classNames(styles.formGroup)}>
+        <Button id="goToEditor" on:click={goToEditor} disabled={!$hasDataStore}>
+          Go to editor
+        </Button>
+      </div>
+    </section>
+  </div>
 </div>
 
 <style src="./LoadDataPage.scss" lang="scss"></style>

@@ -13,12 +13,12 @@
   --column-width: 42rem;
   --column-margin-top: 4rem;
   font-family: var(--font-body);
-  // color: var(--color-text);
+  color: var(--color-text);
 }
 
 body {
-  min-height: 100vh;
-  margin: 0;
+  // height: 100vh;
+  // margin: 0;
   /* // Gradient background
   background-attachment: fixed;
   background-color: var(--color-bg-1);
@@ -30,6 +30,19 @@ body {
     ),
     linear-gradient(180deg, var(--color-bg-0) 0%, var(--color-bg-1) 15%, var(--color-bg-2) 50%);
   */
+  color: $defaultTextColor;
+}
+
+body,
+#svelte-root,
+#SVELTEUI_PROVIDER {
+  margin: 0;
+  padding: 0;
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  // display: flex;
 }
 
 /* // Some basic sample styles

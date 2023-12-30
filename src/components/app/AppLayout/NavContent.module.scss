@@ -4,6 +4,10 @@
     padding: 12px;
     border-radius: 4px;
     text-decoration: none;
+    &,
+    &:visited {
+      color: $primaryColor;
+    }
     &:hover {
       background-color: color.change($primaryColor, $alpha: .1);
       text-decoration: underline;
