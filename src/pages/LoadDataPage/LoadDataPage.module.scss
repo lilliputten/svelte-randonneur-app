@@ -1,0 +1,76 @@
+.LoadDataPage {
+  flex: 1;
+  transition: all 250ms;
+  width: 100%;
+
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .LoadDataPage_Wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+    max-width: 800px;
+    @media (min-width: 768px) {
+      width: 70%;
+    }
+    margin: 20px;
+  }
+
+  &.loading {
+    opacity: 0.25;
+    pointer-events: none;
+  }
+
+  section {
+    margin: 16px 0;
+    // padding: 0 20px;
+    &.vpadded {
+      padding-top: 16px;
+      padding-bottom: 16px;
+    }
+    &.delimited {
+      border-top: 1px solid color.change(black, $alpha: 0.1);
+    }
+  }
+
+  .formGroup {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .FileUploadField {
+    border: 5px soild red !important;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    max-width: 250px;
+    display: flex;
+    > span {
+      flex: 1;
+      // display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      // max-width: 100%;
+    }
+    > input {
+      opacity: 0;
+      border: 1px soild red;
+      position: absolute;
+      background-color: red;
+      overflow: hidden;
+      height: 100%;
+      width: 100%;
+      &, &::-webkit-file-upload-button {
+        cursor: pointer;
+      }
+    }
+  }
+}

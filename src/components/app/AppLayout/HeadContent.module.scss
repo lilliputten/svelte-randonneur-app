@@ -1,9 +1,8 @@
 .HeadContent {
-  /*!KEEP*/
+  flex: 1;
   .HeadContent_AppMenu {
     display: flex;
     gap: 4px;
-    /*!KEEP*/
     @media (max-width: 767.99px) {
       display: none;
     }

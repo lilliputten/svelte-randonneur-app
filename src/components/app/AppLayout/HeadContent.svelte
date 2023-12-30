@@ -7,25 +7,14 @@
 
   import { appTitle, mainMenu, TMainMenu } from '@/src/core/constants/app';
 
+  import { isActiveMainMenuItem } from './helpers';
+
   import Logo from './Logo.svelte';
 
   import styles from './HeadContent.module.scss';
 
   const os = useOs();
-  const mod = os === 'macos' ? '⌘' : 'ctrl';
-
-  function isActive(item: TMainMenu) {
-    // TODO: Implement as a common hook
-    // See usage in:
-    // - src/components/app/AppLayout/NavContent.svelte
-    // - src/components/app/AppLayout/HeadContent.svelte
-    const { pathname } = $page.url;
-    const { url, compare } = item;
-    if (compare === 'exact') {
-      return pathname === url;
-    }
-    return pathname.startsWith(url);
-  }
+  const mod = os === 'macos' ? '⌘' : 'Ctrl';
 
   export let isDark: boolean;
   export let opened: boolean;
@@ -63,14 +52,14 @@
         href={item.url}
         class={classNames(
           styles.HeadContent_AppMenu_Item,
-          isActive(item) && styles.HeadContent_AppMenu_ItemActive,
+          isActiveMainMenuItem(item, $page.url.pathname) && styles.HeadContent_AppMenu_ItemActive,
         )}
       >
         {item.text}
       </Anchor>
     {/each}
   </Box>
-  <Tooltip label={`Toggle theme (${mod}-J)`}>
+  <Tooltip label={`Toggle dark theme (${mod}-J)`}>
     <ActionIcon variant="default" on:click={toggle} size={30} use={[[hotkey, [['mod+J', toggle]]]]}>
       {#if isDark}
         <Moon />

@@ -1,6 +1,6 @@
 .AppLayout {
-  // Stylize `svelteui-AppShell-body` too
   &, & > div {
+    // Stylize unclassed wrapper too
     display: flex;
     flex-direction: column;
     height: 100vh;
@@ -11,9 +11,54 @@
   .AppLayout_Navbar {
     /*!KEEP*/
   }
+  .AppLayout_Header {
+    display: flex;
+    flex-shrink: 0;
+    align-items: stretch;
+    justify-content: stretch;
+    z-index: 1000;
+  }
+  .AppLayout_Footer {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
   .AppLayout_Navbar {
     @media (min-width: 768px) {
       display: none;
     }
+  }
+  // .svelteui-AppShell-body
+  & > div > div {
+    display: flex;
+    overflow: hidden;
+    flex: 1;
+  }
+  // .svelteui-AppShell-body > main
+  // main,
+  // div.svelteui-AppShell-body > main.svelteui-AppShell-main {
+  // main.svelteui-AppShell-main,
+  // ._AppLayout_8q87q_11 > div > div.svelteui-AppShell-body > main
+  & > div > div > main {
+    min-width: auto !important;
+    width: auto !important;
+    min-height: auto !important;
+    height: auto !important;
+    flex: 1;
+    padding: 0 !important;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: stretch;
+    height: 100vh;
+    overflow: hidden;
+  }
+  .AppLayout_MainContent {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
   }
 }
