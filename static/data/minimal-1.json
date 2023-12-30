@@ -31,6 +31,7 @@
         "air",
         "indoor"
       ],
+      "check": true,
       "unit": "kilogram"
     }
   ]
