@@ -16,8 +16,6 @@
 
   import Toasts from '@/src/components/ui/Toasts';
 
-  // import Header from '@/src/components/layout/Header';
-
   import HeadContent from './HeadContent.svelte';
   import NavContent from './NavContent.svelte';
 
@@ -34,25 +32,10 @@
 
   import styles from './AppLayout.module.scss';
 
+  // // UNUSED: Previous styles (remove completely after refactor)
   // import './styles.scss';
   // import './styles-fixes.scss';
 </script>
-
-<!--
-<div class="AppLayout">
-  <Header className="AppLayout-Header" />
-
-  <main class={classNames(styles.AppLayout_Main)}>
-    <slot />
-  </main>
-
-  <footer class={classNames(styles.AppLayout_Footer)}>
-    <p>visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to learn SvelteKit</p>
-  </footer>
-
-  <Toasts />
-</div>
--->
 
 <SvelteUIProvider withNormalizeCSS withGlobalStyles themeObserver={$colorScheme}>
   <AppShell class={classNames(styles.AppLayout)}>
@@ -75,8 +58,3 @@
     <Toasts />
   </AppShell>
 </SvelteUIProvider>
-
-<!--
-<style src="./AppLayout.scss"></style>
-<style src="./AppLayout-UNUSED.scss"></style>
--->
