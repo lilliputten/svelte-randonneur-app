@@ -1,0 +1,21 @@
+.NavContent {
+  .items {
+  .item {
+    padding: 12px;
+    border-radius: 4px;
+    text-decoration: none;
+    &:hover {
+      background-color: color.change($primaryColor, $alpha: .1);
+      text-decoration: underline;
+    }
+    &.active {
+      background-color: color.change($primaryColor, $alpha: .2);
+      /*!KEEP*/
+      // border: 1px solid red;
+    }
+    &.active:hover {
+      background-color: color.change($primaryColor, $alpha: .3);
+    }
+  }
+  }
+}

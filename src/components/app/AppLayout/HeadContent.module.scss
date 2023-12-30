@@ -1,0 +1,26 @@
+.HeadContent {
+  /*!KEEP*/
+  .HeadContent_AppMenu {
+    display: flex;
+    gap: 4px;
+    /*!KEEP*/
+    @media (max-width: 767.99px) {
+      display: none;
+    }
+  }
+  .HeadContent_AppMenu_Item {
+    padding: 8px 12px;
+    border-radius: 4px;
+    text-decoration: none;
+    &:hover {
+      background-color: color.change($primaryColor, $alpha: .1);
+      text-decoration: underline;
+    }
+  }
+  .HeadContent_AppMenu_ItemActive {
+    background-color: color.change($primaryColor, $alpha: .2);
+    &:hover {
+      background-color: color.change($primaryColor, $alpha: .3);
+    }
+  }
+}

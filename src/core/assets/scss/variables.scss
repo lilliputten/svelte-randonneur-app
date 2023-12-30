@@ -18,7 +18,9 @@ $defaultFontSizePx: 14px;
 
 // Base colors...
 
-$primaryColor: #1976d2;
+// TODO: Extract color variables from svelteui?
+$primaryColorMUI: #1976d2;
+$primaryColor: #339af0;
 $secondaryColor: #ffa550;
 
 $defaultTextColor: #333;
