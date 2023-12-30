@@ -1,6 +1,7 @@
 <script lang="ts">
   import { get } from 'svelte/store';
   import { goto } from '$app/navigation';
+  import { Button } from '@svelteuidev/core';
   import classNames from 'classnames';
 
   import { addToast } from '@/src/components/ui/Toasts';
@@ -222,7 +223,10 @@
 
   <section id="actions" class="delimited vpadded">
     <div class="formGroup">
+      <!--
       <button id="goToEditor" on:click={goToEditor} disabled={!$hasDataStore}>Go to editor</button>
+      -->
+      <Button id="goToEditor" on:click={goToEditor} disabled={!$hasDataStore}>Go to editor</Button>
     </div>
   </section>
 </div>

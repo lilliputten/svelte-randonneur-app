@@ -1,24 +1,37 @@
 <script lang="ts">
+  import {
+    AppShell,
+    Aside,
+    Divider,
+    Footer,
+    Header,
+    Navbar,
+    ShellSection,
+    SvelteUIProvider,
+    Title,
+    colorScheme,
+    fns,
+  } from '@svelteuidev/core';
+
   import Toasts from '@/src/components/ui/Toasts';
 
-  import Header from '@/src/components/layout/Header';
+  import AppLayout from '@/src/components/app/AppLayout';
 
-  import './styles.css';
-  import './styles-fixes.scss';
+  // import Header from '@/src/components/layout/Header';
+
+  let opened = false;
+
+  function toggleTheme() {
+    colorScheme.update((v) => (v === 'light' ? 'dark' : 'light'));
+  }
+  function toggleOpened() {
+    opened = !opened;
+  }
+
+  // import './styles.scss';
+  // import './styles-fixes.scss';
 </script>
 
-<div class="AppLayout">
-  <Header className="AppLayout-Header" />
-
-  <main class="AppLayout-Main">
-    <slot />
-  </main>
-
-  <footer class="AppLayout-Footer">
-    <p>visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to learn SvelteKit</p>
-  </footer>
-
-  <Toasts />
-</div>
-
-<style src="./AppLayout.scss"></style>
+<AppLayout>
+  <slot>Content</slot>
+</AppLayout>

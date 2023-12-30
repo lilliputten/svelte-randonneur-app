@@ -1,0 +1,18 @@
+.AppLayout {
+  &, & > div {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+  }
+  .AppLayout_Footer,
+  .AppLayout_Header,
+  .AppLayout_Navbar {
+    /*!KEEP*/
+  }
+  .AppLayout_Navbar {
+    @media (min-width: 768px) {
+      display: none;
+    }
+  }
+}
