@@ -20,6 +20,8 @@
     return pathname.startsWith(url);
   }
 
+  // TODO: Close navbar on menu click
+
   export let isDark: boolean;
   // <Anchor href={item.url} class={`item ${isActive(item) ? 'active' : ''}`}>
 </script>
@@ -39,7 +41,3 @@
     {/each}
   </Stack>
 </Stack>
-
-<!--
-<style src="./NavContent.scss" lang="scss"></style>
--->

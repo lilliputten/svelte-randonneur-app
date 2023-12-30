@@ -1,4 +1,5 @@
 .AppLayout {
+  // Stylize `svelteui-AppShell-body` too
   &, & > div {
     display: flex;
     flex-direction: column;

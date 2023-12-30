@@ -1,14 +1,13 @@
 <script lang="ts">
   import { page } from '$app/stores';
   import { Group, ActionIcon, Text, Anchor, Burger, Tooltip, Box } from '@svelteuidev/core';
-  import { Button } from '@svelteuidev/core';
   import { Sun, Moon } from 'radix-icons-svelte';
   import { hotkey, useOs } from '@svelteuidev/composables';
   import classNames from 'classnames';
 
   import { appTitle, mainMenu, TMainMenu } from '@/src/core/constants/app';
 
-  import Logo from './_Logo.svelte';
+  import Logo from './Logo.svelte';
 
   import styles from './HeadContent.module.scss';
 
@@ -56,9 +55,12 @@
   </Anchor>
   <Box class={styles.HeadContent_AppMenu}>
     {#each mainMenu as item}
+      <!--
+        For `Button` elements (doesn't work: makes hard reload instead internal navigation, TODO?):
+        _variant={isActive(item) ? 'filled' : 'subtle'}
+      -->
       <Anchor
         href={item.url}
-        _variant={isActive(item) ? 'filled' : 'subtle'}
         class={classNames(
           styles.HeadContent_AppMenu_Item,
           isActive(item) && styles.HeadContent_AppMenu_ItemActive,
