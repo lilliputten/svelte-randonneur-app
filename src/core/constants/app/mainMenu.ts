@@ -1,3 +1,5 @@
+import { dev } from '$app/environment';
+
 export interface TMainMenu {
   text: string;
   url: string;
@@ -14,4 +16,8 @@ export const mainMenu: TMainMenu[] = [
     text: 'Editor',
     url: '/editor',
   },
-];
+  dev && {
+    text: 'Demo',
+    url: '/demo',
+  },
+].filter(Boolean) as TMainMenu[];

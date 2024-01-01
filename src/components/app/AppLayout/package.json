@@ -1,1 +1,3 @@
-{ "main": "AppLayout.svelte" }
+{
+  "main": "AppLayout.svelte"
+}
