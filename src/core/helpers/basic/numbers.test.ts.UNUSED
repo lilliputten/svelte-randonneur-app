@@ -1,3 +1,5 @@
+// TODO: Rewite tests from jest to svelte style
+
 import * as numbers from './numbers';
 
 describe('numbers', () => {
