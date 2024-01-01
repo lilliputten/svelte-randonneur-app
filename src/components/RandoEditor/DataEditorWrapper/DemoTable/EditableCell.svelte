@@ -1,6 +1,7 @@
 <script lang="ts">
   import { BodyRow, DataColumn } from 'svelte-headless-table';
 
+  // eslint-disable-next-line no-undef
   type Item = $$Generic; // TDataSetDict
 
   export let row: BodyRow<Item>; /*: BodyRow<Item>*/

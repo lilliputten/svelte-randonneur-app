@@ -5,13 +5,15 @@
   import { hotkey, useOs } from '@svelteuidev/composables';
   import classNames from 'classnames';
 
-  import { appTitle, mainMenu, TMainMenu } from '@/src/core/constants/app';
+  import { appTitle, getMainMenu, TMainMenu } from '@/src/core/constants/app';
 
   import { isActiveMainMenuItem } from './helpers';
 
   import Logo from './Logo.svelte';
 
   import styles from './HeadContent.module.scss';
+
+  const mainMenu = getMainMenu();
 
   const os = useOs();
   const mod = os === 'macos' ? '⌘' : 'Ctrl';

@@ -3,11 +3,13 @@
   import { page } from '$app/stores';
   import classNames from 'classnames';
 
-  import { mainMenu } from '@/src/core/constants/app';
+  import { getMainMenu } from '@/src/core/constants/app';
 
   import { isActiveMainMenuItem } from './helpers';
 
   import styles from './NavContent.module.scss';
+
+  const mainMenu = getMainMenu();
 
   // TODO: Close navbar on menu click
 
