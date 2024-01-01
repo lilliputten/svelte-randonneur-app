@@ -12,14 +12,14 @@
     border-radius: 4px;
     text-decoration: none;
     &:hover {
-      background-color: color.change($primaryColor, $alpha: .1);
+      background-color: color.change($primaryColor, $alpha: 0.1);
       text-decoration: underline;
     }
   }
   .HeadContent_AppMenu_ItemActive {
-    background-color: color.change($primaryColor, $alpha: .2);
+    background-color: color.change($primaryColor, $alpha: 0.2);
     &:hover {
-      background-color: color.change($primaryColor, $alpha: .3);
+      background-color: color.change($primaryColor, $alpha: 0.3);
     }
   }
 }

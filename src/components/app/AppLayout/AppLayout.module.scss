@@ -1,5 +1,6 @@
 .AppLayout {
-  &, & > div {
+  &,
+  & > div {
     // Stylize unclassed wrapper too
     display: flex;
     flex-direction: column;
