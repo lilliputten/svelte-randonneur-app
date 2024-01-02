@@ -6,6 +6,7 @@
   import classNames from 'classnames';
 
   import { appTitle, getMainMenu, TMainMenu } from '@/src/core/constants/app';
+  import { hasDataStore } from '@/src/store';
 
   import { isActiveMainMenuItem } from './helpers';
 
@@ -46,6 +47,8 @@
   </Anchor>
   <Box class={styles.HeadContent_AppMenu}>
     {#each mainMenu as item}
+      <!-- Use hook for process menu conditions? -->
+      {#if item.conditions !== 'hasData' || $hasDataStore}
       <!--
         For `Button` elements (doesn't work: makes hard reload instead internal navigation, TODO?):
         _variant={isActive(item) ? 'filled' : 'subtle'}
@@ -59,6 +62,7 @@
       >
         {item.text}
       </Anchor>
+      {/if}
     {/each}
   </Box>
   <Tooltip label={`Toggle dark theme (${mod}-J)`}>
