@@ -1,17 +1,15 @@
 import { TDisplayLayout } from './TDisplayLayout';
-import { TEditableFieldSpec } from './TEditableFieldSpec';
-import { TEditableValueScalar } from './TEditableValue';
+import { TGenericEditableData, TGenericEditableSpec } from './TGenericEditableSpec';
 
 export interface TEditableObjectSpec {
   id: string;
-  type: 'object';
+  type: 'object'; // | 'list';
   title?: string;
   label?: string; // ???
   layout?: TDisplayLayout;
-  specs: (TEditableFieldSpec | TEditableObjectSpec)[];
+  /** Object fields specs list */
+  spec: TGenericEditableSpec[];
 }
 
-// TODO: Create generic value type that can include nested objects
-
-// export type TEditableObjectFlatValue = Record<string, TEditableValueScalar>;
-export type TEditableObjectData = Record<string, unknown | TEditableValueScalar>;
+export type TEditableObjectData = Record<string, unknown>;
+// export type TEditableObjectData = Record<string, TGenericEditableData>; // Error: Circular reference
