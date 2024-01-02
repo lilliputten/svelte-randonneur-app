@@ -3,8 +3,8 @@
   import { TEditableFieldSpec } from '@/src/core/types/editable';
 </script>
 
-<div class="DemoEditableField">
-  <h2>DemoEditableField</h2>
+<div class="DemoEditableFields">
+  <h2>DemoEditableFields</h2>
   <div>
     <!--
     // prettier-ignore
@@ -20,19 +20,16 @@
         id: 'testSelect',
         type: 'select',
         title: 'Test select',
-        selectData: [
-          { label: 'A', value: 'a' },
-          { label: 'B', value: 2 },
-        ],
+        selectData: [{ label: 'A', value: 'a' }, { label: 'B', value: 'b' }, 'C', 'D'],
       }}
-      value={2}
+      value={'C'}
     />
     <hr />
   </div>
 </div>
 
 <style lang="scss">
-  .DemoEditableField {
+  .DemoEditableFields {
     padding: 20px;
   }
 </style>

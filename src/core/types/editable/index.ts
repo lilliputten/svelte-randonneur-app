@@ -1,4 +1,4 @@
 export * from './TDisplayLayout';
-export * from './TEditableObject';
+export * from './TEditableObjectSpec';
 export * from './TEditableValue';
 export * from './TEditableFieldSpec';

@@ -49,19 +49,19 @@
     {#each mainMenu as item}
       <!-- Use hook for process menu conditions? -->
       {#if item.conditions !== 'hasData' || $hasDataStore}
-      <!--
+        <!--
         For `Button` elements (doesn't work: makes hard reload instead internal navigation, TODO?):
         _variant={isActive(item) ? 'filled' : 'subtle'}
       -->
-      <Anchor
-        href={item.url}
-        class={classNames(
-          styles.HeadContent_AppMenu_Item,
-          isActiveMainMenuItem(item, $page.url.pathname) && styles.HeadContent_AppMenu_ItemActive,
-        )}
-      >
-        {item.text}
-      </Anchor>
+        <Anchor
+          href={item.url}
+          class={classNames(
+            styles.HeadContent_AppMenu_Item,
+            isActiveMainMenuItem(item, $page.url.pathname) && styles.HeadContent_AppMenu_ItemActive,
+          )}
+        >
+          {item.text}
+        </Anchor>
       {/if}
     {/each}
   </Box>

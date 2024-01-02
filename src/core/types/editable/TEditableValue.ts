@@ -10,5 +10,6 @@ export type TEditableValuesListType = TEditableValueType[];
 
 export const defaultEditableValueType: TEditableValueType = editableValueTypes[0];
 
-export type TEditableValueScalar = string | number | boolean | undefined;
-export type TEditableValue = TEditableValueScalar | TEditableValueScalar[];
+export type TEditableValueScalar = unknown | undefined;
+// export type TEditableValueScalar = string | number | boolean | undefined;
+// export type TEditableValue = TEditableValueScalar | TEditableValueScalar[];

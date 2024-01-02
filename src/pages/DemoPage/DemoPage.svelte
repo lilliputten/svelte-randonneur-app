@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { DemoEditableField } from './DemoEditableField';
+  import { DemoEditableFields } from './DemoEditableFields';
+  import { DemoEditableObjects } from './DemoEditableObjects';
 
   // import styles from './DemoPage.module.scss';
 </script>
@@ -9,7 +10,7 @@
 </svelte:head>
 
 <div class="DemoPage">
-  <DemoEditableField />
+  <DemoEditableObjects />
 </div>
 
 <!--
