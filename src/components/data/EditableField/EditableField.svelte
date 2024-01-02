@@ -1,21 +1,20 @@
 <script lang="ts">
-  import { Switch, TextInput } from '@svelteuidev/core';
+  import { Switch, TextInput, NumberInput, NativeSelect } from '@svelteuidev/core';
 
-  import { TEditableFieldSpec, TEditableValueType, TEditableValueScalar } from '@/src/core/types/editable';
+  import { TEditableFieldSpec, TEditableValueScalar } from '@/src/core/types/editable';
 
   // TODO: Create typings, render EditableField internals
 
-  type TOnChangeCallback = (value: TEditableValueScalar) => void;
-  export let specs: TEditableFieldSpec;
+  type TOnChangeCallback = (value: TEditableValueScalar, spec: TEditableFieldSpec) => void;
+  export let spec: TEditableFieldSpec;
   export let value: TEditableValueScalar = undefined;
   export let onChange: TOnChangeCallback | undefined = undefined;
 
-  $: type = specs.type;
-  // $: isList = specs.isList;
+  $: type = spec.type;
 
   // TODO: Store local value copy?
 
-  function handleChange(ev: Event) {
+  function handleChange(ev: CustomEvent<number> | Event) {
     const target = ev.target as HTMLInputElement;
     let value: TEditableValueScalar;
     if (type === 'boolean') {
@@ -23,42 +22,49 @@
     } else if (type === 'string') {
       value = target.value;
     } else if (type === 'number') {
-      value = Number(target.value);
+      if ('detail' in ev) {
+        value = ev.detail;
+      }
+      // TODO: Check for error otherwise?
+    } else if (type === 'select') {
+      value = target.value;
+      // TODO: Preserve option for numeric keys?
     }
-    console.log('[EditableField:handleChange]', {
-      target,
-      ev,
-      value,
-    });
+    /* console.log('[EditableField:handleChange]', {
+     *   target,
+     *   ev,
+     *   value,
+     * });
+     */
     if (onChange) {
-      onChange(value);
+      onChange(value, spec);
     }
   }
 </script>
 
-<div class="DemoEditable">
+<div class="EditableField" title={spec.title}>
+  <!--
   <h2>DemoEditable</h2>
   <div>type: {type}</div>
   <div>value: {value}</div>
+  -->
   {#if type === 'boolean'}
-    <!-- TODO:
-      - Use text for label
-    -->
-    <Switch
-      checked={!!value}
-      label={specs.label}
-      on:change={handleChange}
-     />
+    <Switch checked={!!value} label={spec.label} on:change={handleChange} />
   {:else if type === 'string'}
-    <TextInput
-      {value}
-      label={specs.label}
+    <TextInput {value} label={spec.label} placeholder={spec.title} on:change={handleChange} />
+  {:else if type === 'number'}
+    <NumberInput
+      value={Number(value)}
+      label={spec.label}
+      placeholder={spec.title}
       on:change={handleChange}
     />
-  {:else if type === 'number'}
-    <TextInput
+  {:else if type === 'select'}
+    <NativeSelect
+      data={spec.selectData}
       {value}
-      label={specs.label}
+      label={spec.label}
+      placeholder={spec.title}
       on:change={handleChange}
     />
   {/if}
