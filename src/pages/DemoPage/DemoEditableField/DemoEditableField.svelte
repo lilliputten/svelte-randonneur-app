@@ -1,27 +1,33 @@
 <script lang="ts">
   import { EditableField } from '@/src/components/data';
   import { TEditableFieldSpec } from '@/src/core/types/editable';
-
-  // TODO: Render EditableField
-  const specs: TEditableFieldSpec = {
-    type: 'boolean',
-  };
 </script>
 
 <div class="DemoEditableField">
   <h2>DemoEditableField</h2>
   <div>
+    <!--
+    // prettier-ignore
+    -->
     <EditableField
-      specs={{ type: 'boolean', label: 'Test boolean' }}
+      spec={{ id: 'testBoolean', type: 'boolean', title: 'Test boolean' }}
       value={false}
     />
+    <EditableField spec={{ id: 'testString', type: 'string' }} />
+    <EditableField spec={{ id: 'testNumber', type: 'number', title: 'Test number' }} value={1} />
     <EditableField
-      specs={{ type: 'string', label: 'Test string' }}
+      spec={{
+        id: 'testSelect',
+        type: 'select',
+        title: 'Test select',
+        selectData: [
+          { label: 'A', value: 'a' },
+          { label: 'B', value: 2 },
+        ],
+      }}
+      value={2}
     />
-    <EditableField
-      specs={{ type: 'number', label: 'Test number' }}
-      value={1}
-    />
+    <hr />
   </div>
 </div>
 
