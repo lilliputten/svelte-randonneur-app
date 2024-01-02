@@ -2,23 +2,31 @@
   import { createEventDispatcher } from 'svelte';
   import { Switch, TextInput, NumberInput, NativeSelect } from '@svelteuidev/core';
 
-  import { TEditableFieldSpec, TEditableValueScalar } from '@/src/core/types/editable';
+  import { TEditableFieldSpec, TEditableFieldData } from '@/src/core/types/editable';
 
-  // TODO: Create typings, render EditableField internals
+  import { EditableObject } from '../EditableObject';
 
-  type TOnChangeCallback = (value: TEditableValueScalar, spec: TEditableFieldSpec) => void;
+  /* // Store self refernece in the local registry to avoild cyrcular dependencies (NOTE: The component should be readlly used)
+   * import EditableField from './EditableField.svelte';
+   * import { TComponent, registryStore } from '../registry';
+   * registryStore.update((registry) => {
+   *   return { ...registry, EditableField };
+   * });
+   */
+
+  type TOnChangeCallback = (value: TEditableFieldData, spec: TEditableFieldSpec) => void;
   export let spec: TEditableFieldSpec;
-  export let value: TEditableValueScalar = undefined;
+  export let value: TEditableFieldData = undefined;
   export let onChange: TOnChangeCallback | undefined = undefined;
 
-  $: id = spec.id;
-  $: type = spec.type;
+  const { id, type } = spec;
 
   console.log('[EditableField:DEBUG]', {
     id,
     type,
     spec,
     value,
+    EditableObject,
   });
 
   const dispatch = createEventDispatcher();
@@ -27,7 +35,7 @@
 
   function handleChange(ev: CustomEvent<number> | Event) {
     const target = ev.target as HTMLInputElement;
-    let value: TEditableValueScalar;
+    let value: TEditableFieldData;
     if (type === 'boolean') {
       value = !!target.checked;
     } else if (type === 'string') {
@@ -57,11 +65,6 @@
 </script>
 
 <div class="EditableField" data-id={id} title={spec.title}>
-  <!--
-  <h2>EditableField</h2>
-  <div>type: {type}</div>
-  <div>value: {value}</div>
-  -->
   {#if type === 'boolean'}
     <Switch checked={!!value} label={spec.label} on:change={handleChange} />
   {:else if type === 'string'}
@@ -83,6 +86,3 @@
     />
   {/if}
 </div>
-
-<style lang="scss">
-</style>

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
+  import { SvelteComponent, createEventDispatcher } from 'svelte';
 
   import {
     TEditableObjectSpec,
@@ -7,26 +7,32 @@
     TEditableObjectData,
     TEditableFieldSpec,
     defaultDisplayLayout,
+    TGenericEditableData,
+    TGenericEditableSpec,
   } from '@/src/core/types/editable';
-  import { EditableField } from '../EditableField';
 
-  // TODO: Create typings, render EditableObject internals
+  import { GenericEditable } from '../GenericEditable';
+
+  /* // Store self refernece in the local registry to avoild cyrcular dependencies (NOTE: The component should be readlly used)
+   * import EditableObject from './EditableObject.svelte';
+   * import { TComponent, registryStore } from '../registry';
+   * registryStore.update((registry) => ({ ...registry, EditableObject }));
+   */
 
   type TOnChangeCallback = (data: TEditableObjectData, spec: TEditableObjectSpec) => void;
+
   export let spec: TEditableObjectSpec;
   export let data: TEditableObjectData = {};
   export let onChange: TOnChangeCallback | undefined = undefined;
 
-  const { id, specs, layout } = spec;
-  // $: id = spec.id;
-  // $: specs = spec.specs;
+  const { id, spec: fieldsSpec, layout } = spec;
 
   $: localData = { ...data };
 
-  console.log('[EditableObject:DEBUG 1]', {
+  console.log('[EditableObject:DEBUG]', {
     spec,
     id,
-    specs,
+    fieldsSpec,
     data,
   });
 
@@ -42,51 +48,17 @@
     dispatch('change', { data: localData, spec });
   }
 
-  function handleFieldChange(value: TEditableValueScalar, fieldSpec: TEditableFieldSpec) {
-    const { id } = fieldSpec;
-    console.log('[EditableObject:handleFieldChange]', {
+  function handleItemChange(value: TGenericEditableData, itemSpec: TGenericEditableSpec) {
+    const { id, type } = itemSpec;
+    console.log('[EditableObject:handleItemChange]', {
       id,
       value,
+      type,
+      itemSpec,
     });
     localData[id] = value;
     triggerChange();
   }
-
-  function handleObjectChange(data: TEditableObjectData, objectSpec: TEditableObjectSpec) {
-    const { id } = objectSpec;
-    console.log('[EditableObject:handleObjectChange]', {
-      id,
-      data,
-    });
-    localData[id] = data;
-    triggerChange();
-  }
-
-  /* function handleChange(ev: CustomEvent<number> | Event) {
-   *   const target = ev.target as HTMLInputElement;
-   *   let value: TEditableValueScalar;
-   *   if (type === 'boolean') {
-   *     value = !!target.checked;
-   *   } else if (type === 'string') {
-   *     value = target.value;
-   *   } else if (type === 'number') {
-   *     if ('detail' in ev) {
-   *       value = ev.detail;
-   *     }
-   *     // TODO: Check for error otherwise?
-   *   } else if (type === 'select') {
-   *     value = target.value;
-   *   }
-   *   console.log('[EditableObject:handleChange]', {
-   *     target,
-   *     ev,
-   *     value,
-   *   });
-   *   if (onChange) {
-   *     onChange(value, spec);
-   *   }
-   * }
-   */
 </script>
 
 <div
@@ -100,12 +72,8 @@
       {spec.label}
     </div>
   {/if}
-  {#each specs as item}
-    {#if item.type === 'object'}
-      <svelte:self spec={item} data={data[item.id]} onChange={handleObjectChange} />
-    {:else}
-      <EditableField spec={item} value={data[item.id]} onChange={handleFieldChange} />
-    {/if}
+  {#each fieldsSpec as item}
+    <GenericEditable spec={item} data={data[item.id]} onChange={handleItemChange} />
   {/each}
 </div>
 

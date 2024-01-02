@@ -10,6 +10,9 @@
 </svelte:head>
 
 <div class="DemoPage">
+  <!--
+  <DemoEditableFields />
+  -->
   <DemoEditableObjects />
 </div>
 

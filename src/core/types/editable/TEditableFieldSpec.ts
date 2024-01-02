@@ -1,5 +1,5 @@
 import { SelectItem } from '@svelteuidev/core';
-import { TEditableValueType } from './TEditableValue';
+import { TEditableValueScalar, TEditableValueType } from './TEditableValue';
 
 export interface TEditableFieldSpec {
   id: string;
@@ -12,3 +12,5 @@ export interface TEditableFieldSpec {
   // validValues?: TEditableValuesListType; // ???
   /** Text label used in ui input elements only */
 }
+
+export type TEditableFieldData = TEditableValueScalar;
