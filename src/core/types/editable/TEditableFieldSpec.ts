@@ -6,6 +6,7 @@ export interface TEditableFieldSpec {
   type: TEditableValueType;
   label?: string;
   title?: string;
+  /** Optional list of options for `select` field type */
   selectData?: (string | SelectItem)[];
   // isList?: boolean; // ??? To make list of values (TODO?)
   // validValues?: TEditableValuesListType; // ???

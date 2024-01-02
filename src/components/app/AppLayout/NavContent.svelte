@@ -32,19 +32,19 @@
     {#each mainMenu as item}
       <!-- Use hook for process menu conditions? -->
       {#if item.conditions !== 'hasData' || $hasDataStore}
-      <!--
+        <!--
         css={{ py: 12, px: 12, bc: isActive(item) ? '$blue50' : 'transparent', br: '$md' }}
       -->
-      <a
-        href={item.url}
-        class={classNames(
-          styles.item,
-          isActiveMainMenuItem(item, $page.url.pathname) && styles.active,
-        )}
-        on:click={onMenuClick}
-      >
-        {item.text}
-      </a>
+        <a
+          href={item.url}
+          class={classNames(
+            styles.item,
+            isActiveMainMenuItem(item, $page.url.pathname) && styles.active,
+          )}
+          on:click={onMenuClick}
+        >
+          {item.text}
+        </a>
       {/if}
     {/each}
   </Stack>

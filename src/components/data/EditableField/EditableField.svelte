@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { createEventDispatcher } from 'svelte';
   import { Switch, TextInput, NumberInput, NativeSelect } from '@svelteuidev/core';
 
   import { TEditableFieldSpec, TEditableValueScalar } from '@/src/core/types/editable';
@@ -10,7 +11,17 @@
   export let value: TEditableValueScalar = undefined;
   export let onChange: TOnChangeCallback | undefined = undefined;
 
+  $: id = spec.id;
   $: type = spec.type;
+
+  console.log('[EditableField:DEBUG]', {
+    id,
+    type,
+    spec,
+    value,
+  });
+
+  const dispatch = createEventDispatcher();
 
   // TODO: Store local value copy?
 
@@ -28,7 +39,6 @@
       // TODO: Check for error otherwise?
     } else if (type === 'select') {
       value = target.value;
-      // TODO: Preserve option for numeric keys?
     }
     /* console.log('[EditableField:handleChange]', {
      *   target,
@@ -39,12 +49,16 @@
     if (onChange) {
       onChange(value, spec);
     }
+    dispatch('change', {
+      value,
+      spec,
+    });
   }
 </script>
 
-<div class="EditableField" title={spec.title}>
+<div class="EditableField" data-id={id} title={spec.title}>
   <!--
-  <h2>DemoEditable</h2>
+  <h2>EditableField</h2>
   <div>type: {type}</div>
   <div>value: {value}</div>
   -->
