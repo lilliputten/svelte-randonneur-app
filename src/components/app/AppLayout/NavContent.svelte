@@ -4,6 +4,7 @@
   import classNames from 'classnames';
 
   import { getMainMenu } from '@/src/core/constants/app';
+  import { hasDataStore } from '@/src/store';
 
   import { isActiveMainMenuItem } from './helpers';
 
@@ -29,6 +30,8 @@
   </Box>
   <Stack class={classNames(styles.items)} spacing={4}>
     {#each mainMenu as item}
+      <!-- Use hook for process menu conditions? -->
+      {#if item.conditions !== 'hasData' || $hasDataStore}
       <!--
         css={{ py: 12, px: 12, bc: isActive(item) ? '$blue50' : 'transparent', br: '$md' }}
       -->
@@ -42,6 +45,7 @@
       >
         {item.text}
       </a>
+      {/if}
     {/each}
   </Stack>
 </Stack>
