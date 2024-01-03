@@ -21,13 +21,14 @@
 
   const { id, type } = spec;
 
-  console.log('[EditableField:DEBUG]', {
-    id,
-    type,
-    spec,
-    value,
-    EditableObject,
-  });
+  /* console.log('[EditableField:DEBUG]', {
+   *   id,
+   *   type,
+   *   spec,
+   *   value,
+   *   EditableObject,
+   * });
+   */
 
   const dispatch = createEventDispatcher();
 
@@ -54,6 +55,7 @@
      *   value,
      * });
      */
+
     if (onChange) {
       onChange(value, spec);
     }

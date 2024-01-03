@@ -1,11 +1,11 @@
 import { TDisplayLayout } from './TDisplayLayout';
-import { TGenericEditableData, TGenericEditableSpec } from './TGenericEditableSpec';
+import { TGenericEditableSpec } from './TGenericEditableSpec';
 
 export interface TEditableObjectSpec {
   id: string;
-  type: 'object'; // | 'list';
+  type: 'object';
   title?: string;
-  label?: string; // ???
+  label?: string;
   layout?: TDisplayLayout;
   /** Object fields specs list */
   spec: TGenericEditableSpec[];
