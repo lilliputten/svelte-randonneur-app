@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { EditableList, EditableObject } from '@/src/components/data';
+  import { EditableList, EditableObject, EditableTable } from '@/src/components/data';
   import {
     TEditableObjectSpec,
     TEditableListSpec,
@@ -33,21 +33,28 @@
     type: 'list',
     title: 'objList',
     label: 'objList',
-    // layout: 'horizontal',
+    layout: 'table',
     spec: {
       id: 'listObj',
       type: 'object',
       layout: 'horizontal',
       spec: [
-        { id: 'id', type: 'string', title: 'id' },
-        { id: 'name', type: 'string', title: 'name' },
+        { id: 'id', type: 'string', title: 'Id' },
+        // { id: 'name', type: 'string', title: 'name' },
+        { id: 'check', type: 'boolean', title: 'Check' },
+        {
+          id: 'Choice',
+          type: 'select',
+          title: 'Select',
+          selectData: ['A', 'B', 'C', 'D'],
+        },
       ],
     },
   };
   const objListData = [
     // prettier-ignore
-    { id: 'id 1', name: 'name 1' },
-    { id: 'id 2', name: 'name 2' },
+    { id: 'id 1', name: 'name 1', check: false },
+    { id: 'id 2', name: 'name 2', check: true },
   ];
 
   // Nested objects and lists...
@@ -63,10 +70,10 @@
       { id: 'testString1', type: 'string', title: 'testString1' },
       // Nested object...
       {
-        id: 'testObject2',
+        id: 'nestedObject2',
         type: 'object',
-        label: 'testObject2',
-        layout: 'horizontal',
+        label: 'nestedObject2',
+        // layout: 'horizontal',
         spec: [
           { id: 'testString2', type: 'string', title: 'testString2' },
           {
@@ -79,11 +86,11 @@
       },
       // Nested list...
       {
-        id: 'strList',
+        id: 'nestedStrList',
         type: 'list',
-        title: 'strList',
-        label: 'strList',
-        layout: 'horizontal',
+        title: 'nestedStrList',
+        label: 'nestedStrList',
+        // layout: 'horizontal',
         spec: {
           id: 'testString',
           type: 'string',
@@ -96,7 +103,7 @@
 
   const objData = {
     testString1: 'testString1',
-    strList: strListData,
+    nestedStrList: strListData,
   };
 
   function onRootChange(data: TGenericEditableData, spec: TGenericEditableSpec) {
@@ -112,12 +119,10 @@
   <h2>DemoEditableObjects</h2>
   <div>
     <!--
-    // prettier-ignore
     -->
     <EditableList spec={strListSpec} data={strListData} onChange={onRootChange} />
-    <EditableList spec={objListSpec} data={objListData} onChange={onRootChange} />
+    <EditableTable spec={objListSpec} data={objListData} onChange={onRootChange} />
     <EditableObject spec={objSpec} data={objData} onChange={onRootChange} />
-    <hr />
   </div>
 </div>
 

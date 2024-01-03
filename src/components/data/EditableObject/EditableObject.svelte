@@ -1,11 +1,9 @@
 <script lang="ts">
-  import { SvelteComponent, createEventDispatcher } from 'svelte';
+  import { createEventDispatcher } from 'svelte';
 
   import {
     TEditableObjectSpec,
-    TEditableValueScalar,
     TEditableObjectData,
-    TEditableFieldSpec,
     defaultDisplayLayout,
     TGenericEditableData,
     TGenericEditableSpec,
@@ -29,12 +27,13 @@
 
   $: localData = { ...data };
 
-  console.log('[EditableObject:DEBUG]', {
-    spec,
-    id,
-    fieldsSpec,
-    data,
-  });
+  /* console.log('[EditableObject:DEBUG]', {
+   *   spec,
+   *   id,
+   *   fieldsSpec,
+   *   data,
+   * });
+   */
 
   const dispatch = createEventDispatcher();
 

@@ -1,12 +1,13 @@
 import { TDisplayLayout } from './TDisplayLayout';
-import { TGenericEditableData, TGenericEditableSpec } from './TGenericEditableSpec';
+import { TGenericEditableSpec } from './TGenericEditableSpec';
 
 export interface TEditableListSpec {
   id: string;
   type: 'list';
   title?: string;
   label?: string; // ???
-  layout?: TDisplayLayout;
+  /** Use 'table' to display as a table */
+  layout?: TDisplayLayout | 'table';
   /** List items spec */
   spec: TGenericEditableSpec;
 }

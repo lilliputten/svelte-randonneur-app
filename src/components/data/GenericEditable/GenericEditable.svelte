@@ -9,6 +9,7 @@
   import { EditableField } from '../EditableField';
   import { EditableList } from '../EditableList';
   import { EditableObject } from '../EditableObject';
+  import { EditableTable } from '../EditableTable';
 
   type TOnChangeCallback = (data: TGenericEditableData, spec: TGenericEditableSpec) => void;
 
@@ -21,18 +22,23 @@
 
   const { id } = spec;
 
-  console.log('[GenericEditable:DEBUG]', {
-    id,
-    type: spec.type,
-    data,
-    spec,
-  });
+  /* console.log('[GenericEditable:DEBUG]', {
+   *   id,
+   *   type: spec.type,
+   *   data,
+   *   spec,
+   * });
+   */
 </script>
 
 {#if spec.type === 'object'}
   <EditableObject {spec} data={objectData} {onChange} />
 {:else if spec.type === 'list'}
-  <EditableList {spec} data={listData} {onChange} />
+  {#if spec.layout === 'table'}
+    <EditableTable {spec} data={listData} {onChange} />
+  {:else}
+    <EditableList {spec} data={listData} {onChange} />
+  {/if}
 {:else}
   <EditableField {spec} value={data} {onChange} />
 {/if}

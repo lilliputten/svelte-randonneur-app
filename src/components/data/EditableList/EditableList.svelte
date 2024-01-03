@@ -21,13 +21,14 @@
 
   $: localList = [...data];
 
-  console.log('[EditableList:DEBUG]', {
-    spec,
-    id,
-    itemSpec,
-    data,
-    // EditableField,
-  });
+  /* console.log('[EditableList:DEBUG]', {
+   *   spec,
+   *   id,
+   *   itemSpec,
+   *   data,
+   *   // EditableField,
+   * });
+   */
 
   const dispatch = createEventDispatcher();
 
