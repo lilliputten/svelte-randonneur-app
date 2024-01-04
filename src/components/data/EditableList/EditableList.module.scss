@@ -1,0 +1,33 @@
+.EditableList {
+  .ItemElement,
+  .ItemsWrapper {
+    /*!KEEP*/
+  }
+  .Label {
+    @include EditableLabel;
+  }
+  &,
+  .ItemsWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  @at-root &[data-layout='horizontal'] {
+    &,
+    .ItemsWrapper {
+      flex-direction: row;
+      align-items: center;
+    }
+  }
+  .Item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+  .ItemElement {
+    flex: 1;
+  }
+}

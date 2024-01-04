@@ -1,6 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
   import { Switch, TextInput, NumberInput, NativeSelect } from '@svelteuidev/core';
+  import classNames from 'classnames';
 
   import { TEditableFieldSpec, TEditableFieldData } from '@/src/core/types/editable';
 
@@ -15,13 +16,16 @@
    */
 
   type TOnChangeCallback = (value: TEditableFieldData, spec: TEditableFieldSpec) => void;
+
+  // External parameters...
+  export let className: string | undefined = undefined;
   export let spec: TEditableFieldSpec;
   export let value: TEditableFieldData = undefined;
   export let onChange: TOnChangeCallback | undefined = undefined;
 
   const { id, type } = spec;
 
-  /* console.log('[EditableField:DEBUG]', {
+  /* console.log('[EditableField:DEBUG]', id, {
    *   id,
    *   type,
    *   spec,
@@ -66,7 +70,7 @@
   }
 </script>
 
-<div class="EditableField" data-id={id} title={spec.title}>
+<div class={classNames(className, 'EditableField')} data-id={id} title={spec.title}>
   {#if type === 'boolean'}
     <Switch checked={!!value} label={spec.label} on:change={handleChange} />
   {:else if type === 'string'}
@@ -81,7 +85,7 @@
   {:else if type === 'select'}
     <NativeSelect
       data={spec.selectData}
-      {value}
+      value={value || ''}
       label={spec.label}
       placeholder={spec.title}
       on:change={handleChange}

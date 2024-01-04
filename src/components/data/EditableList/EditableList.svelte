@@ -1,5 +1,10 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
+  import classNames from 'classnames';
+  import { Group, ActionIcon, Text, Anchor, Burger, Tooltip, Box } from '@svelteuidev/core';
+  import { Plus, Cross1 } from 'radix-icons-svelte';
+
+  import cssVariables from '@/src/core/assets/scss/variables.module.scss';
 
   import {
     TEditableListSpec,
@@ -11,15 +16,24 @@
 
   import { GenericEditable } from '../GenericEditable';
 
+  import styles from './EditableList.module.scss';
+
   type TOnChangeCallback = (data: TEditableListData, spec: TEditableListSpec) => void;
 
+  // External parameters...
+  export let className: string | undefined = undefined;
   export let spec: TEditableListSpec;
   export let data: TEditableListData = [];
   export let onChange: TOnChangeCallback | undefined = undefined;
 
   const { id, spec: itemSpec, layout } = spec;
 
+  /** Local data storage */
   $: localList = [...data];
+  /** Local unique indices counter */
+  let lastUniqueIdx = 0;
+  /** Unique indices correspodning data items */
+  const uniqueIndices = data.map(() => lastUniqueIdx++);
 
   /* console.log('[EditableList:DEBUG]', {
    *   spec,
@@ -33,9 +47,10 @@
   const dispatch = createEventDispatcher();
 
   function triggerChange() {
-    console.log('[EditableList:triggerChange]', {
-      localList,
-    });
+    /* console.log('[EditableList:triggerChange]', {
+     *   localList,
+     * });
+     */
     if (onChange) {
       onChange(localList, spec);
     }
@@ -45,46 +60,105 @@
   function handleItemChange(
     idx: number,
     value: TGenericEditableData,
-    itemSpec: TGenericEditableSpec,
+    _itemSpec: TGenericEditableSpec,
   ) {
-    const { id, type } = itemSpec;
-    console.log('[EditableList:handleItemChange]', {
-      idx,
-      id,
-      value,
-      type,
-      itemSpec,
-    });
     localList[idx] = value;
     triggerChange();
+    /* console.log('[EditableList:handleItemChange]', {
+     *   idx,
+     *   value,
+     *   _itemSpec,
+     *   localList,
+     *   uniqueIndices,
+     * });
+     */
+  }
+
+  function handleAddItem() {
+    localList = localList.concat(undefined);
+    uniqueIndices.push(lastUniqueIdx++);
+    triggerChange();
+    /* console.log('[EditableList:handleAddItem]', {
+     *   localList,
+     *   uniqueIndices,
+     * });
+     */
+  }
+
+  function handleRemoveItem(ev: Event) {
+    const target = ev.currentTarget as HTMLButtonElement;
+    const itemNode = target.closest('.' + styles.Item);
+    if (!itemNode) {
+      const error = new Error('Not found item node for remove button');
+      // eslint-disable-next-line no-console
+      console.error('[EditableList:handleRemoveItem]', error.message, {
+        error,
+        ev,
+        target,
+      });
+      // eslint-disable-next-line no-debugger
+      debugger;
+      return;
+    }
+    const idx = Number(itemNode.getAttribute('data-idx'));
+    localList.splice(idx, 1);
+    localList = [...localList];
+    uniqueIndices.splice(idx, 1);
+    triggerChange();
+    /* console.log('[EditableList:handleRemoveItem]', {
+     *   itemNode,
+     *   target,
+     *   idx,
+     *   localList,
+     *   uniqueIndices,
+     * });
+     */
   }
 </script>
 
 <div
-  class="EditableList"
+  class={classNames(className, styles.EditableList)}
   data-layout={layout || defaultDisplayLayout}
   data-id={id}
   title={spec.title}
 >
   {#if spec.label}
-    <div class="EditableList_Label">
+    <div class={styles.Label}>
       {spec.label}
     </div>
   {/if}
-  {#each localList as itemValue, idx}
-    <GenericEditable spec={itemSpec} data={itemValue} onChange={handleItemChange.bind(null, idx)} />
-  {/each}
+  <div class={styles.ItemsWrapper}>
+    {#each localList as itemValue, idx (uniqueIndices[idx])}
+      <div class={styles.Item} id={[spec.id, uniqueIndices[idx]].join('-')} data-idx={idx}>
+        <GenericEditable
+          className={styles.ItemElement}
+          spec={itemSpec}
+          data={itemValue}
+          onChange={handleItemChange.bind(null, idx)}
+        />
+        <!-- Actions -->
+        <ActionIcon
+          variant="light"
+          on:click={handleRemoveItem}
+          size={parseInt(cssVariables.defaultInputHeight)}
+          title="Remove item"
+        >
+          <Cross1 />
+        </ActionIcon>
+      </div>
+    {/each}
+  </div>
+  <!-- Actions -->
+  <ActionIcon
+    variant="light"
+    on:click={handleAddItem}
+    size={parseInt(cssVariables.defaultInputHeight)}
+    title="Add new item"
+  >
+    <Plus />
+  </ActionIcon>
 </div>
 
-<style lang="scss">
-  .EditableList {
-    &[data-layout='horizontal'] {
-      border: 4px solid $demoColor;
-    }
-    .EditableList_Label {
-      font-size: 14px;
-      line-height: 20px;
-      font-weight: 600;
-    }
-  }
-</style>
+<!--
+<style lang="scss" src="./EditableList.scss"></style>
+-->

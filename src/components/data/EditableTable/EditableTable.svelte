@@ -2,6 +2,7 @@
   import { createEventDispatcher } from 'svelte';
   import { writable } from 'svelte/store';
   import { Render, Subscribe, createTable, createRender, DataLabel } from 'svelte-headless-table';
+  import classNames from 'classnames';
 
   import {
     TEditableListSpec,
@@ -17,6 +18,7 @@
   type TOnChangeCallback = (data: TEditableListData, spec: TEditableListSpec) => void;
 
   // External parameters...
+  export let className: string | undefined = undefined;
   export let spec: TEditableListSpec;
   export let data: TEditableListData = [];
   export let onChange: TOnChangeCallback | undefined = undefined;
@@ -144,7 +146,12 @@
   }
 </script>
 
-<div class="EditableTable" data-layout={layout} data-id={id} title={spec.title}>
+<div
+  class={classNames(className, 'EditableTable')}
+  data-layout={layout}
+  data-id={id}
+  title={spec.title}
+>
   {#if spec.label}
     <div class="EditableTable_Label">
       {spec.label}
@@ -188,13 +195,8 @@
 
 <style lang="scss">
   .EditableTable {
-    &[data-layout='horizontal'] {
-      border: 4px solid $demoColor;
-    }
     .EditableTable_Label {
-      font-size: 14px;
-      line-height: 20px;
-      font-weight: 600;
+      @include EditableLabel;
     }
   }
 </style>
