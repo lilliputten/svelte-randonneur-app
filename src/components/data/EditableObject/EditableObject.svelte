@@ -1,5 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
+  import classNames from 'classnames';
 
   import {
     TEditableObjectSpec,
@@ -11,14 +12,10 @@
 
   import { GenericEditable } from '../GenericEditable';
 
-  /* // Store self refernece in the local registry to avoild cyrcular dependencies (NOTE: The component should be readlly used)
-   * import EditableObject from './EditableObject.svelte';
-   * import { TComponent, registryStore } from '../registry';
-   * registryStore.update((registry) => ({ ...registry, EditableObject }));
-   */
-
   type TOnChangeCallback = (data: TEditableObjectData, spec: TEditableObjectSpec) => void;
 
+  // External parameters...
+  export let className: string | undefined = undefined;
   export let spec: TEditableObjectSpec;
   export let data: TEditableObjectData = {};
   export let onChange: TOnChangeCallback | undefined = undefined;
@@ -61,7 +58,7 @@
 </script>
 
 <div
-  class="EditableObject"
+  class={classNames(className, 'EditableObject')}
   data-layout={layout || defaultDisplayLayout}
   data-id={id}
   title={spec.title}
@@ -82,9 +79,7 @@
       border: 4px solid $demoColor;
     }
     .EditableObject_Label {
-      font-size: 14px;
-      line-height: 20px;
-      font-weight: 600;
+      @include EditableLabel;
     }
   }
 </style>

@@ -56,7 +56,6 @@
       columnId,
       newValue,
     });
-    debugger;
     // In this case, the dataId of each item is its index in $data.
     // You can also handle any server-synchronization necessary here.
     const idx = parseInt(rowDataId);
@@ -67,7 +66,6 @@
     console.log('[DemoTable:updateData] set item', {
       newItem,
     });
-    debugger;
     $tableDataStore[idx] = newItem;
     $tableDataStore = $tableDataStore;
     // Handle any server-synchronization.

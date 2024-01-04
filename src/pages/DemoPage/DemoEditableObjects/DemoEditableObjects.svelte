@@ -1,5 +1,10 @@
 <script lang="ts">
-  import { EditableList, EditableObject, EditableTable } from '@/src/components/data';
+  import {
+    GenericEditable,
+    // EditableList,
+    // EditableObject,
+    // EditableTable,
+  } from '@/src/components/data';
   import {
     TEditableObjectSpec,
     TEditableListSpec,
@@ -11,14 +16,14 @@
   const strListSpec: TEditableListSpec = {
     id: 'strList',
     type: 'list',
-    title: 'strList',
-    label: 'strList',
-    // layout: 'horizontal',
+    title: 'Strings list (strList)',
+    label: 'Strings list (strList)',
+    layout: 'horizontal',
     spec: {
       id: 'testString',
       type: 'string',
-      // label: 'testString',
-      // title: 'testString',
+      // label: 'String (testString)',
+      title: 'String (testString)',
     },
   };
   const strListData = [
@@ -28,30 +33,30 @@
   ];
 
   // List of objects
-  const objListSpec: TEditableListSpec = {
-    id: 'objList',
+  const objListTableSpec: TEditableListSpec = {
+    id: 'objListTable',
     type: 'list',
-    title: 'objList',
-    label: 'objList',
+    title: 'Objects table (objListTable)',
+    label: 'Objects table (objListTable)',
     layout: 'table',
     spec: {
-      id: 'listObj',
+      id: 'listTableObj',
       type: 'object',
       layout: 'horizontal',
       spec: [
-        { id: 'id', type: 'string', title: 'Id' },
-        // { id: 'name', type: 'string', title: 'name' },
-        { id: 'check', type: 'boolean', title: 'Check' },
+        { id: 'id', type: 'string', title: 'Id (id)' },
+        // { id: 'name', type: 'string', title: 'Name (name)' },
+        { id: 'check', type: 'boolean', title: 'Check (check)' },
         {
           id: 'Choice',
           type: 'select',
-          title: 'Select',
+          title: 'Select (Choice)',
           selectData: ['A', 'B', 'C', 'D'],
         },
       ],
     },
   };
-  const objListData = [
+  const objListTableData = [
     // prettier-ignore
     { id: 'id 1', name: 'name 1', check: false },
     { id: 'id 2', name: 'name 2', check: true },
@@ -61,25 +66,30 @@
   const objSpec: TEditableObjectSpec = {
     id: 'testObject',
     type: 'object',
-    // title: 'testObject',
-    label: 'testObject',
+    // title: 'Test object (testObject)',
+    label: 'Object (testObject)',
     layout: 'vertical',
     spec: [
       // Scalar values...
-      { id: 'testBoolean1', type: 'boolean', label: 'testBoolean1', title: 'testBoolean1' },
-      { id: 'testString1', type: 'string', title: 'testString1' },
+      {
+        id: 'testBoolean1',
+        type: 'boolean',
+        label: 'Boolean (testBoolean1)',
+        title: 'Boolean (testBoolean1)',
+      },
+      { id: 'testString1', type: 'string', title: 'String (testString1)' },
       // Nested object...
       {
         id: 'nestedObject2',
         type: 'object',
-        label: 'nestedObject2',
+        label: 'Nested object (nestedObject2)',
         // layout: 'horizontal',
         spec: [
-          { id: 'testString2', type: 'string', title: 'testString2' },
+          { id: 'testString2', type: 'string', title: 'String (testString2)' },
           {
             id: 'testSelect1',
             type: 'select',
-            title: 'testSelect1',
+            title: 'Select (testSelect1)',
             selectData: [{ label: 'A', value: 'a' }, { label: 'B', value: 'b' }, 'C', 'D'],
           },
         ],
@@ -88,14 +98,14 @@
       {
         id: 'nestedStrList',
         type: 'list',
-        title: 'nestedStrList',
-        label: 'nestedStrList',
+        title: 'Nested strings list (nestedStrList)',
+        label: 'Nested strings list (nestedStrList)',
         // layout: 'horizontal',
         spec: {
           id: 'testString',
           type: 'string',
-          // label: 'testString',
-          // title: 'testString',
+          // label: 'String (testString)',
+          // title: 'String (testString)',
         },
       },
     ],
@@ -119,10 +129,13 @@
   <h2>DemoEditableObjects</h2>
   <div>
     <!--
-    -->
     <EditableList spec={strListSpec} data={strListData} onChange={onRootChange} />
-    <EditableTable spec={objListSpec} data={objListData} onChange={onRootChange} />
-    <EditableObject spec={objSpec} data={objData} onChange={onRootChange} />
+    <GenericEditable spec={strListSpec} data={strListData} onChange={onRootChange} />
+    <EditableTable spec={objListTableSpec} data={objListTableData} onChange={onRootChange} />
+    -->
+    <GenericEditable spec={strListSpec} data={strListData} onChange={onRootChange} />
+    <GenericEditable spec={objListTableSpec} data={objListTableData} onChange={onRootChange} />
+    <GenericEditable spec={objSpec} data={objData} onChange={onRootChange} />
   </div>
 </div>
 

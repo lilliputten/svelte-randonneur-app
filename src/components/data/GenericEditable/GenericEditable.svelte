@@ -10,20 +10,22 @@
   import { EditableList } from '../EditableList';
   import { EditableObject } from '../EditableObject';
   import { EditableTable } from '../EditableTable';
+  import classNames from 'classnames';
 
   type TOnChangeCallback = (data: TGenericEditableData, spec: TGenericEditableSpec) => void;
 
+  export let className: string | undefined = undefined;
   export let spec: TGenericEditableSpec;
   export let data: TGenericEditableData | undefined = undefined;
   export let onChange: TOnChangeCallback | undefined = undefined;
 
+  const nextClassName = classNames(className, 'GenericEditable');
+
   const objectData = data as TEditableObjectData;
   const listData = data as TEditableListData;
 
-  const { id } = spec;
-
   /* console.log('[GenericEditable:DEBUG]', {
-   *   id,
+   *   id: spec.id,
    *   type: spec.type,
    *   data,
    *   spec,
@@ -32,13 +34,13 @@
 </script>
 
 {#if spec.type === 'object'}
-  <EditableObject {spec} data={objectData} {onChange} />
+  <EditableObject className={nextClassName} {spec} data={objectData} {onChange} />
 {:else if spec.type === 'list'}
   {#if spec.layout === 'table'}
-    <EditableTable {spec} data={listData} {onChange} />
+    <EditableTable className={nextClassName} {spec} data={listData} {onChange} />
   {:else}
-    <EditableList {spec} data={listData} {onChange} />
+    <EditableList className={nextClassName} {spec} data={listData} {onChange} />
   {/if}
 {:else}
-  <EditableField {spec} value={data} {onChange} />
+  <EditableField className={nextClassName} {spec} value={data} {onChange} />
 {/if}
