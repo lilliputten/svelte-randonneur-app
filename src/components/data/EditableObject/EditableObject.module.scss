@@ -1,0 +1,17 @@
+.EditableObject {
+  .EditableObject_Label {
+    @include EditableLabel;
+  }
+  display: flex;
+  gap: 4px;
+  &[data-layout='horizontal'] {
+    // DEBUG
+    border: 4px solid $demoColor;
+  }
+  &[data-layout='vertical'] {
+    flex-direction: column;
+    .EditableObject_Label {
+      margin: 10px 0;
+    }
+  }
+}

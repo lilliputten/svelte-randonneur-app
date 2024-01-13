@@ -12,6 +12,8 @@
 
   import { GenericEditable } from '../GenericEditable';
 
+  import styles from './EditableObject.module.scss';
+
   type TOnChangeCallback = (data: TEditableObjectData, spec: TEditableObjectSpec) => void;
 
   // External parameters...
@@ -58,13 +60,13 @@
 </script>
 
 <div
-  class={classNames(className, 'EditableObject')}
+  class={classNames(className, styles.EditableObject)}
   data-layout={layout || defaultDisplayLayout}
   data-id={id}
   title={spec.title}
 >
   {#if spec.label}
-    <div class="EditableObject_Label">
+    <div class={styles.EditableObject_Label}>
       {spec.label}
     </div>
   {/if}
@@ -72,14 +74,3 @@
     <GenericEditable spec={item} data={data[item.id]} onChange={handleItemChange} />
   {/each}
 </div>
-
-<style lang="scss">
-  .EditableObject {
-    &[data-layout='horizontal'] {
-      border: 4px solid $demoColor;
-    }
-    .EditableObject_Label {
-      @include EditableLabel;
-    }
-  }
-</style>

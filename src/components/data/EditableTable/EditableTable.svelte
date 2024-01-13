@@ -1,5 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
+  import { Modal, Group, Button } from '@svelteuidev/core';
   import { writable } from 'svelte/store';
   import {
     Render,
@@ -33,6 +34,7 @@
   import { HeaderActions } from './HeaderActions';
 
   import styles from './EditableTable.module.scss';
+  import { EditRowForm } from './EditRowForm';
 
   type TOnChangeCallback = (data: TEditableListData, spec: TEditableListSpec) => void;
 
@@ -213,6 +215,20 @@
     return !!activeClickTimerHandler;
   }
 
+  // Data edit modal...
+
+  let selectedRow = writable<number | undefined>(undefined);
+  $: modalOpened = $selectedRow != null;
+
+  function stopEditRowData() {
+    selectedRow.set(undefined);
+  }
+  function startEditRowData(rowIdx: number | undefined) {
+    selectedRow.set(rowIdx);
+  }
+
+  // Handlers...
+
   const dispatch = createEventDispatcher();
 
   function triggerChange() {
@@ -273,7 +289,7 @@
   }
 
   function onRowClick(ev: Event) {
-    if (activeRows && hasActiveClickTimer()) {
+    if (activeRows && !hasActiveClickTimer()) {
       const rowNode = ev.currentTarget as HTMLTableRowElement;
       const id = rowNode?.id;
       const rowIdx = Number(id);
@@ -285,7 +301,29 @@
       ev.preventDefault();
       ev.stopPropagation();
       // TODO: Start edit node...
-      debugger;
+      startEditRowData(rowIdx);
+    }
+  }
+
+  function handleRowDataChange(data: TGenericEditableData, spec: TGenericEditableSpec) {
+    const rowIdx = $selectedRow;
+    if (rowIdx != null) {
+      const fullItem = data as TEditableObjectData;
+      const flatItem = makeFlatFromFullData(fullItem);
+      console.log('[EditableTable:handleRowDataChange]', {
+        rowIdx,
+        fullItem,
+        flatItem,
+        spec,
+      });
+      // Update flat store...
+      $tableFlatDataStore[rowIdx] = flatItem;
+      $tableFlatDataStore = $tableFlatDataStore;
+      // Update full store...
+      $tableFullDataStore[rowIdx] = fullItem;
+      $tableFullDataStore = $tableFullDataStore;
+      // Handle any server-synchronization.
+      triggerChange();
     }
   }
 </script>
@@ -336,4 +374,13 @@
       {/each}
     </tbody>
   </table>
+  <Modal opened={modalOpened} on:close={stopEditRowData} title="Edit data row">
+    {#if activeRows && modalOpened && $selectedRow != null}
+      <EditRowForm
+        data={$tableFullDataStore[$selectedRow]}
+        spec={spec.spec}
+        onChange={handleRowDataChange}
+      />
+    {/if}
+  </Modal>
 </div>
