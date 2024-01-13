@@ -5,6 +5,6 @@
 .addRowIcon {
   color: #fff;
   &:hover {
-    background-color: color.adjust($primaryColor, $lightness: -5%);
+    background-color: color.adjust($primaryColor, $lightness: -5%) !important;
   }
 }

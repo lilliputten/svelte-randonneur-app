@@ -56,12 +56,13 @@
   /** Table object */
   const table = createTable(tableFlatDataStore);
 
-  console.log('[EditableTable:Test data]', {
-    data,
-    flatData,
-    tableFlatDataStore,
-    table,
-  });
+  /* console.log('[EditableTable:Test data]', {
+   *   data,
+   *   flatData,
+   *   tableFlatDataStore,
+   *   table,
+   * });
+   */
 
   // Get specification params...
   const { id, layout, flatObjects, showFlatFields, editInPlace, useActionsColumn } = spec;
@@ -140,27 +141,29 @@
     });
   };
 
-  const HeaderActionsCell: HeaderLabel<TTableRow> = (...params) => {
-    console.log('[EditableTable:RowActionCell]', {
-      params,
-    });
+  const HeaderActionsCell: HeaderLabel<TTableRow> = () => {
     return createRender(HeaderActions, {
       onAddRow,
     });
   };
 
-  const RowActionCell: DataLabel<TTableRow> = ({ column, row, value }) => {
+  const RowActionCell: DataLabel<TTableRow> = ({
+    row,
+    // column,
+    // value,
+  }) => {
     const { id } = row; // as BodyRow<unknown>;
-    const { accessorKey: colId } = column;
     const rowIdx = parseInt(id);
-    console.log('[EditableTable:RowActionCell]', id, colId, {
-      column,
-      row,
-      value,
-      id,
-      colId,
-    });
+    /* console.log('[EditableTable:RowActionCell]', id, colId, {
+     *   column,
+     *   row,
+     *   value,
+     *   id,
+     *   colId,
+     * });
+     */
     return createRender(RowActions, {
+      spec: spec,
       onRemoveRow: onRemoveRow.bind(null, rowIdx),
     });
   };
@@ -168,9 +171,10 @@
   /** Table columns descriptions derived from row object fields specifications */
   const tableColumnItems = colSpecs.map((item) => {
     const flatId = getFlatItemId(item);
-    console.log('[EditableTable:tableColumnItems]', flatId, {
-      item,
-    });
+    /* console.log('[EditableTable:tableColumnItems]', flatId, {
+     *   item,
+     * });
+     */
     return table.column({
       accessor: flatId, // item.id,
       header: item.title || item.label || flatId,
@@ -231,10 +235,10 @@
       newFlatItem,
       newFullItem,
     });
-    debugger;
+    // Update flat store...
     $tableFlatDataStore[rowIdx] = newFlatItem;
     $tableFlatDataStore = $tableFlatDataStore;
-    // Full store...
+    // Update full store...
     $tableFullDataStore[rowIdx] = newFullItem;
     $tableFullDataStore = $tableFullDataStore;
     // Handle any server-synchronization.
@@ -242,15 +246,26 @@
   }
 
   function onAddRow() {
-    console.log('[EditableTable:onAddRow]', {});
-    debugger;
+    // Update flat store...
+    const newFlatItem: TEditableObjectData = {};
+    const newFullItem = restoreFullFromFlatData(newFlatItem);
+    $tableFlatDataStore = $tableFlatDataStore.concat(newFlatItem);
+    // Update full store...
+    $tableFullDataStore = $tableFullDataStore.concat(newFullItem);
+    // Handle any server-synchronization.
+    triggerChange();
   }
 
   function onRemoveRow(rowIdx: number) {
     console.log('[EditableTable:onRemoveRow]', {
       rowIdx,
     });
-    debugger;
+    // Update flat store...
+    $tableFlatDataStore.splice(rowIdx, 1);
+    $tableFlatDataStore = $tableFlatDataStore;
+    // Update full store...
+    $tableFullDataStore.splice(rowIdx, 1);
+    $tableFullDataStore = $tableFullDataStore;
   }
 </script>
 
