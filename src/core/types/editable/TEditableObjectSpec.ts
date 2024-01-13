@@ -12,4 +12,3 @@ export interface TEditableObjectSpec {
 }
 
 export type TEditableObjectData = Record<string, unknown>;
-// export type TEditableObjectData = Record<string, TGenericEditableData>; // Error: Circular reference

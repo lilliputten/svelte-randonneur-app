@@ -40,8 +40,9 @@
     // label: 'Objects table (objListTable)',
     layout: 'table',
     flatObjects: true,
-    editInPlace: true,
+    editInPlace: false,
     useActionsColumn: true,
+    activeRows: true,
     showFlatFields: [
       // prettier-ignore
       'id',

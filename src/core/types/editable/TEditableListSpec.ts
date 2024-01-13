@@ -7,9 +7,13 @@ export interface TEditableListSpec {
   /** Show nested objects on the same level: as fielda in one row */
   flatObjects?: boolean;
   showFlatFields?: string[];
+  /** Render input fields right inside the cells and allow to directly data edit */
   editInPlace?: boolean;
+  /** Show action columns with 'add row', 'remove row' buttons */
   useActionsColumn?: boolean;
   hideRemoveButton?: boolean;
+  /** Create rows clickable: data edit popup will apear on click. Should disable `editInPlace` parameter. */
+  activeRows?: boolean;
   // TODO: Displayed fiedls list
   title?: string;
   label?: string; // ???
@@ -20,4 +24,3 @@ export interface TEditableListSpec {
 }
 
 export type TEditableListData = unknown[];
-// export type TEditableListData = TGenericEditableData[];
