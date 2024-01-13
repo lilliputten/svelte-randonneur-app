@@ -1,3 +1,5 @@
+@use './variables.scss' as *;
+
 /* // DEMO: Make fixed clippable layout with inner scrollable zone
  * @mixin fixedClippableLayout {
  *   &,
@@ -8,6 +10,10 @@
  *   }
  * }
  */
+@mixin defaultFont {
+  font-size: $defaultFontSize;
+  font-family: $defaultFontFamily;
+}
 @mixin expandableFullSizeContainer {
   margin: 0;
   padding: 0;
@@ -52,7 +58,8 @@
 
 // Editables
 @mixin EditableLabel {
-  font-size: 14px;
+  @include defaultFont;
+  color: $defaultTextColor;
   line-height: 20px;
   font-weight: 600;
 }

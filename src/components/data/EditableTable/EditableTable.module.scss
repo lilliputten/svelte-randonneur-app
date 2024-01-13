@@ -34,7 +34,7 @@
         transition: all $transitionTimeMs;
         cursor: pointer;
         &:hover {
-          background-color: color.change($primaryColor, $alpha: .1);
+          background-color: color.change($primaryColor, $alpha: 0.1);
         }
       }
     }

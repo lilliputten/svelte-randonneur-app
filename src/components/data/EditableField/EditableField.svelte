@@ -5,9 +5,9 @@
 
   import { TEditableFieldSpec, TEditableFieldData } from '@/src/core/types/editable';
 
-  import { EditableObject } from '../EditableObject';
+  import styles from './EditableField.module.scss';
 
-  /* // Store self refernece in the local registry to avoild cyrcular dependencies (NOTE: The component should be readlly used)
+  /* // Old approach (unused): Store self refernece in the local registry to avoild cyrcular dependencies (NOTE: The component should be REALLY used)
    * import EditableField from './EditableField.svelte';
    * import { TComponent, registryStore } from '../registry';
    * registryStore.update((registry) => {
@@ -24,15 +24,6 @@
   export let onChange: TOnChangeCallback | undefined = undefined;
 
   const { id, type } = spec;
-
-  /* console.log('[EditableField:DEBUG]', id, {
-   *   id,
-   *   type,
-   *   spec,
-   *   value,
-   *   EditableObject,
-   * });
-   */
 
   const dispatch = createEventDispatcher();
 
@@ -53,13 +44,6 @@
     } else if (type === 'select') {
       value = target.value;
     }
-    /* console.log('[EditableField:handleChange]', {
-     *   target,
-     *   ev,
-     *   value,
-     * });
-     */
-
     if (onChange) {
       onChange(value, spec);
     }
@@ -70,9 +54,14 @@
   }
 </script>
 
-<div class={classNames(className, 'EditableField')} data-id={id} title={spec.title}>
+<div
+  class={classNames(className, styles.EditableField)}
+  data-id={id}
+  data-type={spec.type}
+  title={spec.title}
+>
   {#if type === 'boolean'}
-    <Switch checked={!!value} label={spec.label} on:change={handleChange} />
+    <Switch class={styles.Switch} checked={!!value} label={spec.label} on:change={handleChange} />
   {:else if type === 'string'}
     <TextInput {value} label={spec.label} placeholder={spec.title} on:change={handleChange} />
   {:else if type === 'number'}

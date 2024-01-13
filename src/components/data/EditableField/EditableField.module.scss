@@ -1,0 +1,13 @@
+.EditableField {
+  /*!KEEP*/
+  :global(label) {
+    &,
+    &:global(.svelteui-InputWrapper-label) {
+      @include EditableLabel;
+      color: $defaultTextColor;
+    }
+  }
+}
+.Switch {
+  height: $defaultInputHeight;
+}

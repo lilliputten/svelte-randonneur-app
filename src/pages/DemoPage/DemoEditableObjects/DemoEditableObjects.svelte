@@ -52,7 +52,8 @@
     spec: {
       id: 'listTableObj',
       type: 'object',
-      layout: 'horizontal',
+      label: 'Root table object (listTableObj)',
+      // layout: 'horizontal',
       spec: [
         { id: 'id', type: 'string', title: 'Id (id)' },
         // Nested object...
@@ -62,18 +63,23 @@
           label: 'Nested object (nestedObject)',
           // layout: 'horizontal',
           spec: [
-            { id: 'testString', type: 'string', title: 'String (testString)' },
             {
-              id: 'testBoolean',
-              type: 'boolean',
-              // label: 'Boolean (testBoolean)',
-              title: 'Boolean (testBoolean)',
+              id: 'testString',
+              type: 'string',
+              title: 'String (testString)',
+              label: 'XXX Boolean String (testString)',
             },
             {
               id: 'testSelect',
               type: 'select',
               title: 'Select (testSelect)',
               selectData: [{ label: 'A', value: 'a' }, { label: 'B', value: 'b' }, 'C', 'D'],
+            },
+            {
+              id: 'testBoolean',
+              type: 'boolean',
+              title: 'Boolean (testBoolean)',
+              label: 'XXX Boolean (testBoolean)',
             },
           ],
         },
@@ -119,7 +125,12 @@
         label: 'Nested object (nestedObject2)',
         // layout: 'horizontal',
         spec: [
-          { id: 'testString2', type: 'string', title: 'String (testString2)' },
+          {
+            id: 'testString2',
+            type: 'string',
+            title: 'String (testString2)',
+            label: 'String (testString2)',
+          },
           {
             id: 'testSelect1',
             type: 'select',
@@ -167,9 +178,9 @@
     <GenericEditable spec={strListSpec} data={strListData} onChange={onRootChange} />
     <EditableTable spec={objListTableSpec} data={objListTableData} onChange={onRootChange} />
     <GenericEditable spec={strListSpec} data={strListData} onChange={onRootChange} />
-    <GenericEditable spec={objSpec} data={objData} onChange={onRootChange} />
     -->
     <GenericEditable spec={objListTableSpec} data={objListTableData} onChange={onRootChange} />
+    <GenericEditable spec={objSpec} data={objData} onChange={onRootChange} />
   </div>
 </div>
 
