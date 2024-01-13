@@ -1,0 +1,33 @@
+.EditableTable {
+  .EditableTable_Label {
+    @include EditableLabel;
+  }
+  .EditableTable_Table {
+    border-spacing: 2px;
+    border-collapse: separate;
+    $cellPaddingV: 4px;
+    $cellPaddingH: 8px;
+    $thPaddingV: $cellPaddingV + 4px;
+    $thBorderSize: 4px;
+    td,
+    th {
+      padding: $cellPaddingV $cellPaddingH;
+      text-align: left;
+      font-size: $defaultFontSize;
+    }
+    thead {
+    }
+    th {
+      border-bottom: $thBorderSize solid $borderColor;
+      padding-top: $thPaddingV + $thBorderSize;
+      padding-bottom: $thPaddingV;
+      background-color: $primaryColor;
+      color: #fff;
+      font-weight: 500;
+      // TODO: There possible more higher (filter, search nodes) in the headers later
+    }
+    td {
+      border-bottom: 1px solid $borderColor;
+    }
+  }
+}

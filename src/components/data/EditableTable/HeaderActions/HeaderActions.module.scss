@@ -1,0 +1,10 @@
+.HeaderActions {
+  /*!KEEP*/
+  // display: contents;
+}
+.addRowIcon {
+  color: #fff;
+  &:hover {
+    background-color: color.adjust($primaryColor, $lightness: -5%);
+  }
+}

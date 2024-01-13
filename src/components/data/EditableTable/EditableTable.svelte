@@ -1,7 +1,14 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
   import { writable } from 'svelte/store';
-  import { Render, Subscribe, createTable, createRender, DataLabel } from 'svelte-headless-table';
+  import {
+    Render,
+    Subscribe,
+    createTable,
+    createRender,
+    DataLabel,
+    HeaderLabel,
+  } from 'svelte-headless-table';
   import classNames from 'classnames';
 
   import {
@@ -18,9 +25,14 @@
   import {
     getFlatItemId,
     getPlainTableColSpecs,
+    isScalarSpec,
     makeFlatFromFullData,
     restoreFullFromFlatData,
   } from './EditableTableHelpers';
+  import { RowActions } from './RowActions';
+  import { HeaderActions } from './HeaderActions';
+
+  import styles from './EditableTable.module.scss';
 
   type TOnChangeCallback = (data: TEditableListData, spec: TEditableListSpec) => void;
 
@@ -52,7 +64,7 @@
   });
 
   // Get specification params...
-  const { id, layout, flatObjects, showFlatFields } = spec;
+  const { id, layout, flatObjects, showFlatFields, editInPlace, useActionsColumn } = spec;
   // TODO: It's possible to get `showFlatFields` list as an attrubute
   /** Row specification */
   const rowObjSpec = spec.spec as TEditableObjectSpec;
@@ -68,28 +80,30 @@
     {} as Record<string, TGenericEditableSpec>,
   );
 
-  console.log('[EditableTable:Test specs]', {
-    rowObjSpec,
-    colSpecs,
-    colSpecsHash,
-  });
+  /* console.log('[EditableTable:Test specs]', {
+   *   rowObjSpec,
+   *   colSpecs,
+   *   colSpecsHash,
+   * });
+   */
 
   /** Cell elements constructor */
-  const EditableCellLabel: DataLabel<TTableRow> = ({ column, row, value }) => {
+  const EditableCell: DataLabel<TTableRow> = ({ column, row, value }) => {
     const { id } = row; // as BodyRow<unknown>;
     const { accessorKey: colId } = column;
-    console.log('[EditableTable:EditableTable]', id, colId, {
-      column,
-      row,
-      value,
-      id,
-      colId,
-    });
+    /* console.log('[EditableTable:EditableCell]', id, colId, {
+     *   column,
+     *   row,
+     *   value,
+     *   id,
+     *   colId,
+     * });
+     */
     if (!colId) {
       const errorMsg = 'Undefined column specification id';
       const error = new Error(errorMsg);
       // eslint-disable-next-line no-console
-      console.error('[EditableTable:EditableCellLabel]', errorMsg, {
+      console.error('[EditableTable:EditableCell]', errorMsg, {
         error,
         column,
         row,
@@ -104,7 +118,7 @@
     const colSpec = colSpecsHash[colId];
     const rowIdx = parseInt(id);
     // TODO: Get colIdx?
-    /* console.log('[EditableTable:EditableCellLabel]', {
+    /* console.log('[EditableTable:EditableCell]', {
      *   colId,
      *   colSpec,
      *   rowIdx,
@@ -116,10 +130,38 @@
      *   rowObjSpec,
      * });
      */
+    if (!editInPlace && isScalarSpec(colSpec)) {
+      return value != null ? value : '';
+    }
     return createRender(GenericEditable, {
       spec: colSpec,
       data: value,
       onChange: onUpdateItem.bind(null, rowIdx),
+    });
+  };
+
+  const HeaderActionsCell: HeaderLabel<TTableRow> = (...params) => {
+    console.log('[EditableTable:RowActionCell]', {
+      params,
+    });
+    return createRender(HeaderActions, {
+      onAddRow,
+    });
+  };
+
+  const RowActionCell: DataLabel<TTableRow> = ({ column, row, value }) => {
+    const { id } = row; // as BodyRow<unknown>;
+    const { accessorKey: colId } = column;
+    const rowIdx = parseInt(id);
+    console.log('[EditableTable:RowActionCell]', id, colId, {
+      column,
+      row,
+      value,
+      id,
+      colId,
+    });
+    return createRender(RowActions, {
+      onRemoveRow: onRemoveRow.bind(null, rowIdx),
     });
   };
 
@@ -132,9 +174,19 @@
     return table.column({
       accessor: flatId, // item.id,
       header: item.title || item.label || flatId,
-      cell: EditableCellLabel,
+      cell: EditableCell,
     });
   });
+
+  if (useActionsColumn) {
+    tableColumnItems.push(
+      table.column({
+        accessor: '__actions',
+        header: HeaderActionsCell,
+        cell: RowActionCell,
+      }),
+    );
+  }
 
   /** Table columns
    * @see https://svelte-headless-table.bryanmylee.com/docs/api/create-columns
@@ -188,20 +240,32 @@
     // Handle any server-synchronization.
     triggerChange();
   }
+
+  function onAddRow() {
+    console.log('[EditableTable:onAddRow]', {});
+    debugger;
+  }
+
+  function onRemoveRow(rowIdx: number) {
+    console.log('[EditableTable:onRemoveRow]', {
+      rowIdx,
+    });
+    debugger;
+  }
 </script>
 
 <div
-  class={classNames(className, 'EditableTable')}
+  class={classNames(className, styles.EditableTable)}
   data-layout={layout}
   data-id={id}
   title={spec.title}
 >
   {#if spec.label}
-    <div class="EditableTable_Label">
+    <div class={styles.EditableTable_Label}>
       {spec.label}
     </div>
   {/if}
-  <table {...$tableAttrs} class="EditableTable_Table">
+  <table {...$tableAttrs} class={styles.EditableTable_Table}>
     <thead>
       {#each $headerRows as headerRow (headerRow.id)}
         <Subscribe attrs={headerRow.attrs()} let:attrs>
@@ -236,11 +300,3 @@
     </tbody>
   </table>
 </div>
-
-<style lang="scss">
-  .EditableTable {
-    .EditableTable_Label {
-      @include EditableLabel;
-    }
-  }
-</style>

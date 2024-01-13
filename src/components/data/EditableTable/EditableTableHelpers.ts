@@ -6,7 +6,14 @@ import {
   TEditableObjectData,
   TEditableObjectSpec,
   TEditableFieldSpec,
+  TScalarValueType,
+  scalarValueTypes,
 } from '@/src/core/types/editable';
+
+export function isScalarSpec(spec: TGenericEditableSpec): boolean {
+  const { type } = spec;
+  return scalarValueTypes.includes(type as TScalarValueType);
+}
 
 /** Create flat data object from real row data */
 export function makeFlatFromFullData(
@@ -91,11 +98,12 @@ function makeSpecsFlat(
     // TODO: Process here 'exclude' lists, including intermediate object' names?
     if (item.type === 'object') {
       const flatItems = makeSpecsFlat(item.spec, showFlatFields, flatId);
-      console.log('[EditableTableHelpers:makeSpecsFlat] created sublist', flatId, {
-        parentId,
-        flatId,
-        flatItems,
-      });
+      /* console.log('[EditableTableHelpers:makeSpecsFlat] created sublist', flatId, {
+       *   parentId,
+       *   flatId,
+       *   flatItems,
+       * });
+       */
       // Don't do nothing with an empty lists...
       if (!Array.isArray(flatItems) || !flatItems.length) {
         continue;
@@ -107,11 +115,12 @@ function makeSpecsFlat(
         continue;
       }
       const flatItem = { ...item, _flatId: flatId };
-      console.log('[EditableTableHelpers:makeSpecsFlat] created sublist', flatId, {
-        flatId,
-        flatItem,
-        item,
-      });
+      /* console.log('[EditableTableHelpers:makeSpecsFlat] created sublist', flatId, {
+       *   flatId,
+       *   flatItem,
+       *   item,
+       * });
+       */
       resultSpecs.push(flatItem);
     }
   }
@@ -122,7 +131,7 @@ export function getPlainTableColSpecs(
   spec: TEditableListSpec,
   showFlatFields?: string[],
 ): TGenericEditableSpec[] {
-  const { id, layout, flatObjects } = spec;
+  const { flatObjects } = spec;
   /** Row specification */
   const rowObjSpec = spec.spec as TEditableObjectSpec;
   /** Row item specifications */
@@ -131,14 +140,13 @@ export function getPlainTableColSpecs(
     return colSpecs;
   }
   const flatSpecs = makeSpecsFlat(colSpecs, showFlatFields);
-  console.log('[EditableTableHelpers:getPlainTableColSpecs]', {
-    flatSpecs,
-    rowObjSpec,
-    colSpecs,
-    id,
-    layout,
-    flatObjects,
-    spec,
-  });
+  /* console.log('[EditableTableHelpers:getPlainTableColSpecs]', {
+   *   flatSpecs,
+   *   rowObjSpec,
+   *   colSpecs,
+   *   flatObjects,
+   *   spec,
+   * });
+   */
   return flatSpecs;
 }

@@ -1,15 +1,15 @@
-export const editableValueTypes = [
+/** Scalar values list */
+export const scalarValueTypes = [
   // prettier-ignore
   'string',
   'number',
   'boolean',
   'select',
 ] as const;
-export type TEditableValueType = (typeof editableValueTypes)[number];
-export type TEditableValuesListType = TEditableValueType[];
+export type TScalarValueType = (typeof scalarValueTypes)[number];
+export type TScalarValuesListType = TScalarValueType[];
 
-export const defaultEditableValueType: TEditableValueType = editableValueTypes[0];
+export const defaultScalarValueType: TScalarValueType = scalarValueTypes[0];
 
-export type TEditableValueScalar = unknown | undefined;
-// export type TEditableValueScalar = string | number | boolean | undefined;
-// export type TEditableValue = TEditableValueScalar | TEditableValueScalar[];
+// ???
+export type TAnyEditableValue = unknown | undefined;
