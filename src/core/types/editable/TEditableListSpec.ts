@@ -8,6 +8,7 @@ export interface TEditableListSpec {
   flatObjects?: boolean;
   showFlatFields?: string[];
   editInPlace?: boolean;
+  useActionsColumn?: boolean;
   // TODO: Displayed fiedls list
   title?: string;
   label?: string; // ???
