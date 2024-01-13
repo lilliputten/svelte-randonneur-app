@@ -17,8 +17,8 @@
     TGenericEditableData,
     TGenericEditableSpec,
     TEditableObjectData,
-    TEditableObjectSpec,
-    TEditableFieldSpec,
+    // TEditableObjectSpec,
+    // TEditableFieldSpec,
   } from '@/src/core/types/editable';
 
   import { GenericEditable } from '../GenericEditable';
@@ -56,22 +56,19 @@
   /** Table object */
   const table = createTable(tableFlatDataStore);
 
-  /* console.log('[EditableTable:Test data]', {
-   *   data,
-   *   flatData,
-   *   tableFlatDataStore,
-   *   table,
-   * });
-   */
-
   // Get specification params...
-  const { id, layout, flatObjects, showFlatFields, editInPlace, useActionsColumn } = spec;
-  // TODO: It's possible to get `showFlatFields` list as an attrubute
-  /** Row specification */
-  const rowObjSpec = spec.spec as TEditableObjectSpec;
+  const {
+    id,
+    layout,
+    // flatObjects, // Unused here
+    showFlatFields, // TODO: It's possible to get `showFlatFields` list as an attrubute
+    editInPlace,
+    useActionsColumn,
+    activeRows,
+  } = spec;
+
   /** Row item specifications */
   const colSpecs = getPlainTableColSpecs(spec, showFlatFields);
-  // const colSpecs = rowObjSpec.spec;
   const colSpecsHash = colSpecs.reduce(
     (hash, spec) => {
       const flatId = getFlatItemId(spec);
@@ -80,13 +77,6 @@
     },
     {} as Record<string, TGenericEditableSpec>,
   );
-
-  /* console.log('[EditableTable:Test specs]', {
-   *   rowObjSpec,
-   *   colSpecs,
-   *   colSpecsHash,
-   * });
-   */
 
   /** Cell elements constructor */
   const EditableCell: DataLabel<TTableRow> = ({ column, row, value }) => {
@@ -128,7 +118,6 @@
      *   column,
      *   value,
      *   colSpecs,
-     *   rowObjSpec,
      * });
      */
     if (!editInPlace && isScalarSpec(colSpec)) {
@@ -203,10 +192,26 @@
   /* console.log('[EditableTable:DEBUG]', {
    *   spec,
    *   id,
-   *   rowObjSpec,
    *   data,
    * });
    */
+
+  /** Local click tracker */
+  let activeClickTimerHandler: ReturnType<typeof setTimeout> | undefined = undefined;
+  const clickDelay = 200;
+  function clearActiveClickTimer() {
+    if (activeClickTimerHandler) {
+      clearTimeout(activeClickTimerHandler);
+      activeClickTimerHandler = undefined;
+    }
+  }
+  function setActiveClickTimer() {
+    clearActiveClickTimer();
+    activeClickTimerHandler = setTimeout(clearActiveClickTimer, clickDelay);
+  }
+  function hasActiveClickTimer() {
+    return !!activeClickTimerHandler;
+  }
 
   const dispatch = createEventDispatcher();
 
@@ -246,6 +251,7 @@
   }
 
   function onAddRow() {
+    setActiveClickTimer();
     // Update flat store...
     const newFlatItem: TEditableObjectData = {};
     const newFullItem = restoreFullFromFlatData(newFlatItem);
@@ -257,15 +263,30 @@
   }
 
   function onRemoveRow(rowIdx: number) {
-    console.log('[EditableTable:onRemoveRow]', {
-      rowIdx,
-    });
+    setActiveClickTimer();
     // Update flat store...
     $tableFlatDataStore.splice(rowIdx, 1);
     $tableFlatDataStore = $tableFlatDataStore;
     // Update full store...
     $tableFullDataStore.splice(rowIdx, 1);
     $tableFullDataStore = $tableFullDataStore;
+  }
+
+  function onRowClick(ev: Event) {
+    if (activeRows && hasActiveClickTimer()) {
+      const rowNode = ev.currentTarget as HTMLTableRowElement;
+      const id = rowNode?.id;
+      const rowIdx = Number(id);
+      console.log('[EditableTable:onRowClick]', {
+        rowIdx,
+        id,
+        rowNode,
+      });
+      ev.preventDefault();
+      ev.stopPropagation();
+      // TODO: Start edit node...
+      debugger;
+    }
   }
 </script>
 
@@ -280,17 +301,18 @@
       {spec.label}
     </div>
   {/if}
-  <table {...$tableAttrs} class={styles.EditableTable_Table}>
+  <table
+    {...$tableAttrs}
+    class={classNames(styles.EditableTable_Table, activeRows && styles.activeRows)}
+  >
     <thead>
       {#each $headerRows as headerRow (headerRow.id)}
         <Subscribe attrs={headerRow.attrs()} let:attrs>
           <tr {...attrs}>
             {#each headerRow.cells as cell (cell.id)}
               <Subscribe attrs={cell.attrs()} let:attrs>
-                <th {...attrs}>
-                  <div>
-                    <Render of={cell.render()} />
-                  </div>
+                <th {...attrs} id={cell.id}>
+                  <Render of={cell.render()} />
                 </th>
               </Subscribe>
             {/each}
@@ -301,10 +323,10 @@
     <tbody {...$tableBodyAttrs}>
       {#each $pageRows as row (row.id)}
         <Subscribe attrs={row.attrs()} let:attrs>
-          <tr {...attrs}>
+          <tr {...attrs} id={row.id} on:click={onRowClick}>
             {#each row.cells as cell (cell.id)}
               <Subscribe attrs={cell.attrs()} let:attrs>
-                <td {...attrs}>
+                <td {...attrs} id={cell.id}>
                   <Render of={cell.render()} />
                 </td>
               </Subscribe>

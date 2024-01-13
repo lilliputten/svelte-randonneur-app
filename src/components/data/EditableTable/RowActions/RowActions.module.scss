@@ -4,4 +4,7 @@
 }
 .removeRowIcon {
   color: $errorColor !important;
+  &:hover {
+    background-color: color.change($primaryColor, $alpha: .15) !important;
+  }
 }

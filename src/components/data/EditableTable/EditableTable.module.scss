@@ -29,5 +29,14 @@
     td {
       border-bottom: 1px solid $borderColor;
     }
+    &.activeRows {
+      tbody tr {
+        transition: all $transitionTimeMs;
+        cursor: pointer;
+        &:hover {
+          background-color: color.change($primaryColor, $alpha: .1);
+        }
+      }
+    }
   }
 }
