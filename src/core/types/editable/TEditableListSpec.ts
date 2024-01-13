@@ -4,6 +4,11 @@ import { TGenericEditableSpec } from './TGenericEditableSpec';
 export interface TEditableListSpec {
   id: string;
   type: 'list';
+  /** Show nested objects on the same level: as fielda in one row */
+  flatObjects?: boolean;
+  showFlatFields?: string[];
+  editInPlace?: boolean;
+  // TODO: Displayed fiedls list
   title?: string;
   label?: string; // ???
   /** Use 'table' to display as a table */

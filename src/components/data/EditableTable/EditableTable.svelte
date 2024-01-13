@@ -11,9 +11,16 @@
     TGenericEditableSpec,
     TEditableObjectData,
     TEditableObjectSpec,
+    TEditableFieldSpec,
   } from '@/src/core/types/editable';
 
   import { GenericEditable } from '../GenericEditable';
+  import {
+    getFlatItemId,
+    getPlainTableColSpecs,
+    makeFlatFromFullData,
+    restoreFullFromFlatData,
+  } from './EditableTableHelpers';
 
   type TOnChangeCallback = (data: TEditableListData, spec: TEditableListSpec) => void;
 
@@ -26,31 +33,58 @@
   // Assume table row is an object (TODO: To check it with typings?)
   type TTableRow = TEditableObjectData;
 
+  const flatData: TEditableObjectData[] = data.map((rowData) =>
+    makeFlatFromFullData(rowData as TEditableObjectData),
+  );
+
   /** Local table data store */
-  let tableDataStore = writable<TTableRow[]>([...(data as TTableRow[])]);
+  let tableFlatDataStore = writable<TTableRow[]>(flatData);
+  let tableFullDataStore = writable<TTableRow[]>([...(data as TTableRow[])]);
 
   /** Table object */
-  const table = createTable(tableDataStore);
+  const table = createTable(tableFlatDataStore);
+
+  console.log('[EditableTable:Test data]', {
+    data,
+    flatData,
+    tableFlatDataStore,
+    table,
+  });
 
   // Get specification params...
-  const { id, layout } = spec;
+  const { id, layout, flatObjects, showFlatFields } = spec;
+  // TODO: It's possible to get `showFlatFields` list as an attrubute
   /** Row specification */
   const rowObjSpec = spec.spec as TEditableObjectSpec;
   /** Row item specifications */
-  const colSpecs = rowObjSpec.spec;
+  const colSpecs = getPlainTableColSpecs(spec, showFlatFields);
+  // const colSpecs = rowObjSpec.spec;
   const colSpecsHash = colSpecs.reduce(
     (hash, spec) => {
-      const { id } = spec;
-      hash[id] = spec;
+      const flatId = getFlatItemId(spec);
+      hash[flatId] = spec;
       return hash;
     },
     {} as Record<string, TGenericEditableSpec>,
   );
 
+  console.log('[EditableTable:Test specs]', {
+    rowObjSpec,
+    colSpecs,
+    colSpecsHash,
+  });
+
   /** Cell elements constructor */
   const EditableCellLabel: DataLabel<TTableRow> = ({ column, row, value }) => {
     const { id } = row; // as BodyRow<unknown>;
     const { accessorKey: colId } = column;
+    console.log('[EditableTable:EditableTable]', id, colId, {
+      column,
+      row,
+      value,
+      id,
+      colId,
+    });
     if (!colId) {
       const errorMsg = 'Undefined column specification id';
       const error = new Error(errorMsg);
@@ -91,9 +125,13 @@
 
   /** Table columns descriptions derived from row object fields specifications */
   const tableColumnItems = colSpecs.map((item) => {
+    const flatId = getFlatItemId(item);
+    console.log('[EditableTable:tableColumnItems]', flatId, {
+      item,
+    });
     return table.column({
-      accessor: item.id,
-      header: item.title || item.label || item.id,
+      accessor: flatId, // item.id,
+      header: item.title || item.label || flatId,
       cell: EditableCellLabel,
     });
   });
@@ -117,30 +155,36 @@
   const dispatch = createEventDispatcher();
 
   function triggerChange() {
-    const data = $tableDataStore;
-    /* console.log('[EditableTable:triggerChange]', {
-     *   data,
-     * });
-     */
+    const data = $tableFullDataStore;
+    console.log('[EditableTable:triggerChange]', {
+      data,
+    });
     if (onChange) {
-      onChange($tableDataStore, spec);
+      onChange(data, spec);
     }
     dispatch('change', { data, spec });
   }
 
   function onUpdateItem(rowIdx: number, data: TGenericEditableData, spec: TGenericEditableSpec) {
     const { id } = spec;
-    const currentItem = $tableDataStore[rowIdx];
-    const newItem = { ...currentItem, [id]: data } as TTableRow;
+    const flatId = getFlatItemId(spec);
+    const currentFlatItem = $tableFlatDataStore[rowIdx];
+    const newFlatItem = { ...currentFlatItem, [flatId]: data } as TTableRow;
+    const newFullItem = restoreFullFromFlatData(newFlatItem);
     console.log('[EditableTable:onUpdateValue] set item', {
       id,
       rowIdx,
       data,
       spec,
-      newItem,
+      newFlatItem,
+      newFullItem,
     });
-    $tableDataStore[rowIdx] = newItem;
-    $tableDataStore = $tableDataStore;
+    debugger;
+    $tableFlatDataStore[rowIdx] = newFlatItem;
+    $tableFlatDataStore = $tableFlatDataStore;
+    // Full store...
+    $tableFullDataStore[rowIdx] = newFullItem;
+    $tableFullDataStore = $tableFullDataStore;
     // Handle any server-synchronization.
     triggerChange();
   }

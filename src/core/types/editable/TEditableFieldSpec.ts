@@ -3,6 +3,8 @@ import { TEditableValueScalar, TEditableValueType } from './TEditableValue';
 
 export interface TEditableFieldSpec {
   id: string;
+  /** Internal id for flatterned fields, see `flatObjects` in tables */
+  _flatId?: string;
   type: TEditableValueType;
   label?: string;
   title?: string;
