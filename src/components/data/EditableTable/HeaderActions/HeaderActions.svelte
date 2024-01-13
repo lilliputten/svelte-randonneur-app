@@ -21,7 +21,7 @@
     class={styles.addRowIcon}
     on:click={onAddRow}
     size={inputHeight}
-    variant="transparent"
+    variant="hover"
     title="Add row"
   >
     <Plus />
