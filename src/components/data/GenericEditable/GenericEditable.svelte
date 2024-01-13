@@ -24,13 +24,15 @@
   const objectData = data as TEditableObjectData;
   const listData = data as TEditableListData;
 
-  /* console.log('[GenericEditable:DEBUG]', {
-   *   id: spec.id,
-   *   type: spec.type,
-   *   data,
-   *   spec,
-   * });
-   */
+  console.log('[GenericEditable:DEBUG]', {
+    id: spec?.id,
+    type: spec?.type,
+    data,
+    spec,
+  });
+  if (!spec) {
+    debugger;
+  }
 </script>
 
 {#if spec.type === 'object'}

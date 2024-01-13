@@ -2,6 +2,7 @@
   import { DemoEditableFields } from './DemoEditableFields';
   import { DemoEditableTable } from './DemoEditableTable';
   import { DemoEditableObjects } from './DemoEditableObjects';
+  import { DemoDates } from './DemoDates';
   import DataEditorWrapper from '@/src/components/RandoEditor/DataEditorWrapper';
   // import DemoTable from '@/src/components/RandoEditor/DataEditorWrapper/DemoTable';
 
@@ -17,6 +18,7 @@
   <DemoEditableFields />
   <DemoTable />
   <DemoEditableTable />
+  <DemoDates />
   -->
   <DemoEditableObjects />
 </div>

@@ -39,12 +39,43 @@
     title: 'Objects table (objListTable)',
     label: 'Objects table (objListTable)',
     layout: 'table',
+    flatObjects: true,
+    editInPlace: false,
+    showFlatFields: [
+      // prettier-ignore
+      'id',
+      'nestedObject.testString',
+      'nestedObject.testBoolean',
+    ],
     spec: {
       id: 'listTableObj',
       type: 'object',
       layout: 'horizontal',
       spec: [
         { id: 'id', type: 'string', title: 'Id (id)' },
+        // Nested object...
+        {
+          id: 'nestedObject',
+          type: 'object',
+          label: 'Nested object (nestedObject)',
+          // layout: 'horizontal',
+          spec: [
+            { id: 'testString', type: 'string', title: 'String (testString)' },
+            {
+              id: 'testBoolean',
+              type: 'boolean',
+              label: 'Boolean (testBoolean)',
+              title: 'Boolean (testBoolean)',
+            },
+            {
+              id: 'testSelect',
+              type: 'select',
+              title: 'Select (testSelect)',
+              selectData: [{ label: 'A', value: 'a' }, { label: 'B', value: 'b' }, 'C', 'D'],
+            },
+          ],
+        },
+        /*
         // { id: 'name', type: 'string', title: 'Name (name)' },
         { id: 'check', type: 'boolean', title: 'Check (check)' },
         {
@@ -53,12 +84,13 @@
           title: 'Select (Choice)',
           selectData: ['A', 'B', 'C', 'D'],
         },
+        */
       ],
     },
   };
   const objListTableData = [
     // prettier-ignore
-    { id: 'id 1', name: 'name 1', check: false },
+    { id: 'id 1', name: 'name 1', check: false, nestedObject: { testString: 'TEST', testBoolean: true, check: 1 } },
     { id: 'id 2', name: 'name 2', check: true },
   ];
 
@@ -132,10 +164,10 @@
     <EditableList spec={strListSpec} data={strListData} onChange={onRootChange} />
     <GenericEditable spec={strListSpec} data={strListData} onChange={onRootChange} />
     <EditableTable spec={objListTableSpec} data={objListTableData} onChange={onRootChange} />
-    -->
     <GenericEditable spec={strListSpec} data={strListData} onChange={onRootChange} />
-    <GenericEditable spec={objListTableSpec} data={objListTableData} onChange={onRootChange} />
     <GenericEditable spec={objSpec} data={objData} onChange={onRootChange} />
+    -->
+    <GenericEditable spec={objListTableSpec} data={objListTableData} onChange={onRootChange} />
   </div>
 </div>
 
