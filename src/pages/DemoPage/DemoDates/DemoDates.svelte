@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { DateInput } from 'date-picker-svelte'
+  import { DateInput } from 'date-picker-svelte';
   import { Month } from '@svelteuidev/dates';
   import { Box, Button, Center, Popper } from '@svelteuidev/core';
   import dayjs from 'dayjs';
@@ -34,11 +34,7 @@
     -->
     <DateInput bind:value />
 
-    <Month
-      bind:value
-      month={value}
-      onChange={(val) => (value = val)}
-    />
+    <Month bind:value month={value} onChange={(val) => (value = val)} />
 
     <Button bind:element={reference} on:click={toggleMount}>{value.toISOString()}</Button>
     <Popper

@@ -37,10 +37,11 @@
     id: 'objListTable',
     type: 'list',
     title: 'Objects table (objListTable)',
-    label: 'Objects table (objListTable)',
+    // label: 'Objects table (objListTable)',
     layout: 'table',
     flatObjects: true,
-    editInPlace: false,
+    editInPlace: true,
+    useActionsColumn: true,
     showFlatFields: [
       // prettier-ignore
       'id',
@@ -64,7 +65,7 @@
             {
               id: 'testBoolean',
               type: 'boolean',
-              label: 'Boolean (testBoolean)',
+              // label: 'Boolean (testBoolean)',
               title: 'Boolean (testBoolean)',
             },
             {
