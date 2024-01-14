@@ -11,7 +11,7 @@
   &[data-layout='vertical'] {
     flex-direction: column;
     .EditableObject_Label {
-      margin: 10px 0;
+      @include EditableVerticalSectionLabel;
     }
   }
 }
