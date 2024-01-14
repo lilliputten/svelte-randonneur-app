@@ -1,10 +1,20 @@
 <script lang="ts">
-  // import { browser } from '$app/environment';
-  // import { goto } from '$app/navigation';
-  // import { onDestroy, onMount } from 'svelte';
-  //
-  // import { addToast } from '@/src/components/ui/Toasts';
-  // import { hasDataStore, toggleHasData } from '@/src/store/hasDataStore';
+  import { TRandoDataSetKey } from '@/src/core/types/rando';
+  import { getAllRandoDataSets, getAvailableRandoDataSetKeys, randoDataSetsStores } from '@/src/store';
+
+  // TODO: Get current data set id from stores?
+  const dataSetKey: TRandoDataSetKey = 'delete';
+  const dataSetStore = randoDataSetsStores[dataSetKey];
+
+  const allRandoDataSets = getAllRandoDataSets();
+  const availableRandoDataSetKeys = getAvailableRandoDataSetKeys();
+
+  console.log('SectionsNavigator:DEBUG', {
+    availableRandoDataSetKeys,
+    allRandoDataSets,
+    dataSetKey,
+    $dataSetStore,
+  });
 </script>
 
 <div class="SectionsNavigator">
