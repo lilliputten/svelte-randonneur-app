@@ -1,11 +1,11 @@
 import { randoDataSetKeys, TDataSetDictSlot, TRandoDataSetKey } from '@/src/core/types/rando';
 import { get } from 'svelte/store';
 
-import { TEditableObjectSpec } from '@/src/core/types/editable';
+import { TEditableObjectSpec, TGenericEditableSpec } from '@/src/core/types/editable';
 import { deriveDataSetSpec } from '@/src/core/helpers/rando';
 
 import { randoDataStore } from '../stores/randoDataStore';
-import { randoDataSetSpecsStores } from '../stores/randoDataSetSpecsStore';
+import { randoDataSetSpecsStores, TRandoDataSetSpecSlot } from '../stores/randoDataSetSpecsStore';
 
 // Issue #5: Derive data typings for all the data sets...
 
@@ -15,20 +15,14 @@ export function createRandoDataSetSpec(id: TRandoDataSetKey, data: TDataSetDictS
     setStore.set(undefined);
     return;
   }
-  const spec = deriveDataSetSpec(data);
-  const objSpec: TEditableObjectSpec = {
-    id,
-    type: 'object',
-    spec,
-  };
+  const spec = deriveDataSetSpec(id, data) as TEditableObjectSpec; // TEditableObjectSpec | TEditableListSpec | TEditableFieldSpec;
   console.log('[randoDataSetSpecsActions:createRandoDataSetSpec]', {
     id,
     data,
     spec,
-    objSpec,
   });
-  debugger;
-  setStore.set(objSpec);
+  debugger; // TODO!
+  setStore.set(spec);
 }
 
 export function createAllRandoDataSetSpecs() {

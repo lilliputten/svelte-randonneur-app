@@ -57,12 +57,12 @@
     "start": "vite dev",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "npm run test:integration && npm run test:unit",
     "svelte-check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "svelte-check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
     "lint-UNUSED": "prettier --check . && eslint .",
     "format-UNUSED": "prettier --write .",
     "test:integration": "playwright test",
-    "test:unit": "vitest"
+    "test:unit": "vitest",
+    "test": "npm run test:integration && npm run test:unit"
   }
 }
