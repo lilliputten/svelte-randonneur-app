@@ -1,26 +1,7 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
-  import { Modal, Group, Button } from '@svelteuidev/core';
-  import { writable } from 'svelte/store';
-  import {
-    Render,
-    Subscribe,
-    createTable,
-    createRender,
-    DataLabel,
-    HeaderLabel,
-  } from 'svelte-headless-table';
   import classNames from 'classnames';
 
-  import {
-    TEditableListSpec,
-    TEditableListData,
-    TGenericEditableData,
-    TGenericEditableSpec,
-    TEditableObjectData,
-    // TEditableObjectSpec,
-    // TEditableFieldSpec,
-  } from '@/src/core/types/editable';
+  import { TGenericEditableSpec, TEditableObjectData } from '@/src/core/types/editable';
   import {
     GenericEditable,
     TGenericEditableOnChangeCallback,
