@@ -72,6 +72,22 @@
       "console": "integratedTerminal"
     },
     {
+      "name": "vitest",
+      "program": "${workspaceRoot}/node_modules/vitest/vitest.mjs",
+      "args": [
+        "run",
+        "related",
+        // Add module name below...
+        "deriveDataSetSpec"
+      ],
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "node",
+      // "outputCapture" : "std",
+      // "protocol": "inspector",
+      "console": "integratedTerminal"
+    },
+    {
       "name": "Python: Run file",
       "type": "python",
       "request": "launch",

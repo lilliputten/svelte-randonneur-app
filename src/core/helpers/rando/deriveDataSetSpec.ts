@@ -1,5 +1,6 @@
 import { TDataSetDictItemValue, TDataSetDictSlot } from '@/src/core/types/rando';
 import {
+  scalarValueTypes,
   TEditableFieldSpec,
   TEditableListSpec,
   TEditableObjectSpec,
@@ -8,28 +9,126 @@ import {
 } from '@/src/core/types/editable';
 import { isScalarType } from '@/src/components/data/EditableTable/EditableTableHelpers';
 
-export function deriveObjectPropertiesSpec(data: TDataSetDictSlot, level: number = 0) {
+export function deriveObjectPropertiesSpec(
+  _objId: string,
+  data: TDataSetDictSlot,
+  level: number = 0,
+) {
   const spec: TGenericEditableSpec[] = [];
   if (data == null || typeof data !== 'object') {
     return spec;
   }
   const ids = Object.keys(data);
-  return ids.map((id) => {
+  const objSpec = ids.map((id) => {
     const val: TDataSetDictItemValue = data[id];
-    return deriveDataSetSpec(id, val as TDataSetDictSlot, level + 1);
+    const itemSpec = deriveDataSetSpec(id, val as TDataSetDictSlot, level + 1);
+    return itemSpec;
   });
+  /* console.log('[deriveDataSetSpec:deriveObjectPropertiesSpec]', {
+   *   objSpec,
+   *   ids,
+   *   _objId,
+   *   data,
+   *   level,
+   * });
+   */
+  return objSpec;
 }
 
-export function deriveListPropertiesSpec(list: TDataSetDictSlot[], level: number = 0) {
-  const spec: TGenericEditableSpec[] = [];
-  if (list == null || !Array.isArray(list)) {
-    return spec;
+function getNewValWithOldVal(
+  newVal: TDataSetDictItemValue,
+  oldVal: TDataSetDictItemValue,
+): TDataSetDictItemValue {
+  if (newVal == null || oldVal == null) {
+    return newVal;
+  } else if (typeof newVal === 'object') {
+    if (typeof oldVal === 'object') {
+      return { ...newVal, ...oldVal };
+    } else if (Array.isArray(newVal) && Array.isArray(oldVal)) {
+      return newVal.concat(oldVal);
+    } else {
+      return newVal;
+    }
+  } else if (scalarValueTypes.includes(typeof newVal as TScalarValueType)) {
+    if (typeof oldVal !== 'string') {
+      return newVal;
+    }
+  } else {
+    return undefined;
   }
-  const ids = Object.keys(data);
-  return ids.map((id) => {
-    const val: TDataSetDictItemValue = data[id];
-    return deriveDataSetSpec(id, val as TDataSetDictSlot, level + 1);
+}
+
+export function deriveListItemSpec(
+  listId: string,
+  list: TDataSetDictSlot[],
+  level: number = 0,
+): TGenericEditableSpec {
+  const combo: TDataSetDictSlot = {};
+  let value: TDataSetDictItemValue;
+  /* console.log('[deriveDataSetSpec:deriveListItemSpec] start', {
+   *   listId,
+   *   list,
+   *   level,
+   * });
+   */
+  list.forEach((data) => {
+    if (!data) {
+      return;
+    }
+    if (typeof data !== 'object') {
+      value = getNewValWithOldVal(data, value);
+    } else {
+      const ids = Object.keys(data);
+      /* console.log('[deriveDataSetSpec:deriveListItemSpec] list item', {
+       *   ids,
+       *   data,
+       *   listId,
+       *   list,
+       *   level,
+       * });
+       */
+      ids.forEach((id) => {
+        const oldVal = combo[id];
+        const newVal = data[id];
+        /* console.log('[deriveDataSetSpec:deriveListItemSpec] list ids item', {
+         *   newVal,
+         *   oldVal,
+         *   id,
+         *   ids,
+         *   data,
+         *   listId,
+         *   list,
+         *   level,
+         * });
+         */
+        combo[id] = getNewValWithOldVal(newVal, oldVal);
+      });
+    }
   });
+  let result: TGenericEditableSpec;
+  if (combo && Object.keys(combo).length) {
+    const listObjItemsSpecs = deriveObjectPropertiesSpec(listId, combo, level);
+    const objSpec: TEditableObjectSpec = {
+      id: listId + '-object',
+      type: 'object',
+      spec: listObjItemsSpecs,
+    };
+    result = objSpec;
+  } else {
+    const scalarSpec = createScalarSpec(listId, value);
+    result = scalarSpec;
+  }
+  return result;
+}
+
+function createScalarSpec(id: string, value: TDataSetDictItemValue) {
+  const dataType = typeof value;
+  const type = isScalarType(dataType) ? (dataType as TScalarValueType) : 'string';
+  const scalarSpec: TEditableFieldSpec = {
+    id,
+    type,
+  };
+  return scalarSpec;
 }
 
 export function deriveDataSetSpec(
@@ -37,20 +136,20 @@ export function deriveDataSetSpec(
   data: TDataSetDictSlot,
   level: number = 0,
 ): TGenericEditableSpec {
-  const dataType = typeof data;
-  // const isUndef = data == null;
-  const isJsObj = dataType === 'object';
-  const isList = isJsObj && Array.isArray(data);
-  const isObject = isJsObj && !isList;
-  const spec: TGenericEditableSpec[] = [];
-  console.log('[deriveDataSetSpec:deriveDataSetSpec]', {
-    data,
-    dataType,
-    spec,
-  });
-  debugger;
-  if (isObject) {
-    const spec = deriveObjectPropertiesSpec(data, level + 1);
+  /* console.log('[deriveDataSetSpec:deriveDataSetSpec]', {
+   *   data,
+   * });
+   */
+  if (data != null && Array.isArray(data)) {
+    const listItemSpec = deriveListItemSpec(id, data, level + 1);
+    const listSpec: TEditableListSpec = {
+      id: id + '-list',
+      type: 'list',
+      spec: listItemSpec,
+    };
+    return listSpec;
+  } else if (typeof data === 'object') {
+    const spec = deriveObjectPropertiesSpec(id, data, level + 1);
     const objSpec: TEditableObjectSpec = {
       id,
       type: 'object',
@@ -58,20 +157,7 @@ export function deriveDataSetSpec(
     };
     return objSpec;
   }
-  if (isList) {
-    const spec = deriveListPropertiesSpec(data, level + 1);
-    const listSpec: TEditableListSpec = {
-      id,
-      type: 'list',
-      spec,
-    };
-    return listSpec;
-  }
   // Scalar...
-  const type = isScalarType(dataType) ? (dataType as TScalarValueType) : 'string';
-  const scalarSpec: TEditableFieldSpec = {
-    id,
-    type,
-  };
+  const scalarSpec = createScalarSpec(id, data);
   return scalarSpec;
 }
