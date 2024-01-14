@@ -59,7 +59,14 @@
 // Editables
 @mixin EditableLabel {
   @include defaultFont;
-  color: $defaultTextColor;
+  color: $primaryColor;
   line-height: 20px;
   font-weight: 600;
+}
+@mixin EditableVerticalSectionLabel {
+  @include EditableLabel;
+  color: $defaultTextColor;
+  font-size: 125%;
+  margin-top: 20px;
+  margin-bottom: 12px;
 }

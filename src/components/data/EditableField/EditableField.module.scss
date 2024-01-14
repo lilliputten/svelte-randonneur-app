@@ -4,7 +4,8 @@
     &,
     &:global(.svelteui-InputWrapper-label) {
       @include EditableLabel;
-      color: $defaultTextColor;
+      // color: $defaultTextColor;
+      color: $primaryColor;
     }
   }
 }

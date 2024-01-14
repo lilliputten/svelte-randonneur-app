@@ -2,7 +2,7 @@
   import { createEventDispatcher } from 'svelte';
   import classNames from 'classnames';
   import { Group, ActionIcon, Text, Anchor, Burger, Tooltip, Box } from '@svelteuidev/core';
-  import { Plus, Cross1 } from 'radix-icons-svelte';
+  import { Plus, Trash } from 'radix-icons-svelte';
 
   import cssVariables from '@/src/core/assets/scss/variables.module.scss';
 
@@ -138,18 +138,20 @@
         />
         <!-- Actions -->
         <ActionIcon
+          class={styles.removeRowIcon}
           variant="light"
           on:click={handleRemoveItem}
           size={parseInt(cssVariables.defaultInputHeight)}
           title="Remove item"
         >
-          <Cross1 />
+          <Trash />
         </ActionIcon>
       </div>
     {/each}
   </div>
   <!-- Actions -->
   <ActionIcon
+    class={styles.addRowIcon}
     variant="light"
     on:click={handleAddItem}
     size={parseInt(cssVariables.defaultInputHeight)}
