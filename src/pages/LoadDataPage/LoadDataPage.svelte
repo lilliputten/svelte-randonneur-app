@@ -9,7 +9,6 @@
 
   import { TRandoData } from '@/src/core/types/rando';
   import {
-    setRandData,
     hasDataStore,
     setHasData,
     extractRandoDataSets,
@@ -24,6 +23,7 @@
   import { loadDataFile } from './loadLocalData';
 
   import styles from './LoadDataPage.module.scss';
+  import { setRandData } from '@/src/store/actions/randoDataActions';
 
   let demoDataFileIdx = defaultDataFileIdx;
   let loadingDemoData = false;
@@ -60,9 +60,6 @@
          * });
          */
         setRandData(data);
-        extractRandoDataSets();
-        extractRandoProperties();
-        setHasData(true);
         // Show notification
         addToast({ message: 'Demo data loading successfully finished', type: 'success' });
       })
@@ -155,7 +152,6 @@
          * });
          */
         setRandData(data);
-        setHasData(true);
         // Show notification
         addToast({ message: 'Local data loading successfully finished', type: 'success' });
       })

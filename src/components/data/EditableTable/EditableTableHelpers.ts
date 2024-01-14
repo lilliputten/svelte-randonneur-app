@@ -10,9 +10,13 @@ import {
   scalarValueTypes,
 } from '@/src/core/types/editable';
 
+export function isScalarType(type: string): boolean {
+  return scalarValueTypes.includes(type as TScalarValueType);
+}
+
 export function isScalarSpec(spec: TGenericEditableSpec): boolean {
   const { type } = spec;
-  return scalarValueTypes.includes(type as TScalarValueType);
+  return isScalarType(type);
 }
 
 /** Create flat data object from real row data */

@@ -2,12 +2,12 @@ import { get } from 'svelte/store';
 
 import { TRandoData, TRandoProperties } from '@/src/core/types/rando';
 
-import { getRandoData, randoDataStore } from '../stores/randoDataStore';
+import { randoDataStore } from '../stores/randoDataStore';
 import { randoPropertiesStore } from '../stores/randoPropertiesStore';
 
 /** Extract randoneeur properties from common data store */
 export function extractRandoProperties() {
-  const randoData = getRandoData();
+  const randoData = get(randoDataStore);
   if (!randoData) {
     randoPropertiesStore.set(undefined);
     return;
@@ -31,6 +31,10 @@ export function extractRandoProperties() {
     created, // '2023-03-11T09:53:59.74Z'
   };
   randoPropertiesStore.set(randoProperties);
+}
+
+export function clearRandoProperties() {
+  randoPropertiesStore.set(undefined);
 }
 
 /** Save randoneeur properties to common data store */
