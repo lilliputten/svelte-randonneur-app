@@ -1,6 +1,6 @@
 import { TGenericEditableSpec } from '@/src/core/types/editable';
 import { TDataSetDictSlot } from '@/src/core/types/rando';
-import { deriveObjectPropertiesSpec, deriveDataSetSpec } from './deriveDataSetSpec';
+import { deriveDataSetSpec, TDeriveOpts } from './deriveDataSetSpec';
 
 import { describe, it, expect } from 'vitest';
 
@@ -63,7 +63,7 @@ describe('deriveDataSetSpec', () => {
             id: 'licenses-list',
             type: 'list',
             spec: {
-              id: 'licenses',
+              id: 'licenses-object',
               type: 'object',
               spec: [
                 { id: 'name', type: 'string' },
@@ -78,7 +78,7 @@ describe('deriveDataSetSpec', () => {
       const result: TGenericEditableSpec = deriveDataSetSpec('testObj', data);
       expect(result).toStrictEqual(expectedResult);
     });
-    it('update dataset with list', () => {
+    it('dataset with multi-level list', () => {
       const data: TDataSetDictSlot = {
         update: [
           {
@@ -126,7 +126,14 @@ describe('deriveDataSetSpec', () => {
                     {
                       id: 'categories-list',
                       type: 'list',
-                      spec: { id: 'categories', type: 'string' },
+                      spec: {
+                        id: 'categories',
+                        type: 'string',
+                        /* // TODO: Issue #16: Analyze list data cardinality (including these for nested objects' properties)
+                         * _allValuesCount: 2,
+                         * _allValues: ['air', 'low population density, long-term'],
+                         */
+                      },
                     },
                     { id: 'unit', type: 'string' },
                   ],
@@ -137,7 +144,10 @@ describe('deriveDataSetSpec', () => {
           },
         ],
       };
-      const result: TGenericEditableSpec = deriveDataSetSpec('update', data);
+      const opts: TDeriveOpts = {
+        maxDictListSize: 2,
+      };
+      const result: TGenericEditableSpec = deriveDataSetSpec('update', data, opts);
       expect(result).toStrictEqual(expectedResult);
     });
   });
