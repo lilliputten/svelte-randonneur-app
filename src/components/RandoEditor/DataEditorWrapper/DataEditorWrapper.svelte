@@ -1,6 +1,10 @@
 <script lang="ts">
   import { TRandoDataSetKey } from '@/src/core/types/rando';
-  import { getAllRandoDataSets, getAvailableRandoDataSetKeys, randoDataSetsStores } from '@/src/store';
+  import {
+    getAllRandoDataSets,
+    getAvailableRandoDataSetKeys,
+    randoDataSetsStores,
+  } from '@/src/store';
 
   // TODO: Get current data set id from stores?
   const dataSetKey: TRandoDataSetKey = 'delete';

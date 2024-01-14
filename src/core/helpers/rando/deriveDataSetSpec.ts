@@ -5,13 +5,24 @@ import {
   TEditableListSpec,
   TEditableObjectSpec,
   TGenericEditableSpec,
+  // TScalarValue,
   TScalarValueType,
 } from '@/src/core/types/editable';
 import { isScalarType } from '@/src/components/data/EditableTable/EditableTableHelpers';
 
+/* // TODO: Issue #16: Analyze list data cardinality (including these for nested objects' properties)
+ * [>* Default minimal different values in the list to treat it as a dictionary <]
+ * const defaultMaxDictListSize = 10;
+ */
+
+export interface TDeriveOpts {
+  maxDictListSize?: number;
+}
+
 export function deriveObjectPropertiesSpec(
   _objId: string,
   data: TDataSetDictSlot,
+  opts?: TDeriveOpts,
   level: number = 0,
 ) {
   const spec: TGenericEditableSpec[] = [];
@@ -21,7 +32,7 @@ export function deriveObjectPropertiesSpec(
   const ids = Object.keys(data);
   const objSpec = ids.map((id) => {
     const val: TDataSetDictItemValue = data[id];
-    const itemSpec = deriveDataSetSpec(id, val as TDataSetDictSlot, level + 1);
+    const itemSpec = deriveDataSetSpec(id, val as TDataSetDictSlot, opts, level + 1);
     return itemSpec;
   });
   /* console.log('[deriveDataSetSpec:deriveObjectPropertiesSpec]', {
@@ -61,10 +72,14 @@ function getNewValWithOldVal(
 export function deriveListItemSpec(
   listId: string,
   list: TDataSetDictSlot[],
+  opts?: TDeriveOpts,
   level: number = 0,
 ): TGenericEditableSpec {
   const combo: TDataSetDictSlot = {};
   let value: TDataSetDictItemValue;
+  /* // TODO: Issue #16: Analyze list data cardinality (including these for nested objects' properties)
+   * const allValues: TScalarValue[] = [];
+   */
   /* console.log('[deriveDataSetSpec:deriveListItemSpec] start', {
    *   listId,
    *   list,
@@ -76,10 +91,23 @@ export function deriveListItemSpec(
       return;
     }
     if (typeof data !== 'object') {
+      /* // TODO: Issue #16: Analyze list data cardinality (including these for nested objects' properties)
+       * if (data != null && !allValues.includes(data)) {
+       *   allValues.push(data);
+       * }
+       */
       value = getNewValWithOldVal(data, value);
+      /* console.log('[deriveDataSetSpec:deriveListItemSpec] list item: scalar', {
+       *   value,
+       *   data,
+       *   listId,
+       *   list,
+       *   level,
+       * });
+       */
     } else {
       const ids = Object.keys(data);
-      /* console.log('[deriveDataSetSpec:deriveListItemSpec] list item', {
+      /* console.log('[deriveDataSetSpec:deriveListItemSpec] list item: object', {
        *   ids,
        *   data,
        *   listId,
@@ -99,6 +127,7 @@ export function deriveListItemSpec(
          *   listId,
          *   list,
          *   level,
+         *   combo,
          * });
          */
         combo[id] = getNewValWithOldVal(newVal, oldVal);
@@ -107,7 +136,7 @@ export function deriveListItemSpec(
   });
   let result: TGenericEditableSpec;
   if (combo && Object.keys(combo).length) {
-    const listObjItemsSpecs = deriveObjectPropertiesSpec(listId, combo, level);
+    const listObjItemsSpecs = deriveObjectPropertiesSpec(listId, combo, opts, level);
     const objSpec: TEditableObjectSpec = {
       id: listId + '-object',
       type: 'object',
@@ -115,7 +144,15 @@ export function deriveListItemSpec(
     };
     result = objSpec;
   } else {
-    const scalarSpec = createScalarSpec(listId, value);
+    const scalarSpec: TEditableFieldSpec = createScalarSpec(listId, value);
+    /* // TODO: Issue #16: Analyze list data cardinality (including these for nested objects' properties)
+     * const allValuesCount = allValues.length;
+     * scalarSpec._allValuesCount = allValuesCount;
+     * const maxDictListSize = opts?.maxDictListSize || defaultMaxDictListSize;
+     * if (allValuesCount <= maxDictListSize) {
+     *   scalarSpec._allValues = allValues;
+     * }
+     */
     result = scalarSpec;
   }
   return result;
@@ -134,6 +171,7 @@ function createScalarSpec(id: string, value: TDataSetDictItemValue) {
 export function deriveDataSetSpec(
   id: string,
   data: TDataSetDictSlot,
+  opts?: TDeriveOpts,
   level: number = 0,
 ): TGenericEditableSpec {
   /* console.log('[deriveDataSetSpec:deriveDataSetSpec]', {
@@ -141,7 +179,7 @@ export function deriveDataSetSpec(
    * });
    */
   if (data != null && Array.isArray(data)) {
-    const listItemSpec = deriveListItemSpec(id, data, level + 1);
+    const listItemSpec = deriveListItemSpec(id, data, opts, level + 1);
     const listSpec: TEditableListSpec = {
       id: id + '-list',
       type: 'list',
@@ -149,7 +187,7 @@ export function deriveDataSetSpec(
     };
     return listSpec;
   } else if (typeof data === 'object') {
-    const spec = deriveObjectPropertiesSpec(id, data, level + 1);
+    const spec = deriveObjectPropertiesSpec(id, data, opts, level + 1);
     const objSpec: TEditableObjectSpec = {
       id,
       type: 'object',

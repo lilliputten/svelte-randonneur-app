@@ -9,6 +9,8 @@ export const scalarValueTypes = [
 export type TScalarValueType = (typeof scalarValueTypes)[number];
 export type TScalarValuesListType = TScalarValueType[];
 
+export type TScalarValue = string | number | boolean | undefined;
+
 export const defaultScalarValueType: TScalarValueType = scalarValueTypes[0];
 
 // ???
