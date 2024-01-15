@@ -138,7 +138,7 @@ export function deriveListItemSpec(
   if (combo && Object.keys(combo).length) {
     const listObjItemsSpecs = deriveObjectPropertiesSpec(listId, combo, opts, level);
     const objSpec: TEditableObjectSpec = {
-      id: listId + '-object',
+      id: listId + '-item',
       type: 'object',
       spec: listObjItemsSpecs,
     };
