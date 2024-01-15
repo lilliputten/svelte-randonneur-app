@@ -18,7 +18,9 @@ export function extractRandoDataSets() {
   randoDataSetKeys.forEach((id: TRandoDataSetKey) => {
     const setStore = randoDataSetsStores[id];
     const data = randoData?.[id];
+    // Set data into sets store...
     setStore.set(data);
+    // Create data set specification...
     createRandoDataSetSpec(id, data);
   });
 }

@@ -8,22 +8,13 @@
   import { getApproxSize, getErrorText } from '@/src/core/helpers/basic';
 
   import { TRandoData } from '@/src/core/types/rando';
-  import {
-    hasDataStore,
-    setHasData,
-    extractRandoDataSets,
-    extractRandoProperties,
-  } from '@/src/store';
-  import {
-    demoDataFiles,
-    defaultDataFileIdx,
-    loadDemoDataByIdx,
-    getDemoDataFileId,
-  } from './loadDemoData';
+  import { hasDataStore } from '@/src/store';
+  import { loadDemoDataByIdx, getDemoDataFileId } from './loadDemoData';
   import { loadDataFile } from './loadLocalData';
 
   import styles from './LoadDataPage.module.scss';
   import { setRandData } from '@/src/store/actions/randoDataActions';
+  import { defaultDataFileIdx, demoDataFiles } from '@/src/core/constants/demoData';
 
   let demoDataFileIdx = defaultDataFileIdx;
   let loadingDemoData = false;
@@ -36,6 +27,7 @@
   });
 
   /* // DEBUG
+   * $: console.log('[LoadDataPage] demoDataFileIdx', demoDataFileIdx);
    * $: console.log('localDataFile', localDataFile);
    */
 

@@ -1,7 +1,7 @@
 import { get, writable } from 'svelte/store';
 
 import { safeParseJson } from '@/src/core/helpers/data';
-import { demoDataFiles, demoDataPath, defaultDataFileIdx } from './constants';
+import { defaultDataFileIdx, demoDataFiles, demoDataPath } from '@/src/core/constants/demoData';
 
 export const currentDemoDataFileIdx = writable<number>(defaultDataFileIdx);
 
