@@ -1,10 +1,11 @@
 <!--
 @since 2023.12.24, 01:39
-@changed 2024.01.10, 14:44
+@changed 2024.01.15, 22:54
 -->
 
 # TODO
 
+- 2024.01.15, 22:54 -- Tune-up created dataset (fix top-level list types, add titles, etc...), (See `randoDataSetSpecsActions.ts`.)
 - 2024.01.10, 14:55 -- Derive data typings for source data drom exisitng data itself.
 - 2024.01.10, 14:50 -- Add ability to add/remove table rows.
 - 2024.01.10, 14:44 -- Add groups/sections to data description.

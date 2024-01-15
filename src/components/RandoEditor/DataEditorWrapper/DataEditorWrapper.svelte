@@ -1,32 +1,24 @@
 <script lang="ts">
-  import { TRandoDataSetKey } from '@/src/core/types/rando';
-  import {
-    getAllRandoDataSets,
-    getAvailableRandoDataSetKeys,
-    randoDataSetsStores,
-  } from '@/src/store';
+  import { TRandoSectionId } from '@/src/core/types/rando';
+  import { EditProperties } from '@/src/components/RandoEditor/EditProperties';
+  import { EditDataSet } from '@/src/components/RandoEditor/EditDataSet';
 
-  // TODO: Get current data set id from stores?
-  const dataSetKey: TRandoDataSetKey = 'delete';
-  const dataSetStore = randoDataSetsStores[dataSetKey];
-
-  const allRandoDataSets = getAllRandoDataSets();
-  const availableRandoDataSetKeys = getAvailableRandoDataSetKeys();
-
-  console.log('DataEditorWrapper:DEBUG', {
-    availableRandoDataSetKeys,
-    allRandoDataSets,
-    dataSetKey,
-    $dataSetStore,
-  });
+  export let sectionId: TRandoSectionId;
 </script>
 
 <div class="DataEditorWrapper">
+  <!-- // TODO: Reserved slot for common header
   <div class="header">header</div>
+  -->
   <div class="container scrollable">
     <div class="content">
-      <p>Placeholder for data set: <b>{dataSetKey}</b></p>
+      {#if sectionId === 'properties'}
+        <EditProperties />
+      {:else}
+        <EditDataSet dataSetId={sectionId} />
+      {/if}
       <!--
+      <p>Placeholder for data set: <b>{sectionId}</b></p>
       <DemoTable />
       {#each Array(25) as _, idx}
         <p>{idx + 1}</p>

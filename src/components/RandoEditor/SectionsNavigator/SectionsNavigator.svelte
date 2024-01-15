@@ -1,32 +1,30 @@
 <script lang="ts">
-  import { TRandoDataSetKey } from '@/src/core/types/rando';
-  import {
-    getAllRandoDataSets,
-    getAvailableRandoDataSetKeys,
-    randoDataSetsStores,
-  } from '@/src/store';
+  import { TRandoSectionId } from '@/src/core/types/rando';
 
-  // TODO: Get current data set id from stores?
-  const dataSetKey: TRandoDataSetKey = 'delete';
-  const dataSetStore = randoDataSetsStores[dataSetKey];
+  import { Section } from './Section';
 
-  const allRandoDataSets = getAllRandoDataSets();
-  const availableRandoDataSetKeys = getAvailableRandoDataSetKeys();
-
-  console.log('SectionsNavigator:DEBUG', {
-    availableRandoDataSetKeys,
-    allRandoDataSets,
-    dataSetKey,
-    $dataSetStore,
-  });
+  export let allSections: TRandoSectionId[];
+  export let sectionId: TRandoSectionId;
+  export let onChangeSection: (sectionId: TRandoSectionId) => void;
 </script>
 
 <div class="SectionsNavigator">
-  <div class="header">header</div>
+  <!-- // TODO: Reserved slot for common header
+    <div class={styles.header}>header</div>
+  -->
   <div class="container scrollable">
     <div class="content">
+      <!-- // DEMO: Check scrolling
       {#each Array(25) as _, idx}
         <p>{idx + 1}</p>
+      {/each}
+      -->
+      {#each allSections as id}
+        <Section sectionId={id} isActive={id === sectionId} {onChangeSection} />
+        {#if id === 'properties'}
+          <!-- Add visual delimiter after properties section -->
+          <div class="delimiter section" />
+        {/if}
       {/each}
     </div>
   </div>
