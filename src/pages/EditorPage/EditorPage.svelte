@@ -52,9 +52,6 @@
   // Current section...
   let sectionId: TRandoSectionId = 'properties'; // allSections[0];
   function onChangeSection(id: TRandoSectionId) {
-    console.log('[SectionsNavigator:onChangeSection]', {
-      id,
-    });
     sectionId = id;
   }
 </script>
@@ -65,7 +62,9 @@
 
 {#if ready}
   <div class="EditorPage">
+    <!-- // TODO: Show header
     <h2 class="header">Edit loaded data</h2>
+    -->
     <div class="layout">
       <div class="column sideColumn leftColumn">
         <SectionsNavigator {allSections} {sectionId} {onChangeSection} />

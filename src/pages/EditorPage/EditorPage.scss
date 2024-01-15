@@ -5,6 +5,13 @@
   overflow: hidden;
   width: 100%;
 
+  $hPadding: 16px;
+
+  // .header, // TODO: Probably will be used in the future
+  .layout {
+    margin-left: $hPadding;
+    margin-right: $hPadding;
+  }
   .layout {
     flex: 1;
     overflow: hidden;
@@ -12,8 +19,7 @@
     align-items: stretch;
     max-height: 100%;
     // XXX: NOTE: Temporarily spacings for demo: later inner spacing should be used
-    margin: 0 16px;
-    gap: 16px;
+    gap: $hPadding;
     & > * {
       overflow: hidden;
       // padding: 0 20px;

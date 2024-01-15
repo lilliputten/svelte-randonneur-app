@@ -1,1 +1,1 @@
-export const appTitle = 'Randonneour Data Editor';
+export const appTitle = 'Randonneour Data Browser';
