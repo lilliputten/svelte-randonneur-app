@@ -1,8 +1,11 @@
+import { describe, it, expect } from 'vitest';
+
 import { TGenericEditableSpec } from '@/src/core/types/editable';
 import { TDataSetDictSlot } from '@/src/core/types/rando';
-import { deriveDataSetSpec, TDeriveOpts } from './deriveDataSetSpec';
 
-import { describe, it, expect } from 'vitest';
+import { propertiesDataSample, propertiesDataSpec } from '@/src/core/constants/rando';
+
+import { deriveDataSetSpec, TDeriveOpts } from './deriveDataSetSpec';
 
 describe('deriveDataSetSpec', () => {
   describe('should derive scalar types', () => {
@@ -42,40 +45,10 @@ describe('deriveDataSetSpec', () => {
     });
   });
   describe('should derive comples types', () => {
-    it('properties-like object', () => {
-      const data: TDataSetDictSlot = {
-        name: 'ecoinvent-3.8-to-3.9-biosphere-example',
-        licenses: [
-          {
-            name: 'CC BY 4.0',
-            path: 'https://creativecommons.org/licenses/by/4.0/',
-            title: 'Creative Commons Attribution 4.0 International',
-          },
-        ],
-        created: '2023-03-11T09:53:59.74Z',
-      };
-      const expectedResult: TGenericEditableSpec = {
-        id: 'testObj',
-        type: 'object',
-        spec: [
-          { id: 'name', type: 'string' },
-          {
-            id: 'licenses-list',
-            type: 'list',
-            spec: {
-              id: 'licenses-object',
-              type: 'object',
-              spec: [
-                { id: 'name', type: 'string' },
-                { id: 'path', type: 'string' },
-                { id: 'title', type: 'string' },
-              ],
-            },
-          },
-          { id: 'created', type: 'string' }, // TODO: It should be a 'date' later (see Issue #8)
-        ],
-      };
-      const result: TGenericEditableSpec = deriveDataSetSpec('testObj', data);
+    it('properties object', () => {
+      const data: TDataSetDictSlot = propertiesDataSample;
+      const expectedResult: TGenericEditableSpec = propertiesDataSpec;
+      const result: TGenericEditableSpec = deriveDataSetSpec('properties', data);
       expect(result).toStrictEqual(expectedResult);
     });
     it('dataset with multi-level list', () => {
@@ -114,7 +87,7 @@ describe('deriveDataSetSpec', () => {
             id: 'update-list',
             type: 'list',
             spec: {
-              id: 'update-object',
+              id: 'update-item',
               type: 'object',
               spec: [
                 {
