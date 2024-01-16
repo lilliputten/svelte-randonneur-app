@@ -181,7 +181,7 @@ export function deriveDataSetSpec(
   if (data != null && Array.isArray(data)) {
     const listItemSpec = deriveListItemSpec(id, data, opts, level + 1);
     const listSpec: TEditableListSpec = {
-      id: id + '-list',
+      id,
       type: 'list',
       spec: listItemSpec,
     };

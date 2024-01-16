@@ -146,10 +146,10 @@ export function getPlainTableColSpecs(
   const flatSpecs = makeSpecsFlat(colSpecs, showFlatFields);
   /* console.log('[EditableTableHelpers:getPlainTableColSpecs]', {
    *   flatSpecs,
-   *   rowObjSpec,
    *   colSpecs,
-   *   flatObjects,
-   *   spec,
+   *   // rowObjSpec,
+   *   // flatObjects,
+   *   // spec,
    * });
    */
   return flatSpecs;
