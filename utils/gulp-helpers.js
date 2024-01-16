@@ -21,8 +21,9 @@ dayjs.extend(dayjsTimezone);
 
 const now = new Date();
 
+// Date formats for dayjs library...
 const tagFormat = 'YYMMDD-HHmm';
-const timeFormat = 'YYYY-MM-DD HH:mm ZZ';
+const timeFormat = 'YYYY.MM.DD HH:mm ZZ';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
