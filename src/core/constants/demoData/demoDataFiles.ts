@@ -21,4 +21,4 @@ export const demoDataFiles = [
     filename: 'UVEK-2022-to-ecoinvent-3.9-partial-transport.json',
   },
 ];
-export const defaultDataFileIdx = 1;
+export const defaultDataFileIdx = 0;
