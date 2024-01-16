@@ -51,7 +51,7 @@
   ];
 
   // Current section...
-  const defaultSectionId: TRandoSectionId = availableRandoDataSetKeys[0];
+  const defaultSectionId: TRandoSectionId = allSections[0];
   const sectionIdStore = writable<TRandoSectionId>(defaultSectionId);
   function onChangeSection(id: TRandoSectionId) {
     sectionIdStore.set(id);
