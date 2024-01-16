@@ -7,7 +7,7 @@ export const propertiesDataSpec: TGenericEditableSpec = {
   spec: [
     { id: 'name', type: 'string' },
     {
-      id: 'licenses-list',
+      id: 'licenses',
       type: 'list',
       spec: {
         id: 'licenses-item',
@@ -24,7 +24,7 @@ export const propertiesDataSpec: TGenericEditableSpec = {
     { id: 'homepage', type: 'string' },
     { id: 'created', type: 'string' }, // Should be a 'date' type
     {
-      id: 'contributors-list',
+      id: 'contributors',
       type: 'list',
       spec: {
         id: 'contributors-item',

@@ -8,6 +8,10 @@ export interface TEditableFieldSpec {
   title?: string;
   /** Internal id for flatterned fields, see `flatObjects` in tables */
   _flatId?: string;
+  /** DEBUG: Full id for debug purposes */
+  _fullId?: string;
+  /** DEBUG: Object level for debug purposes */
+  _level?: number;
   /* // TODO: Issue #16: Analyze list data cardinality (including these for nested objects' properties)
    * [>* Measured data variants count (from analyzed source) <]
    * _allValuesCount?: number;
