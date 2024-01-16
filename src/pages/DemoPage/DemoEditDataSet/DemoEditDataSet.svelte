@@ -1,79 +1,71 @@
 <script lang="ts">
-  import {
-    GenericEditable,
-    // EditableList,
-    // EditableObject,
-    // EditableTable,
-  } from '@/src/components/data';
-  import { propertiesDataSample, propertiesDataSpec } from '@/src/core/constants/rando';
-  import { extendPropertiesSpec } from '@/src/core/helpers/rando';
-  import {
-    TEditableObjectSpec,
-    TEditableListSpec,
-    TGenericEditableData,
-    TGenericEditableSpec,
-  } from '@/src/core/types/editable';
+  import { GenericEditable } from '@/src/components/data';
+  import { deriveDataSetSpec, extendDataSetSpec } from '@/src/core/helpers/rando';
+  import { TGenericEditableData, TGenericEditableSpec } from '@/src/core/types/editable';
+  import { TDataSetDictSlot } from '@/src/core/types/rando';
 
-  const propertiesData = { ...propertiesDataSample };
-  const propertiesSpec = { ...propertiesDataSpec };
-
-  extendPropertiesSpec(propertiesSpec);
-
-  /* // DEMO: Check only licenses list
-   * const licensesSpec: TGenericEditableSpec = {
-   *   id: 'licenses',
+  const dataSetData: TGenericEditableData = [
+    {
+      name: 'Nickel, ion',
+      code: 'e030108f-2125-4bcb-a73b-ad72130fcca3',
+      categories: ['water', 'ground-'],
+      unit: 'kilogram',
+    },
+  ];
+  const dataSetSpec = deriveDataSetSpec('create-datasets', dataSetData as TDataSetDictSlot);
+  /* const sampleDataSetSpec: TGenericEditableSpec = {
+   *   id: 'create-datasets',
    *   type: 'list',
-   *   label: 'Licenses',
-   *   layout: 'table',
-   *   flatObjects: true,
-   *   editInPlace: false,
-   *   useActionsColumn: true,
-   *   activeRows: true,
-   *   _fullId: 'properties.licenses',
-   *   _level: 1,
    *   spec: {
-   *     id: 'licenses-item',
+   *     id: 'create-datasets-item',
    *     type: 'object',
-   *     // layout: 'horizontal',
-   *     _fullId: 'properties.licenses.licenses-item',
-   *     _level: 2,
    *     spec: [
    *       {
    *         id: 'name',
    *         type: 'string',
    *         label: 'Name',
-   *         _fullId: 'properties.licenses.licenses-item.name',
-   *         _level: 3,
+   *         _fullId: 'create-datasets.create-datasets-item.name',
+   *         _level: 2,
    *       },
    *       {
-   *         id: 'path',
+   *         id: 'code',
    *         type: 'string',
-   *         label: 'Path',
-   *         _fullId: 'properties.licenses.licenses-item.path',
-   *         _level: 3,
+   *         label: 'Code',
+   *         _fullId: 'create-datasets.create-datasets-item.code',
+   *         _level: 2,
    *       },
    *       {
-   *         id: 'title',
+   *         id: 'categories',
+   *         type: 'list',
+   *         spec: {
+   *           id: 'categories-item', // XXX
+   *           type: 'string',
+   *         },
+   *         label: 'Categories',
+   *         _fullId: 'create-datasets.create-datasets-item.categories',
+   *         _level: 2,
+   *         layout: 'horizontal',
+   *       },
+   *       {
+   *         id: 'unit',
    *         type: 'string',
-   *         label: 'Title',
-   *         _fullId: 'properties.licenses.licenses-item.title',
-   *         _level: 3,
+   *         label: 'Unit',
+   *         _fullId: 'create-datasets.create-datasets-item.unit',
+   *         _level: 2,
    *       },
    *     ],
+   *     title: 'Create datasets item',
+   *     _fullId: 'create-datasets.create-datasets-item',
+   *     _level: 1,
    *   },
    * };
-   * const licensesData = [
-   *   {
-   *     name: 'CC BY 4.0',
-   *     path: 'https://creativecommons.org/licenses/by/4.0/',
-   *     title: 'Creative Commons Attribution 4.0 International',
-   *   },
-   * ];
    */
 
+  extendDataSetSpec(dataSetSpec);
+
   console.log('[DemoEditDataSet]', {
-    propertiesSpec,
-    propertiesData,
+    dataSetSpec,
+    dataSetData,
   });
 
   function onChange(data: TGenericEditableData, spec: TGenericEditableSpec) {
@@ -92,7 +84,7 @@
     <!--
     <GenericEditable spec={licensesSpec} data={licensesData} {onChange} />
     -->
-    <GenericEditable spec={propertiesSpec} data={propertiesData} {onChange} />
+    <GenericEditable spec={dataSetSpec} data={dataSetData} {onChange} />
   </div>
 </div>
 

@@ -5,6 +5,7 @@
   import { DemoDates } from './DemoDates';
   import DataEditorWrapper from '@/src/components/RandoEditor/DataEditorWrapper';
   import { DemoEditProperties } from './DemoEditProperties';
+  import { DemoEditDataSet } from './DemoEditDataSet';
   // import DemoTable from '@/src/components/RandoEditor/DataEditorWrapper/DemoTable';
 
   // import styles from './DemoPage.module.scss';
@@ -23,8 +24,9 @@
       <DemoEditableTable />
       <DemoDates />
       <DemoEditableObjects />
-      -->
       <DemoEditProperties />
+      -->
+      <DemoEditDataSet />
     </div>
   </div>
 </div>
