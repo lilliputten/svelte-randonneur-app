@@ -140,7 +140,7 @@ export function getPlainTableColSpecs(
   const rowObjSpec = spec.spec as TEditableObjectSpec;
   /** Row item specifications */
   const colSpecs = rowObjSpec.spec;
-  if (!flatObjects) {
+  if (!flatObjects || !colSpecs) {
     return colSpecs;
   }
   const flatSpecs = makeSpecsFlat(colSpecs, showFlatFields);

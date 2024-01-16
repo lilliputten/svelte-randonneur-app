@@ -6,6 +6,8 @@
   export let allSections: TRandoSectionId[];
   export let sectionId: TRandoSectionId;
   export let onChangeSection: (sectionId: TRandoSectionId) => void;
+
+  $: console.log('[SectionsNavigator]', sectionId);
 </script>
 
 <div class="SectionsNavigator">

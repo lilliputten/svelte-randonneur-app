@@ -29,11 +29,9 @@
   const objectData = data as TEditableObjectData;
   const listData = data as TEditableListData;
 
-  /* console.log('[GenericEditable:DEBUG]', {
-   *   id: spec?.id,
-   *   type: spec?.type,
-   *   data,
+  /* $: console.log('[GenericEditable]', spec?.id, spec?.type, {
    *   spec,
+   *   data,
    * });
    */
 </script>

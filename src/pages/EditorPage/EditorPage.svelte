@@ -1,7 +1,8 @@
 <script lang="ts">
+  import { writable } from 'svelte/store';
+  import { onDestroy, onMount } from 'svelte';
   import { browser } from '$app/environment';
   import { goto } from '$app/navigation';
-  import { onDestroy, onMount } from 'svelte';
 
   import { getAvailableRandoDataSetKeys, hasDataStore } from '@/src/store';
 
@@ -50,9 +51,10 @@
   ];
 
   // Current section...
-  let sectionId: TRandoSectionId = 'properties'; // allSections[0];
+  const defaultSectionId: TRandoSectionId = 'properties'; // availableRandoDataSetKeys[0];
+  const sectionIdStore = writable<TRandoSectionId>(defaultSectionId);
   function onChangeSection(id: TRandoSectionId) {
-    sectionId = id;
+    sectionIdStore.set(id);
   }
 </script>
 
@@ -67,10 +69,10 @@
     -->
     <div class="layout">
       <div class="column sideColumn leftColumn">
-        <SectionsNavigator {allSections} {sectionId} {onChangeSection} />
+        <SectionsNavigator {allSections} sectionId={$sectionIdStore} {onChangeSection} />
       </div>
       <div class="column mainColumn">
-        <DataEditorWrapper {sectionId} />
+        <DataEditorWrapper sectionId={$sectionIdStore} />
       </div>
     </div>
   </div>
