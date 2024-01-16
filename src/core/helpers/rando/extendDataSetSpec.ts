@@ -14,7 +14,7 @@ interface TExtendPropertiesSpecOpts {
   // makeHorizontalList?: boolean;
 }
 
-export function extendPropertiesSpec(
+export function extendDataSetSpec(
   spec: TGenericEditableSpec,
   level: number = 0,
   parentId: string = '',
@@ -33,16 +33,21 @@ export function extendPropertiesSpec(
   spec._level = level;
   if (type === 'object' && spec.spec) {
     spec.spec.forEach((itemSpec) => {
-      extendPropertiesSpec(itemSpec, level + 1, thisId);
+      extendDataSetSpec(itemSpec, level + 1, thisId);
     });
   }
   if (type === 'list' && spec.spec) {
     const itemSpec = spec.spec as TEditableObjectSpec;
-    spec.layout = 'table';
-    spec.flatObjects = true;
-    spec.editInPlace = false;
-    spec.useActionsColumn = true;
-    spec.activeRows = true;
-    extendPropertiesSpec(itemSpec, level + 1, thisId, { dontAddLabels: true });
+    if (itemSpec.type === 'object') {
+      spec.layout = 'table';
+      spec.flatObjects = true;
+      spec.editInPlace = false;
+      spec.useActionsColumn = true;
+      spec.activeRows = true;
+      extendDataSetSpec(itemSpec, level + 1, thisId, { dontAddLabels: true });
+    } else {
+      // TODO: Determine whether the list can be displayed horizontally.
+      spec.layout = 'horizontal';
+    }
   }
 }

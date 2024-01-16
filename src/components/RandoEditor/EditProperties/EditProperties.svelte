@@ -3,10 +3,16 @@
   import { randoPropertiesStore } from '@/src/store';
   import { TGenericEditableData, TGenericEditableSpec } from '@/src/core/types/editable';
   import { GenericEditable } from '@/src/components/data';
+  import { extendPropertiesSpec } from '@/src/core/helpers/rando';
+  import { TRandoPropertiesSlot } from '@/src/core/types/rando';
 
-  console.log('[EditProperties] DEBUG', {
+  const propertiesSpec = { ...propertiesDataSpec };
+
+  extendPropertiesSpec(propertiesSpec);
+
+  $: console.log('[EditProperties] DEBUG', {
     $randoPropertiesStore,
-    propertiesDataSpec,
+    propertiesSpec,
   });
 
   function onChange(data: TGenericEditableData, spec: TGenericEditableSpec) {
@@ -16,11 +22,12 @@
       spec,
     });
     // TODO: Update data
+    randoPropertiesStore.set(data as TRandoPropertiesSlot);
   }
 </script>
 
 <div class="EditProperties">
-  <GenericEditable spec={propertiesDataSpec} data={$randoPropertiesStore} {onChange} />
+  <GenericEditable spec={propertiesSpec} data={$randoPropertiesStore} {onChange} />
 </div>
 
 <style src="./EditProperties.scss" lang="scss"></style>

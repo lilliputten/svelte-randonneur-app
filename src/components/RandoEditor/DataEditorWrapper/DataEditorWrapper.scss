@@ -1,7 +1,11 @@
 .DataEditorWrapper {
-  /*!KEEP*/
+  margin: 16px 0;
   display: flex;
   flex-direction: column;
+  gap: 16px;
+  .header {
+    @include BigTitleText;
+  }
   .container {
     flex: 1;
     overflow: hidden;

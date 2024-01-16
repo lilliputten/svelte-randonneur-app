@@ -63,10 +63,18 @@
   line-height: 20px;
   font-weight: 600;
 }
+@mixin BigTitleText {
+  @include defaultFont;
+  font-size: 140%;
+}
+@mixin TitleText {
+  @include defaultFont;
+  font-size: 125%;
+}
 @mixin EditableVerticalSectionLabel {
   @include EditableLabel;
+  @include TitleText;
   color: $defaultTextColor;
-  font-size: 125%;
   margin-top: 20px;
   margin-bottom: 12px;
 }
