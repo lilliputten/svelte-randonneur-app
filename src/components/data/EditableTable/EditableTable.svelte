@@ -55,6 +55,13 @@
   let tableFlatDataStore = writable<TTableRow[]>(flatData);
   let tableFullDataStore = writable<TTableRow[]>([...(data as TTableRow[])]);
 
+  /* // DEBUG
+   * $: console.log('[EditableTable] debug data', {
+   *   $tableFlatDataStore,
+   *   $tableFullDataStore,
+   * });
+   */
+
   /** Table object */
   const table = createTable(tableFlatDataStore);
 
@@ -110,8 +117,7 @@
     }
     const colSpec = colSpecsHash[colId];
     const rowIdx = parseInt(id);
-    // TODO: Get colIdx?
-    /* console.log('[EditableTable:EditableCell]', {
+    /* console.log('[EditableTable:EditableCell]', colId, {
      *   colId,
      *   colSpec,
      *   rowIdx,
@@ -122,8 +128,12 @@
      *   colSpecs,
      * });
      */
-    if (!editInPlace && isScalarSpec(colSpec)) {
-      return value != null ? value : '';
+    if (!editInPlace) {
+      if (colSpec.type === 'list') {
+        return value && Array.isArray(value) ? value.join(', ') : '';
+      } else if (isScalarSpec(colSpec)) {
+        return value != null ? value : '';
+      }
     }
     return createRender(GenericEditable, {
       spec: colSpec,
@@ -233,9 +243,10 @@
 
   function triggerChange() {
     const data = $tableFullDataStore;
-    console.log('[EditableTable:triggerChange]', {
-      data,
-    });
+    /* console.log('[EditableTable:triggerChange]', {
+     *   data,
+     * });
+     */
     if (onChange) {
       onChange(data, spec);
     }
@@ -248,14 +259,15 @@
     const currentFlatItem = $tableFlatDataStore[rowIdx];
     const newFlatItem = { ...currentFlatItem, [flatId]: data } as TTableRow;
     const newFullItem = restoreFullFromFlatData(newFlatItem);
-    console.log('[EditableTable:onUpdateValue] set item', {
-      id,
-      rowIdx,
-      data,
-      spec,
-      newFlatItem,
-      newFullItem,
-    });
+    /* console.log('[EditableTable:onUpdateValue] set item', {
+     *   id,
+     *   rowIdx,
+     *   data,
+     *   spec,
+     *   newFlatItem,
+     *   newFullItem,
+     * });
+     */
     // Update flat store...
     $tableFlatDataStore[rowIdx] = newFlatItem;
     $tableFlatDataStore = $tableFlatDataStore;
@@ -293,11 +305,12 @@
       const rowNode = ev.currentTarget as HTMLTableRowElement;
       const id = rowNode?.id;
       const rowIdx = Number(id);
-      console.log('[EditableTable:onRowClick]', {
-        rowIdx,
-        id,
-        rowNode,
-      });
+      /* console.log('[EditableTable:onRowClick]', {
+       *   rowIdx,
+       *   id,
+       *   rowNode,
+       * });
+       */
       ev.preventDefault();
       ev.stopPropagation();
       // TODO: Start edit node...
@@ -310,12 +323,13 @@
     if (rowIdx != null) {
       const fullItem = data as TEditableObjectData;
       const flatItem = makeFlatFromFullData(fullItem);
-      console.log('[EditableTable:handleRowDataChange]', {
-        rowIdx,
-        fullItem,
-        flatItem,
-        spec,
-      });
+      /* console.log('[EditableTable:handleRowDataChange]', {
+       *   rowIdx,
+       *   fullItem,
+       *   flatItem,
+       *   spec,
+       * });
+       */
       // Update flat store...
       $tableFlatDataStore[rowIdx] = flatItem;
       $tableFlatDataStore = $tableFlatDataStore;
@@ -374,7 +388,7 @@
       {/each}
     </tbody>
   </table>
-  <Modal opened={modalOpened} on:close={stopEditRowData} title="Edit data row">
+  <Modal opened={modalOpened} on:close={stopEditRowData} title="Edit data row" size="xl">
     {#if activeRows && modalOpened && $selectedRow != null}
       <EditRowForm
         data={$tableFullDataStore[$selectedRow]}

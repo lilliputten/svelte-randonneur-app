@@ -12,7 +12,11 @@
 
   function makeSpec(srcSpec: TRandoDataSetSpecSlot): TGenericEditableSpec {
     const spec = { ...srcSpec } as TGenericEditableSpec;
-    // extendDataSetSpec(spec); // TODO!
+    extendDataSetSpec(spec); // TODO!
+    console.log('[EditDataSet:makeSpec]', {
+      srcSpec,
+      spec,
+    });
     return spec;
   }
 
@@ -20,6 +24,7 @@
 
   // $: console.log('[EditDataSet] $dataSetSpecStore', dataSetId, $dataSetSpecStore);
   // $: console.log('[EditDataSet] spec', dataSetId, spec);
+  // $: console.log('[EditDataSet] data', dataSetId, $dataSetDataStore);
 
   function onChange(data: TGenericEditableData, spec: TGenericEditableSpec) {
     console.log('[EditDataSet:onChange]', spec.id, {

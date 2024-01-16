@@ -22,7 +22,7 @@
       @include EditableVerticalSectionLabel;
     }
   }
-  @at-root &[data-layout='horizontal'] {
+  &[data-layout='horizontal'] {
     &,
     > .ItemsWrapper {
       flex-direction: row;

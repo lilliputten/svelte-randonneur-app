@@ -1,10 +1,11 @@
 <!--
 @since 2023.12.24, 01:39
-@changed 2024.01.15, 22:54
+@changed 2024.01.16, 22:01
 -->
 
 # TODO
 
+- 2024.01.16, 22:01 -- Set text (especially title) colors according to the current theme mode.
 - 2024.01.15, 22:54 -- Tune-up created dataset (fix top-level list types, add titles, etc...), (See `randoDataSetSpecsActions.ts`.)
 - 2024.01.10, 14:55 -- Derive data typings for source data drom exisitng data itself.
 - 2024.01.10, 14:50 -- Add ability to add/remove table rows.

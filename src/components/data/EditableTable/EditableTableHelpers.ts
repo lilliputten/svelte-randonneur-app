@@ -15,7 +15,7 @@ export function isScalarType(type: string): boolean {
 }
 
 export function isScalarSpec(spec: TGenericEditableSpec): boolean {
-  const { type } = spec;
+  const type = spec.type;
   return isScalarType(type);
 }
 
@@ -30,8 +30,13 @@ export function makeFlatFromFullData(
     const flatId = [parentId, id].filter(Boolean).join('.');
     const val = data[id];
     if (val && typeof val === 'object') {
-      const flatData = makeFlatFromFullData(val as TEditableObjectData, flatId);
-      resultData = { ...resultData, ...flatData };
+      if (Array.isArray(val)) {
+        // TODO: What shall we do if here are nested objects?
+        resultData[flatId] = [...val];
+      } else {
+        const flatData = makeFlatFromFullData(val as TEditableObjectData, flatId);
+        resultData = { ...resultData, ...flatData };
+      }
     } else {
       resultData[flatId] = val;
     }
