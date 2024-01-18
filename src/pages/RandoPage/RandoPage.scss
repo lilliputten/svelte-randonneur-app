@@ -7,43 +7,38 @@
 
   $hPadding: 16px;
 
+  $adaptiveTreshold: 600px;
+
   // .header, // TODO: Probably will be used in the future
   .layout {
-    margin-left: $hPadding;
-    margin-right: $hPadding;
-  }
-  .layout {
+    padding-left: $hPadding;
+    padding-right: $hPadding;
     flex: 1;
-    overflow: hidden;
-    display: flex;
-    align-items: stretch;
-    max-height: 100%;
-    // XXX: NOTE: Temporarily spacings for demo: later inner spacing should be used
+    // flex-direction: column;
+    overflow: auto;
     gap: $hPadding;
-    & > * {
+    @media (min-width: $adaptiveTreshold) {
+      display: flex;
+      align-items: stretch;
+      flex-direction: row;
       overflow: hidden;
-      // padding: 0 20px;
-      /* // TODO?
-       * &.scrollable {
-       *   oveflow: auto;
-       * }
-       */
+      max-height: 100%;
+      & > * {
+        overflow: hidden;
+      }
     }
   }
   .column {
     display: flex;
-    /* &.scrollable {
-     *   overflow: auto;
-     * }
-     */
   }
   .sideColumn {
-    min-width: 200px;
-    max-width: 350px;
-    width: 20%;
+    @media (min-width: $adaptiveTreshold) {
+      min-width: 200px;
+      max-width: 350px;
+      width: 20%;
+    }
   }
   .mainColumn {
     flex: 1;
-    // flex-direction: column; // DEMO?
   }
 }

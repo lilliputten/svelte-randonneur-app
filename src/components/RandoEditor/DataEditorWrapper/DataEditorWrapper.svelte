@@ -6,8 +6,6 @@
 
   export let sectionId: TRandoSectionId;
 
-  // $: console.log('[DataEditorWrapper]', sectionId);
-
   $: title = sectionTitles[sectionId];
 </script>
 

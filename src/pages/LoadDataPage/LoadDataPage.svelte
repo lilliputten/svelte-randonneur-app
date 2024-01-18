@@ -7,6 +7,8 @@
 -->
 
 <script lang="ts">
+  import { onMount } from 'svelte';
+  import { writable } from 'svelte/store';
   import { goto } from '$app/navigation';
   import { NativeSelect, Button } from '@svelteuidev/core';
   import { Loader } from '@svelteuidev/core';
@@ -37,7 +39,7 @@
 
   $: loading = loadingDemoData || loadingLocalData;
 
-  let localFileText = 'Upload file';
+  let localFileText = 'Select and upload local file';
 
   function loadDemoData() {
     const dataId = getDemoDataFileId(demoDataFileIdx);
@@ -118,6 +120,7 @@
     localDataFile = file;
     const size = getApproxSize(fileSize, { normalize: true }).join('');
     localFileText = `${fileName} (${size})`;
+    loadLocalData();
   }
 
   function loadLocalData() {
@@ -151,6 +154,7 @@
         setRandData(data);
         // Show notification
         addToast({ message: 'Local data loading successfully finished', type: 'success' });
+        goToMainAppPage(); // Issue #22: Immediatelly go to main page
       })
       .catch((error) => {
         const errorMsg = getErrorText(error);
@@ -170,12 +174,18 @@
       });
   }
 
-  let loaded = false;
+  const initedStore = writable(false);
+  let goingOutStore = writable(false);
+  // let goingOut = false;
+
+  onMount(() => {
+    initedStore.set(true);
+  });
 
   /** Go to the data data */
   function goToMainAppPage() {
     if ($hasDataStore) {
-      loaded = true;
+      goingOutStore.set(true);
       goto('/data');
     }
   }
@@ -185,7 +195,13 @@
   <title>Load data</title>
 </svelte:head>
 
-<div class={classNames(styles.LoadDataPage, loading && styles.loading, loaded && styles.loaded)}>
+<div
+  class={classNames(
+    styles.LoadDataPage,
+    loading && styles.loading,
+    goingOutStore && styles.goingOut && $initedStore && styles.inited,
+  )}
+>
   <div class={classNames(styles.LoadDataPage_Wrapper)}>
     <h1 class={classNames(styles.header)}>Load data to edit</h1>
 
@@ -205,7 +221,7 @@
           data={demoDataFilesSelectData}
           id="demoDataFile"
           bind:value={demoDataFileIdx}
-          placeholder="Pick one"
+          placeholder="Select demo dataset"
         />
         <Button id="loadDemoDataAction" on:click={loadDemoData}>Load demo data</Button>
       </div>
@@ -231,9 +247,11 @@
             on:change={handleLocalFile}
           />
         </Button>
+        <!--
         <Button id="loadLocalDataAction" on:click={loadLocalData} disabled={!localDataFile}>
           Load local data
         </Button>
+        -->
       </div>
     </section>
 
@@ -262,7 +280,3 @@
     <Loader />
   </Paper>
 </div>
-
-<!--
-<style src="./LoadDataPage.scss" lang="scss"></style>
--->

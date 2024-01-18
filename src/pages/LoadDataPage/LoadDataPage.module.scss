@@ -25,7 +25,8 @@
     box-shadow: none;
     pointer-events: none;
   }
-  &.loaded,
+  &:not(.inited),
+  &.goingOut,
   &.loading {
     .WaiterPanel {
       opacity: 1;
