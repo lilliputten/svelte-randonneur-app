@@ -19,12 +19,14 @@
   import { EditableTable } from '../EditableTable';
   import classNames from 'classnames';
 
+  import styles from './GenericEditable.module.scss';
+
   export let className: string | undefined = undefined;
   export let spec: TGenericEditableSpec;
   export let data: TGenericEditableData | undefined = undefined;
   export let onChange: TGenericEditableOnChangeCallback | undefined = undefined;
 
-  const nextClassName = classNames(className, 'GenericEditable');
+  const nextClassName = classNames(className, styles.GenericEditable);
 
   const objectData = data as TEditableObjectData;
   const listData = data as TEditableListData;

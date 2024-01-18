@@ -4,7 +4,7 @@
   import { TGenericEditableData, TGenericEditableSpec } from '@/src/core/types/editable';
   import { TDataSetDictSlot } from '@/src/core/types/rando';
 
-  const dataSetData: TGenericEditableData = [
+  const dataSetDataSimple: TGenericEditableData = [
     {
       name: 'Nickel, ion',
       code: 'e030108f-2125-4bcb-a73b-ad72130fcca3',
@@ -12,12 +12,30 @@
       unit: 'kilogram',
     },
   ];
-  const dataSetSpec = deriveDataSetSpec('create-datasets', dataSetData as TDataSetDictSlot);
+  const dataSetData: TGenericEditableData = [
+    {
+      test_value: 1,
+      source: {
+        name: '1,4-Butanediol',
+        categories: ['Emissions to water', 'river'],
+        unit: 'kg',
+      },
+      target: {
+        uuid: 'd6911d36-3fec-41fe-8ef9-540f6543a240',
+        name: '1,4-Butanediol',
+        context: 'water/surface water',
+        unit: 'kg',
+      },
+      conversion_factor: 1.0,
+      comment: 'Identical names',
+    },
+  ];
+  const dataSetSpec = deriveDataSetSpec('sample', dataSetData as TDataSetDictSlot);
   /* const sampleDataSetSpec: TGenericEditableSpec = {
-   *   id: 'create-datasets',
+   *   id: 'sample',
    *   type: 'list',
    *   spec: {
-   *     id: 'create-datasets-item',
+   *     id: 'sample-item',
    *     type: 'object',
    *     spec: [
    *       {
