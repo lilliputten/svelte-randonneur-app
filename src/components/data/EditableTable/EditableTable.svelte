@@ -1,6 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
-  import { Modal, Group, Button } from '@svelteuidev/core';
+  import { Modal } from '@svelteuidev/core';
   import { writable } from 'svelte/store';
   import {
     Render,
@@ -25,6 +25,7 @@
   import { GenericEditable } from '../GenericEditable';
   import {
     getFlatItemId,
+    getFullItemId,
     getPlainTableColSpecs,
     isScalarSpec,
     makeFlatFromFullData,
@@ -172,13 +173,33 @@
   /** Table columns descriptions derived from row object fields specifications */
   const tableColumnItems = colSpecs.map((item) => {
     const flatId = getFlatItemId(item);
-    /* console.log('[EditableTable:tableColumnItems]', flatId, {
-     *   item,
-     * });
-     */
+    // const fullId = getFullItemId(item);
+    // @ts-expect-error: Using hidden value
+    const title = item._groupTitle || item.title || item.label || flatId;
+    console.log('[EditableTable:tableColumnItems]', flatId, {
+      item,
+    });
+    // TODO: Create multi-level table headers based on this example
+    // See Kitchen Sink example:
+    // https://svelte-headless-table.bryanmylee.com/docs/examples/kitchen-sink
+    // https://svelte.dev/repl/457c10b649cc4bc7a84f9511a81b5361?version=3.48.0
+    if (flatId === 'target.uuid') {
+      return table.group({
+        header: 'XXX',
+        columns: [
+          table.column({
+            id: flatId,
+            accessor: flatId, // item.id,
+            header: title,
+            cell: EditableCell,
+          }),
+        ],
+      });
+    }
     return table.column({
+      id: flatId,
       accessor: flatId, // item.id,
-      header: item.title || item.label || flatId,
+      header: title,
       cell: EditableCell,
     });
   });
@@ -254,7 +275,7 @@
   }
 
   function onUpdateItem(rowIdx: number, data: TGenericEditableData, spec: TGenericEditableSpec) {
-    const { id } = spec;
+    // const { id } = spec;
     const flatId = getFlatItemId(spec);
     const currentFlatItem = $tableFlatDataStore[rowIdx];
     const newFlatItem = { ...currentFlatItem, [flatId]: data } as TTableRow;
@@ -318,7 +339,7 @@
     }
   }
 
-  function handleRowDataChange(data: TGenericEditableData, spec: TGenericEditableSpec) {
+  function handleRowDataChange(data: TGenericEditableData, _spec: TGenericEditableSpec) {
     const rowIdx = $selectedRow;
     if (rowIdx != null) {
       const fullItem = data as TEditableObjectData;
@@ -327,7 +348,7 @@
        *   rowIdx,
        *   fullItem,
        *   flatItem,
-       *   spec,
+       *   // _spec,
        * });
        */
       // Update flat store...
@@ -388,7 +409,13 @@
       {/each}
     </tbody>
   </table>
-  <Modal opened={modalOpened} on:close={stopEditRowData} title="Edit data row" size="xl">
+  <Modal
+    opened={modalOpened}
+    on:close={stopEditRowData}
+    title="Edit data row"
+    size="xl"
+    overflow="inside"
+  >
     {#if activeRows && modalOpened && $selectedRow != null}
       <EditRowForm
         data={$tableFullDataStore[$selectedRow]}
