@@ -1,10 +1,5 @@
-import { ucFirst } from '@/src/core/helpers/basic';
-import {
-  TEditableObjectSpec,
-  // TEditableListSpec,
-  // TGenericEditableData,
-  TGenericEditableSpec,
-} from '@/src/core/types/editable';
+import { TEditableObjectSpec, TGenericEditableSpec } from '@/src/core/types/editable';
+import { makeTitleFromPropertyId } from '@/src/core/helpers/data';
 
 interface TExtendPropertiesSpecOpts {
   /** Don't add labels on this level */
@@ -12,10 +7,6 @@ interface TExtendPropertiesSpecOpts {
   /** Don't add titles on this level */
   dontAddTitles?: boolean;
   // makeHorizontalList?: boolean;
-}
-
-function makeTitle(title: string) {
-  return ucFirst(title.trim()).replace(/[_ \t-]+/g, ' ');
 }
 
 export function extendDataSetSpec(
@@ -27,9 +18,9 @@ export function extendDataSetSpec(
   const { id, type } = spec;
   const thisId = [parentId, id].filter(Boolean).join('.');
   if (!spec.label && !opts.dontAddLabels) {
-    spec.label = spec.title || makeTitle(id);
+    spec.label = spec.title || makeTitleFromPropertyId(id);
   } else if (!spec.title && !opts.dontAddTitles) {
-    spec.title = spec.label || makeTitle(id);
+    spec.title = spec.label || makeTitleFromPropertyId(id);
   }
   spec._fullId = thisId;
   // --@ts-expect-error: Using debug field
