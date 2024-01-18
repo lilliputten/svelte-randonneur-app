@@ -16,11 +16,12 @@
 </script>
 
 <Button
-  class={classNames(className, styles.Section, isActive && styles.active)}
+  class={classNames(className, styles.Section)}
   id={sectionId}
   {title}
   variant={isActive ? 'filled' : 'light'}
   on:click={onChangeSection.bind(null, sectionId)}
+  fullSize
 >
   {title}
 </Button>
