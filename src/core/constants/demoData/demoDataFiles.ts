@@ -5,6 +5,10 @@ export const demoDataFiles = [
     filename: 'minimal-1.json',
   },
   {
+    id: 'agribalyse-3.1.1-biosphere-ecoinvent-3.8-biosphere',
+    filename: 'agribalyse-3.1.1-biosphere-ecoinvent-3.8-biosphere.json',
+  },
+  {
     id: 'ecoinvent-biosphere-3.8-3.9-example',
     filename: 'ecoinvent-biosphere-3.8-3.9-example.json',
   },
