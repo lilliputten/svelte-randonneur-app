@@ -84,7 +84,7 @@ describe('deriveDataSetSpec', () => {
         type: 'object',
         spec: [
           {
-            id: 'update-list',
+            id: 'update',
             type: 'list',
             spec: {
               id: 'update-item',
@@ -97,7 +97,7 @@ describe('deriveDataSetSpec', () => {
                     { id: 'name', type: 'string' },
                     { id: 'code', type: 'string' },
                     {
-                      id: 'categories-list',
+                      id: 'categories',
                       type: 'list',
                       spec: {
                         id: 'categories',

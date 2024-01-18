@@ -78,7 +78,7 @@
         "run",
         "related",
         // Add module name below...
-        "deriveDataSetSpec"
+        "makeTitleFromPropertyId"
       ],
       "type": "node",
       "request": "launch",
