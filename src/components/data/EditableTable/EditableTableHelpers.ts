@@ -1,3 +1,4 @@
+import { makeTitleFromPropertyId } from '@/src/core/helpers/data';
 import {
   TEditableListSpec,
   // TEditableListData,
@@ -96,6 +97,12 @@ export function getFlatItemId(spec: TGenericEditableSpec): string {
   return flatId;
 }
 
+export function getFullItemId(spec: TGenericEditableSpec): string {
+  const { id, _fullId } = spec as TEditableFieldSpec;
+  const fullId = _fullId || id;
+  return fullId;
+}
+
 function makeSpecsFlat(
   colSpecs: TGenericEditableSpec[],
   showFlatFields?: string[],
@@ -149,13 +156,28 @@ export function getPlainTableColSpecs(
     return colSpecs;
   }
   const flatSpecs = makeSpecsFlat(colSpecs, showFlatFields);
-  /* console.log('[EditableTableHelpers:getPlainTableColSpecs]', {
-   *   flatSpecs,
-   *   colSpecs,
-   *   // rowObjSpec,
-   *   // flatObjects,
-   *   // spec,
-   * });
-   */
+  flatSpecs.forEach((subSpec) => {
+    const { _fullId, _flatId } = subSpec;
+    if (_flatId?.includes('.')) {
+      const hdrIds = _flatId?.split('.');
+      const hdrTitles = hdrIds.map(makeTitleFromPropertyId);
+      const hdrId = hdrIds.join('.');
+      // @ts-expect-error: Store hidden values for local usage
+      subSpec._hdrIds = hdrIds;
+      // @ts-expect-error: Store hidden values for local usage
+      subSpec._hdrTitles = hdrTitles;
+      // @ts-expect-error: Store hidden values for local usage
+      subSpec._hdrId = hdrId;
+      // @ts-expect-error: Store hidden values for local usage
+      subSpec._groupTitle = hdrTitles.join(' / ');
+    }
+  });
+  console.log('[EditableTableHelpers:getPlainTableColSpecs]', {
+    flatSpecs,
+    colSpecs,
+    // rowObjSpec,
+    // flatObjects,
+    // spec,
+  });
   return flatSpecs;
 }
