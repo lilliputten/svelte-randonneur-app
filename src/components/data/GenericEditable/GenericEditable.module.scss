@@ -1,0 +1,26 @@
+.GenericEditable {
+  $vSpacing: 20px;
+  // NOTE: Variant with border delimiter
+  &[data-layout='vertical'] {
+    margin-top: $vSpacing;
+    margin-bottom: $vSpacing + 4px;
+  }
+  &[data-layout='vertical'] + &[data-layout='vertical'] {
+    margin-top: 0;
+  }
+  /* // NOTE: Variant with border delimiter
+  &[data-layout='vertical'] {
+    border-top: 1px solid $borderColor;
+    margin-top: $vSpacing;
+    padding-top: $vSpacing;
+    padding-bottom: $vSpacing + 4px;
+  }
+  &[data-layout='vertical'] + &[data-layout='vertical'] {
+    margin-top: 0;
+  }
+  &[data-layout='vertical'] + &:not([data-layout='vertical']) {
+    border-top: 1px solid $borderColor;
+    padding-top: $vSpacing;
+  }
+  */
+}
