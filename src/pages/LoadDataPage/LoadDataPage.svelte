@@ -1,7 +1,16 @@
+<!--
+
+  TODO:
+
+  - 2024.01.18, 14:19: Add loading spinner to load data buttons while the data is loading.
+
+-->
+
 <script lang="ts">
-  import { get } from 'svelte/store';
   import { goto } from '$app/navigation';
   import { NativeSelect, Button } from '@svelteuidev/core';
+  import { Loader } from '@svelteuidev/core';
+  import { Paper } from '@svelteuidev/core';
   import classNames from 'classnames';
 
   import { addToast } from '@/src/components/ui/Toasts';
@@ -26,11 +35,6 @@
     return { label: id, value: String(idx) };
   });
 
-  /* // DEBUG
-   * $: console.log('[LoadDataPage] demoDataFileIdx', demoDataFileIdx);
-   * $: console.log('localDataFile', localDataFile);
-   */
-
   $: loading = loadingDemoData || loadingLocalData;
 
   let localFileText = 'Upload file';
@@ -54,6 +58,7 @@
         setRandData(data);
         // Show notification
         addToast({ message: 'Demo data loading successfully finished', type: 'success' });
+        goToMainAppPage(); // Issue #22: Immediatelly go to main page
       })
       .catch((error) => {
         // TODO: Append explaining message...
@@ -158,16 +163,20 @@
         debugger;
         // Show an error?
         addToast({ message: errorMsg, type: 'error' });
+        goToMainAppPage(); // Issue #22: Immediatelly go to main page
       })
       .finally(() => {
         loadingLocalData = false;
       });
   }
 
-  /** Go to the data editor */
-  function goToEditor() {
-    if (get(hasDataStore)) {
-      goto('/editor');
+  let loaded = false;
+
+  /** Go to the data data */
+  function goToMainAppPage() {
+    if ($hasDataStore) {
+      loaded = true;
+      goto('/data');
     }
   }
 </script>
@@ -176,7 +185,7 @@
   <title>Load data</title>
 </svelte:head>
 
-<div class={classNames(styles.LoadDataPage, loading && 'loading')}>
+<div class={classNames(styles.LoadDataPage, loading && styles.loading, loaded && styles.loaded)}>
   <div class={classNames(styles.LoadDataPage_Wrapper)}>
     <h1 class={classNames(styles.header)}>Load data to edit</h1>
 
@@ -239,14 +248,19 @@
       TODO: Show loaded data info?
     -->
 
+    <!-- // Issue #22: Immediatelly go to main page
     <section id="actions" class={classNames('delimited', 'vpadded')}>
       <div class={classNames(styles.formGroup)}>
-        <Button id="goToEditor" on:click={goToEditor} disabled={!$hasDataStore}>
-          Go to editor
+        <Button id="goToMainAppPage" on:click={goToMainAppPage} disabled={!$hasDataStore}>
+          Go to the data browser
         </Button>
       </div>
     </section>
+    -->
   </div>
+  <Paper class={styles.WaiterPanel} radius={0} shadow={undefined}>
+    <Loader />
+  </Paper>
 </div>
 
 <!--
