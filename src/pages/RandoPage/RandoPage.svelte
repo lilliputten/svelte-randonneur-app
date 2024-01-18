@@ -20,7 +20,7 @@
       const errorMsg = 'Data has not been initialized. Going to the main page.';
       const error = new Error(errorMsg);
       // eslint-disable-next-line no-console
-      console.warn('[EditorPage:checkReadiness]', error.message);
+      console.warn('[RandoPage:checkReadiness]', error.message);
       // Leave page if no data anymore...
       goingOut = true;
       if (browser) {
@@ -63,7 +63,7 @@
 </svelte:head>
 
 {#if ready}
-  <div class="EditorPage">
+  <div class="RandoPage">
     <!-- // TODO: Show header
     <h2 class="header">Edit loaded data</h2>
     -->
@@ -78,4 +78,4 @@
   </div>
 {/if}
 
-<style src="./EditorPage.scss" lang="scss"></style>
+<style src="./RandoPage.scss" lang="scss"></style>

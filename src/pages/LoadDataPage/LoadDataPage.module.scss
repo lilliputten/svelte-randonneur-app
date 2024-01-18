@@ -2,12 +2,40 @@
   flex: 1;
   transition: all 250ms;
   width: 100%;
+  position: relative;
 
   overflow: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  .WaiterPanel {
+    /*!KEEP*/
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all $transitionTimeMs;
+    opacity: 0;
+    box-shadow: none;
+    pointer-events: none;
+  }
+  &.loaded,
+  &.loading {
+    .WaiterPanel {
+      opacity: 1;
+      pointer-events: all;
+    }
+  }
+  &.loading {
+    opacity: 0.25;
+    pointer-events: none;
+  }
 
   .LoadDataPage_Wrapper {
     display: flex;
@@ -19,11 +47,6 @@
       width: 70%;
     }
     margin: 20px;
-  }
-
-  &.loading {
-    opacity: 0.25;
-    pointer-events: none;
   }
 
   section {
