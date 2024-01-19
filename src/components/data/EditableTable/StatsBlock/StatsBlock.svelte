@@ -1,24 +1,13 @@
 <script lang="ts">
   import { PaginationState } from 'svelte-headless-table/lib/plugins/addPagination';
 
+  import styles from './StatsBlock.module.scss';
+
   export let paginationState: PaginationState;
 
-  const {
-    pageIndex,
-    pageCount,
-    // pageSize,
-    // hasPreviousPage,
-    // hasNextPage,
-  } = paginationState;
-
-  /* $: console.log('[StatsBlock] state', {
-   *   $pageIndex,
-   *   $pageCount,
-   *   $pageSize,
-   *   $hasPreviousPage,
-   *   $hasNextPage,
-   * });
-   */
+  const { pageIndex, pageCount } = paginationState;
 </script>
 
-Displayed page <strong>{$pageIndex + 1}</strong> out of <strong>{$pageCount}</strong>
+<div class={styles.StatsBlock}>
+  Displayed page <strong>{$pageIndex + 1}</strong> out of <strong>{$pageCount}</strong>
+</div>

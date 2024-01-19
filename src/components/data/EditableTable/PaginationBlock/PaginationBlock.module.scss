@@ -15,6 +15,7 @@
   align-items: center;
   gap: 8px;
   white-space: nowrap;
+  @include defaultFont;
 }
 .Icons {
   &:not(.hasPagination) {

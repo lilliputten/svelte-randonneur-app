@@ -15,17 +15,6 @@
   $: hasPagination = $hasPreviousPage || $hasNextPage;
   $: lastPage = $pageCount - 1;
 
-  /* $: console.log('[PaginationBlock] state', {
-   *   hasPagination,
-   *   lastPage,
-   *   $pageIndex,
-   *   $pageCount,
-   *   $pageSize,
-   *   $hasPreviousPage,
-   *   $hasNextPage,
-   * });
-   */
-
   const { defaultInputHeight } = cssVariables;
   const inputHeight = parseInt(defaultInputHeight);
 
@@ -35,16 +24,8 @@
   $: showEnd = Math.min(lastPage, $pageIndex + showDiam);
   $: showCount = showEnd - showStart + 1;
 
-  /* $: console.log('[PaginationBlock] show', {
-   *   showStart,
-   *   showEnd,
-   *   showCount,
-   * });
-   */
-
   function goToPage(no: number) {
     $pageIndex = no;
-    // pageIndex.set(no);
   }
   function goToPageCb(no: number) {
     return goToPage.bind(null, no);
