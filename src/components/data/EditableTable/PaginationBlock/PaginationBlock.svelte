@@ -4,6 +4,8 @@
   import { ArrowLeft, PinLeft, ArrowRight, PinRight } from 'radix-icons-svelte';
   import classNames from 'classnames';
 
+  import { minPageSize } from '@/src/core/constants/rando';
+
   import cssVariables from '@/src/core/assets/scss/variables.module.scss';
 
   import styles from './PaginationBlock.module.scss';
@@ -104,7 +106,7 @@
   <NumberInput
     class={styles.pageSize}
     id="pageSize"
-    min={1}
+    min={minPageSize}
     bind:value={$pageSize}
     placeholder="Page size"
   />
