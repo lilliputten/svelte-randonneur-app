@@ -3,7 +3,11 @@ import staticAdapter from '@sveltejs/adapter-static';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 import preprocess from 'svelte-preprocess';
 
+import { allData } from './utils/gulp-helpers.js';
 import { scssPrepend } from './svelte-scss-options.js';
+
+// Pass build info to the application...
+process.env.VITE_BUILD_INFO = JSON.stringify(allData());
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
