@@ -1,6 +1,5 @@
 <script lang="ts">
   import { EditableField } from '@/src/components/data';
-  import { TEditableFieldSpec } from '@/src/core/types/editable';
 </script>
 
 <div class="DemoEditableFields">

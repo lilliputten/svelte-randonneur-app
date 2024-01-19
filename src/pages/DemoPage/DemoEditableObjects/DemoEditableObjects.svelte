@@ -1,4 +1,6 @@
 <script lang="ts">
+  /* eslint-disable no-console */
+
   import {
     GenericEditable,
     // EditableList,
@@ -12,20 +14,21 @@
     TGenericEditableSpec,
   } from '@/src/core/types/editable';
 
-  // List of strings
-  const strListSpec: TEditableListSpec = {
-    id: 'strList',
-    type: 'list',
-    title: 'Strings list (strList)',
-    label: 'Strings list (strList)',
-    layout: 'horizontal',
-    spec: {
-      id: 'testString',
-      type: 'string',
-      // label: 'String (testString)',
-      title: 'String (testString)',
-    },
-  };
+  /* // List of strings
+   * const strListSpec: TEditableListSpec = {
+   *   id: 'strList',
+   *   type: 'list',
+   *   title: 'Strings list (strList)',
+   *   label: 'Strings list (strList)',
+   *   layout: 'horizontal',
+   *   spec: {
+   *     id: 'testString',
+   *     type: 'string',
+   *     // label: 'String (testString)',
+   *     title: 'String (testString)',
+   *   },
+   * };
+   */
   const strListData = [
     // prettier-ignore
     'str 1',

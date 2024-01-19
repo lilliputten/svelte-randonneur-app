@@ -37,9 +37,6 @@
   const dispatch = createEventDispatcher();
 
   function triggerChange() {
-    console.log('[EditableObject:triggerChange]', {
-      localData,
-    });
     if (onChange) {
       onChange(localData, spec);
     }
@@ -47,13 +44,14 @@
   }
 
   function handleItemChange(value: TGenericEditableData, itemSpec: TGenericEditableSpec) {
-    const { id, type } = itemSpec;
-    console.log('[EditableObject:handleItemChange]', {
-      id,
-      value,
-      type,
-      itemSpec,
-    });
+    const { id } = itemSpec;
+    /* console.log('[EditableObject:handleItemChange]', {
+     *   id,
+     *   value,
+     *   // type,
+     *   itemSpec,
+     * });
+     */
     localData[id] = value;
     triggerChange();
   }

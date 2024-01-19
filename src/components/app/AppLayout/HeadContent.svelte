@@ -5,7 +5,7 @@
   import { hotkey, useOs } from '@svelteuidev/composables';
   import classNames from 'classnames';
 
-  import { appTitle, getMainMenu, TMainMenu } from '@/src/core/constants/app';
+  import { appTitle, getMainMenu } from '@/src/core/constants/app';
   import { hasDataStore } from '@/src/store';
 
   import { isActiveMainMenuItem } from './helpers';

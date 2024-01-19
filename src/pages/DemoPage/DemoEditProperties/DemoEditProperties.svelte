@@ -1,4 +1,6 @@
 <script lang="ts">
+  /* eslint-disable no-console */
+
   import {
     GenericEditable,
     // EditableList,
@@ -7,12 +9,7 @@
   } from '@/src/components/data';
   import { propertiesDataSample, propertiesDataSpec } from '@/src/core/constants/rando';
   import { extendPropertiesSpec } from '@/src/core/helpers/rando';
-  import {
-    TEditableObjectSpec,
-    TEditableListSpec,
-    TGenericEditableData,
-    TGenericEditableSpec,
-  } from '@/src/core/types/editable';
+  import { TGenericEditableData, TGenericEditableSpec } from '@/src/core/types/editable';
 
   const propertiesData = { ...propertiesDataSample };
   const propertiesSpec = { ...propertiesDataSpec };

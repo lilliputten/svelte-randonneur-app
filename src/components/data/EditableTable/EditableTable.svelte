@@ -18,24 +18,25 @@
     TGenericEditableData,
     TGenericEditableSpec,
     TEditableObjectData,
-    // TEditableObjectSpec,
-    // TEditableFieldSpec,
+    TEditableObjectSpec,
   } from '@/src/core/types/editable';
 
   import { GenericEditable } from '../GenericEditable';
   import {
     getFlatItemId,
-    getFullItemId,
-    getPlainTableColSpecs,
     isScalarSpec,
     makeFlatFromFullData,
     restoreFullFromFlatData,
   } from './EditableTableHelpers';
   import { RowActions } from './RowActions';
   import { HeaderActions } from './HeaderActions';
+  import { EditRowForm } from './EditRowForm';
 
   import styles from './EditableTable.module.scss';
-  import { EditRowForm } from './EditRowForm';
+  import {
+    TCreateMultiLevelTableHeadersOpts,
+    createMultiLevelTableColumns,
+  } from '@/src/core/helpers/data';
 
   type TOnChangeCallback = (data: TEditableListData, spec: TEditableListSpec) => void;
 
@@ -45,23 +46,13 @@
   export let data: TEditableListData = [];
   export let onChange: TOnChangeCallback | undefined = undefined;
 
-  // Assume table row is an object (TODO: To check it with typings?)
-  type TTableRow = TEditableObjectData;
-
   const flatData: TEditableObjectData[] = data.map((rowData) =>
     makeFlatFromFullData(rowData as TEditableObjectData),
   );
 
   /** Local table data store */
-  let tableFlatDataStore = writable<TTableRow[]>(flatData);
-  let tableFullDataStore = writable<TTableRow[]>([...(data as TTableRow[])]);
-
-  /* // DEBUG
-   * $: console.log('[EditableTable] debug data', {
-   *   $tableFlatDataStore,
-   *   $tableFullDataStore,
-   * });
-   */
+  let tableFlatDataStore = writable<TEditableObjectData[]>(flatData);
+  let tableFullDataStore = writable<TEditableObjectData[]>([...(data as TEditableObjectData[])]);
 
   /** Table object */
   const table = createTable(tableFlatDataStore);
@@ -77,19 +68,11 @@
     activeRows,
   } = spec;
 
-  /** Row item specifications */
-  const colSpecs = getPlainTableColSpecs(spec, showFlatFields);
-  const colSpecsHash = colSpecs.reduce(
-    (hash, spec) => {
-      const flatId = getFlatItemId(spec);
-      hash[flatId] = spec;
-      return hash;
-    },
-    {} as Record<string, TGenericEditableSpec>,
-  );
+  /** Flat hash of column header specs. Will be created in `createMultiLevelTableColumns`. */
+  const multiLevelColSpecsHash: Record<string, TGenericEditableSpec> = {};
 
   /** Cell elements constructor */
-  const EditableCell: DataLabel<TTableRow> = ({ column, row, value }) => {
+  const EditableCell: DataLabel<TEditableObjectData> = ({ column, row, value }) => {
     const { id } = row; // as BodyRow<unknown>;
     const { accessorKey: colId } = column;
     /* console.log('[EditableTable:EditableCell]', id, colId, {
@@ -116,7 +99,7 @@
       throw error;
       // return;
     }
-    const colSpec = colSpecsHash[colId];
+    const colSpec = multiLevelColSpecsHash[colId];
     const rowIdx = parseInt(id);
     /* console.log('[EditableTable:EditableCell]', colId, {
      *   colId,
@@ -143,13 +126,13 @@
     });
   };
 
-  const HeaderActionsCell: HeaderLabel<TTableRow> = () => {
+  const HeaderActionsCell: HeaderLabel<TEditableObjectData> = () => {
     return createRender(HeaderActions, {
       onAddRow,
     });
   };
 
-  const RowActionCell: DataLabel<TTableRow> = ({
+  const RowActionCell: DataLabel<TEditableObjectData> = ({
     row,
     // column,
     // value,
@@ -170,54 +153,34 @@
     });
   };
 
-  /** Table columns descriptions derived from row object fields specifications */
-  const tableColumnItems = colSpecs.map((item) => {
-    const flatId = getFlatItemId(item);
-    // const fullId = getFullItemId(item);
-    // @ts-expect-error: Using hidden value
-    const title = item._groupTitle || item.title || item.label || flatId;
-    console.log('[EditableTable:tableColumnItems]', flatId, {
-      item,
-    });
-    // TODO: Create multi-level table headers based on this example
-    // See Kitchen Sink example:
-    // https://svelte-headless-table.bryanmylee.com/docs/examples/kitchen-sink
-    // https://svelte.dev/repl/457c10b649cc4bc7a84f9511a81b5361?version=3.48.0
-    if (flatId === 'target.uuid') {
-      return table.group({
-        header: 'XXX',
-        columns: [
-          table.column({
-            id: flatId,
-            accessor: flatId, // item.id,
-            header: title,
-            cell: EditableCell,
-          }),
-        ],
-      });
-    }
-    return table.column({
-      id: flatId,
-      accessor: flatId, // item.id,
-      header: title,
-      cell: EditableCell,
-    });
-  });
+  /** Row specification */
+  const rowObjSpec = spec.spec as TEditableObjectSpec;
+  /** Row item specifications */
+  // const colSpecs = rowObjSpec.spec;
+  const createMultiLevelTableHeadersOpts: TCreateMultiLevelTableHeadersOpts = {
+    showFlatFields,
+    colSpecsHash: multiLevelColSpecsHash,
+    EditableCell,
+    table,
+  };
+  const multiLevelTableColumns = createMultiLevelTableColumns(
+    rowObjSpec.spec,
+    createMultiLevelTableHeadersOpts,
+  );
 
   if (useActionsColumn) {
-    tableColumnItems.push(
-      table.column({
-        accessor: '__actions',
-        header: HeaderActionsCell,
-        cell: RowActionCell,
-      }),
-    );
+    const actionsColumn = table.column({
+      accessor: '__actions',
+      header: HeaderActionsCell,
+      cell: RowActionCell,
+    });
+    multiLevelTableColumns.push(actionsColumn);
   }
 
   /** Table columns
    * @see https://svelte-headless-table.bryanmylee.com/docs/api/create-columns
    */
-  const tableColumns = table.createColumns(tableColumnItems);
+  const tableColumns = table.createColumns(multiLevelTableColumns);
 
   // Get render parameters...
   const { headerRows, pageRows, tableAttrs, tableBodyAttrs } = table.createViewModel(tableColumns);
@@ -278,7 +241,7 @@
     // const { id } = spec;
     const flatId = getFlatItemId(spec);
     const currentFlatItem = $tableFlatDataStore[rowIdx];
-    const newFlatItem = { ...currentFlatItem, [flatId]: data } as TTableRow;
+    const newFlatItem = { ...currentFlatItem, [flatId]: data } as TEditableObjectData;
     const newFullItem = restoreFullFromFlatData(newFlatItem);
     /* console.log('[EditableTable:onUpdateValue] set item', {
      *   id,

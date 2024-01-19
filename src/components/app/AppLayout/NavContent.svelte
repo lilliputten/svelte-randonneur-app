@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Box, Anchor, Text, Stack } from '@svelteuidev/core';
+  import { Box, Text, Stack } from '@svelteuidev/core';
   import { page } from '$app/stores';
   import classNames from 'classnames';
 

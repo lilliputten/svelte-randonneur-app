@@ -1,10 +1,12 @@
 <script lang="ts">
+  /* eslint-disable no-console */
+
   import { GenericEditable } from '@/src/components/data';
   import { deriveDataSetSpec, extendDataSetSpec } from '@/src/core/helpers/rando';
   import { TGenericEditableData, TGenericEditableSpec } from '@/src/core/types/editable';
   import { TDataSetDictSlot } from '@/src/core/types/rando';
 
-  const dataSetDataSimple: TGenericEditableData = [
+  const _dataSetDataSimple: TGenericEditableData = [
     {
       name: 'Nickel, ion',
       code: 'e030108f-2125-4bcb-a73b-ad72130fcca3',
