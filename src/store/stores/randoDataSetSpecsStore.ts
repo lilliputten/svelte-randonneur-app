@@ -1,7 +1,7 @@
 import { Writable, writable } from 'svelte/store';
 
 import { TRandoDataSetKey } from '@/src/core/types/rando';
-import { TEditableObjectSpec, TGenericEditableSpec } from '@/src/core/types/editable';
+import { TEditableObjectSpec } from '@/src/core/types/editable';
 
 export type TRandoDataSetSpec = TEditableObjectSpec;
 export type TRandoDataSetSpecSlot = TRandoDataSetSpec | undefined;

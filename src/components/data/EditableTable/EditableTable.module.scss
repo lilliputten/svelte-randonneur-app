@@ -15,8 +15,6 @@
       text-align: left;
       font-size: $defaultFontSize;
     }
-    thead {
-    }
     th {
       border-bottom: $thBorderSize solid $borderColor;
       padding-top: $thPaddingV + $thBorderSize;
@@ -25,6 +23,13 @@
       color: #fff;
       font-weight: 500;
       // TODO: There possible more higher (filter, search nodes) in the headers later
+    }
+    thead {
+      // Multilevel table headers
+      > tr:not(:last-child) > th {
+        text-align: center;
+        border-bottom-color: transparent;
+      }
     }
     td {
       border-bottom: 1px solid $borderColor;

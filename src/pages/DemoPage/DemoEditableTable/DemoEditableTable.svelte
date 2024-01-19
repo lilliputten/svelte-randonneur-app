@@ -1,34 +1,33 @@
 <script lang="ts">
-  import { TEditableListSpec } from '@/src/core/types/editable';
+  /* eslint-disable no-console */
+
+  // import { TEditableListSpec } from '@/src/core/types/editable';
 
   import { writable } from 'svelte/store';
   import { Render, Subscribe, createTable, createRender, DataLabel } from 'svelte-headless-table';
 
   import EditableCell from './EditableCell.svelte';
 
-  // interface TDemoTableItem {
-  //   id: string;
-  //   name: string;
-  // }
   type TDemoTableItem = unknown;
 
-  // List of objects
-  const tableSpec: TEditableListSpec = {
-    id: 'objList',
-    type: 'list',
-    title: 'objList',
-    label: 'objList',
-    layout: 'table',
-    spec: {
-      id: 'listObj',
-      type: 'object',
-      // layout: 'horizontal',
-      spec: [
-        { id: 'id', type: 'string', title: 'Id' },
-        { id: 'name', type: 'string', title: 'Name' },
-      ],
-    },
-  };
+  /* // List of objects
+   * const tableSpec: TEditableListSpec = {
+   *   id: 'objList',
+   *   type: 'list',
+   *   title: 'objList',
+   *   label: 'objList',
+   *   layout: 'table',
+   *   spec: {
+   *     id: 'listObj',
+   *     type: 'object',
+   *     // layout: 'horizontal',
+   *     spec: [
+   *       { id: 'id', type: 'string', title: 'Id' },
+   *       { id: 'name', type: 'string', title: 'Name' },
+   *     ],
+   *   },
+   * };
+   */
 
   const tableData: TDemoTableItem[] = [
     { id: 'id1', name: 'name1' },
@@ -102,9 +101,6 @@
   ]);
 
   const { headerRows, pageRows, tableAttrs, tableBodyAttrs } = table.createViewModel(columns);
-
-  // Tabulator component
-  let tableComponent: HTMLElement;
 
   console.log('[DemoTable:DEBUG]', {
     table,

@@ -66,7 +66,7 @@
     <TextInput {value} label={spec.label} placeholder={spec.title} on:change={handleChange} />
   {:else if type === 'number'}
     <NumberInput
-      value={Number(value)}
+      value={value != null ? Number(value) : undefined}
       label={spec.label}
       placeholder={spec.title}
       on:change={handleChange}

@@ -13,25 +13,23 @@
   function makeSpec(srcSpec: TRandoDataSetSpecSlot): TGenericEditableSpec {
     const spec = { ...srcSpec } as TGenericEditableSpec;
     extendDataSetSpec(spec); // TODO!
-    console.log('[EditDataSet:makeSpec]', {
-      srcSpec,
-      spec,
-    });
+    /* console.log('[EditDataSet:makeSpec]', {
+     *   srcSpec,
+     *   spec,
+     * });
+     */
     return spec;
   }
 
   $: spec = makeSpec($dataSetSpecStore);
 
-  // $: console.log('[EditDataSet] $dataSetSpecStore', dataSetId, $dataSetSpecStore);
-  // $: console.log('[EditDataSet] spec', dataSetId, spec);
-  // $: console.log('[EditDataSet] data', dataSetId, $dataSetDataStore);
-
-  function onChange(data: TGenericEditableData, spec: TGenericEditableSpec) {
-    console.log('[EditDataSet:onChange]', spec.id, {
-      id: spec.id,
-      data,
-      spec,
-    });
+  function onChange(data: TGenericEditableData, _spec: TGenericEditableSpec) {
+    /* console.log('[EditDataSet:onChange]', spec.id, {
+     *   id: spec.id,
+     *   data,
+     *   _spec,
+     * });
+     */
     dataSetDataStore.set(data as TDataSetDictSlot);
     // TODO: Update data
   }

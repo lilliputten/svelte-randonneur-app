@@ -1,7 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
   import classNames from 'classnames';
-  import { Group, ActionIcon, Text, Anchor, Burger, Tooltip, Box } from '@svelteuidev/core';
+  import { ActionIcon } from '@svelteuidev/core';
   import { Plus, Trash } from 'radix-icons-svelte';
 
   import cssVariables from '@/src/core/assets/scss/variables.module.scss';

@@ -157,7 +157,7 @@ export function getPlainTableColSpecs(
   }
   const flatSpecs = makeSpecsFlat(colSpecs, showFlatFields);
   flatSpecs.forEach((subSpec) => {
-    const { _fullId, _flatId } = subSpec;
+    const { _flatId } = subSpec;
     if (_flatId?.includes('.')) {
       const hdrIds = _flatId?.split('.');
       const hdrTitles = hdrIds.map(makeTitleFromPropertyId);
@@ -172,12 +172,13 @@ export function getPlainTableColSpecs(
       subSpec._groupTitle = hdrTitles.join(' / ');
     }
   });
-  console.log('[EditableTableHelpers:getPlainTableColSpecs]', {
-    flatSpecs,
-    colSpecs,
-    // rowObjSpec,
-    // flatObjects,
-    // spec,
-  });
+  /* console.log('[EditableTableHelpers:getPlainTableColSpecs]', {
+   *   flatSpecs,
+   *   colSpecs,
+   *   // rowObjSpec,
+   *   // flatObjects,
+   *   // spec,
+   * });
+   */
   return flatSpecs;
 }

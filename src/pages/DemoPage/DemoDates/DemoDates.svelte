@@ -20,7 +20,8 @@
   const dateFormat = 'YYYY-MM-DD HH:mm:ss'; // TODO: To use iso format (above)
   const dayjsDate = dayjs(value);
   const fmtDate = dayjsDate.format(dateFormat);
-  console.log('XXX', {
+  // eslint-disable-next-line no-console
+  console.log('[DemoDates] Test', {
     dayjsDate,
     fmtDate,
   });
