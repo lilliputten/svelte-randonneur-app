@@ -1,6 +1,13 @@
 import { makeTitleFromPropertyId } from '@/src/core/helpers/data';
 import { TGenericEditableSpec, TEditableObjectData } from '@/src/core/types/editable';
 import { DataLabel, Table } from 'svelte-headless-table';
+import { PaginationState } from 'svelte-headless-table/lib/plugins/addPagination';
+import {
+  // AnyPlugins, // TODO: To use for correct typisation of `TCreateMultiLevelTableHeadersOpts.table` (below; not such specific as now)
+  AnyTableAttributeSet,
+  NewTablePropSet,
+  TablePlugin,
+} from 'svelte-headless-table/lib/types/TablePlugin';
 
 export interface TCreateMultiLevelTableHeadersOpts {
   /** Show only specified column (by flatId) */
@@ -8,7 +15,18 @@ export interface TCreateMultiLevelTableHeadersOpts {
   /** Collect item specs into the plain hash */
   colSpecsHash?: Record<string, TGenericEditableSpec>;
   EditableCell: DataLabel<TEditableObjectData>;
-  table: Table<TEditableObjectData>;
+  table: Table<
+    TEditableObjectData,
+    {
+      page: TablePlugin<
+        unknown,
+        PaginationState,
+        Record<string, never>,
+        NewTablePropSet<never>,
+        AnyTableAttributeSet
+      >;
+    }
+  >;
 }
 
 export function createMultiLevelTableColumns(
