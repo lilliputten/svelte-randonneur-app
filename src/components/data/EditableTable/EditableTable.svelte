@@ -185,6 +185,13 @@
 
   // Get pagination state (see `PaginationBlock` and `StatsBlock`)...
   const paginationState: PaginationState = pluginStates.page;
+  const {
+    pageIndex,
+    pageCount,
+    // pageSize,
+    // hasPreviousPage,
+    // hasNextPage,
+  } = paginationState;
 
   /** Local click tracker */
   let activeClickTimerHandler: ReturnType<typeof setTimeout> | undefined = undefined;
@@ -262,6 +269,9 @@
     $tableFullDataStore = $tableFullDataStore.concat(newFullItem);
     // Handle any server-synchronization.
     triggerChange();
+    // Go to the last page...
+    $pageIndex = $pageCount - 1;
+    // TODO: Highlight added page?
   }
 
   function onRemoveRow(rowIdx: number) {
