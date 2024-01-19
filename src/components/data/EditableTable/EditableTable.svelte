@@ -10,8 +10,26 @@
     DataLabel,
     HeaderLabel,
   } from 'svelte-headless-table';
+  import {
+    addPagination,
+    // addColumnFilters,
+    // addColumnOrder,
+    // addHiddenColumns,
+    // addSortBy,
+    // addTableFilter,
+    // addExpandedRows,
+    // matchFilter,
+    // numberRangeFilter,
+    // textPrefixFilter,
+    // addSubRows,
+    // addGroupBy,
+    // addSelectedRows,
+    // addResizedColumns,
+  } from 'svelte-headless-table/plugins';
+  import { PaginationState } from 'svelte-headless-table/lib/plugins/addPagination';
   import classNames from 'classnames';
 
+  import { isDev } from '@/src/core/constants/app';
   import {
     TEditableListSpec,
     TEditableListData,
@@ -20,8 +38,12 @@
     TEditableObjectData,
     TEditableObjectSpec,
   } from '@/src/core/types/editable';
+  import {
+    TCreateMultiLevelTableHeadersOpts,
+    createMultiLevelTableColumns,
+  } from '@/src/core/helpers/data';
 
-  import { GenericEditable } from '../GenericEditable';
+  import { GenericEditable } from '@/src/components/data';
   import {
     getFlatItemId,
     isScalarSpec,
@@ -31,12 +53,10 @@
   import { RowActions } from './RowActions';
   import { HeaderActions } from './HeaderActions';
   import { EditRowForm } from './EditRowForm';
+  import { PaginationBlock } from './PaginationBlock';
+  import { StatsBlock } from './StatsBlock';
 
   import styles from './EditableTable.module.scss';
-  import {
-    TCreateMultiLevelTableHeadersOpts,
-    createMultiLevelTableColumns,
-  } from '@/src/core/helpers/data';
 
   type TOnChangeCallback = (data: TEditableListData, spec: TEditableListSpec) => void;
 
@@ -45,6 +65,8 @@
   export let spec: TEditableListSpec;
   export let data: TEditableListData = [];
   export let onChange: TOnChangeCallback | undefined = undefined;
+
+  const defaultPageSize = isDev ? 5 : 20;
 
   const flatData: TEditableObjectData[] = data.map((rowData) =>
     makeFlatFromFullData(rowData as TEditableObjectData),
@@ -55,7 +77,11 @@
   let tableFullDataStore = writable<TEditableObjectData[]>([...(data as TEditableObjectData[])]);
 
   /** Table object */
-  const table = createTable(tableFlatDataStore);
+  const table = createTable(tableFlatDataStore, {
+    page: addPagination({
+      initialPageSize: defaultPageSize,
+    }),
+  });
 
   // Get specification params...
   const {
@@ -75,14 +101,6 @@
   const EditableCell: DataLabel<TEditableObjectData> = ({ column, row, value }) => {
     const { id } = row; // as BodyRow<unknown>;
     const { accessorKey: colId } = column;
-    /* console.log('[EditableTable:EditableCell]', id, colId, {
-     *   column,
-     *   row,
-     *   value,
-     *   id,
-     *   colId,
-     * });
-     */
     if (!colId) {
       const errorMsg = 'Undefined column specification id';
       const error = new Error(errorMsg);
@@ -95,23 +113,10 @@
       });
       // eslint-disable-next-line no-debugger
       debugger;
-      // TODO: To throw an error?
       throw error;
-      // return;
     }
     const colSpec = multiLevelColSpecsHash[colId];
     const rowIdx = parseInt(id);
-    /* console.log('[EditableTable:EditableCell]', colId, {
-     *   colId,
-     *   colSpec,
-     *   rowIdx,
-     *   id,
-     *   row,
-     *   column,
-     *   value,
-     *   colSpecs,
-     * });
-     */
     if (!editInPlace) {
       if (colSpec.type === 'list') {
         return value && Array.isArray(value) ? value.join(', ') : '';
@@ -139,14 +144,6 @@
   }) => {
     const { id } = row; // as BodyRow<unknown>;
     const rowIdx = parseInt(id);
-    /* console.log('[EditableTable:RowActionCell]', id, colId, {
-     *   column,
-     *   row,
-     *   value,
-     *   id,
-     *   colId,
-     * });
-     */
     return createRender(RowActions, {
       spec: spec,
       onRemoveRow: onRemoveRow.bind(null, rowIdx),
@@ -183,14 +180,11 @@
   const tableColumns = table.createColumns(multiLevelTableColumns);
 
   // Get render parameters...
-  const { headerRows, pageRows, tableAttrs, tableBodyAttrs } = table.createViewModel(tableColumns);
+  const { headerRows, pageRows, tableAttrs, tableBodyAttrs, pluginStates } =
+    table.createViewModel(tableColumns);
 
-  /* console.log('[EditableTable:DEBUG]', {
-   *   spec,
-   *   id,
-   *   data,
-   * });
-   */
+  // Get pagination state (see `PaginationBlock` and `StatsBlock`)...
+  const paginationState: PaginationState = pluginStates.page;
 
   /** Local click tracker */
   let activeClickTimerHandler: ReturnType<typeof setTimeout> | undefined = undefined;
@@ -227,10 +221,6 @@
 
   function triggerChange() {
     const data = $tableFullDataStore;
-    /* console.log('[EditableTable:triggerChange]', {
-     *   data,
-     * });
-     */
     if (onChange) {
       onChange(data, spec);
     }
@@ -289,15 +279,9 @@
       const rowNode = ev.currentTarget as HTMLTableRowElement;
       const id = rowNode?.id;
       const rowIdx = Number(id);
-      /* console.log('[EditableTable:onRowClick]', {
-       *   rowIdx,
-       *   id,
-       *   rowNode,
-       * });
-       */
       ev.preventDefault();
       ev.stopPropagation();
-      // TODO: Start edit node...
+      // Start edit node...
       startEditRowData(rowIdx);
     }
   }
@@ -307,13 +291,6 @@
     if (rowIdx != null) {
       const fullItem = data as TEditableObjectData;
       const flatItem = makeFlatFromFullData(fullItem);
-      /* console.log('[EditableTable:handleRowDataChange]', {
-       *   rowIdx,
-       *   fullItem,
-       *   flatItem,
-       *   // _spec,
-       * });
-       */
       // Update flat store...
       $tableFlatDataStore[rowIdx] = flatItem;
       $tableFlatDataStore = $tableFlatDataStore;
@@ -332,11 +309,14 @@
   data-id={id}
   title={spec.title}
 >
+  <!-- Header (?) -->
   {#if spec.label}
     <div class={styles.EditableTable_Label}>
       {spec.label}
     </div>
   {/if}
+
+  <!-- Data table -->
   <table
     {...$tableAttrs}
     class={classNames(styles.EditableTable_Table, activeRows && styles.activeRows)}
@@ -372,6 +352,18 @@
       {/each}
     </tbody>
   </table>
+
+  <!-- Pagination and stats -->
+  <div class={styles.PaginationAndStats}>
+    <div class={classNames(styles.Pagination)}>
+      <PaginationBlock {paginationState} />
+    </div>
+    <div class={styles.Stats}>
+      <StatsBlock {paginationState} />
+    </div>
+  </div>
+
+  <!-- Edit data modal -->
   <Modal
     opened={modalOpened}
     on:close={stopEditRowData}

@@ -1,0 +1,46 @@
+.Icons,
+.Controls,
+.Icon,
+.IconGoTo,
+.IconPage,
+.IconCurrent,
+.Info {
+  /*!KEEP*/
+}
+
+.Icons,
+.Controls {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.Icons {
+  &:not(.hasPagination) {
+    display: none;
+  }
+}
+.Controls {
+  #pageSize {
+    width: 5em;
+  }
+}
+
+.IconPage {
+  @include defaultFont;
+  &:hover {
+    background-color: color.change($primaryColor, $alpha: 0.1);
+  }
+}
+.IconCurrent {
+  &,
+  &:hover {
+    background-color: $primaryColor;
+  }
+}
+.IconGoTo {
+  background-color: color.change($primaryColor, $alpha: 0.1);
+  &:hover {
+    background-color: color.change($primaryColor, $alpha: 0.2);
+  }
+}

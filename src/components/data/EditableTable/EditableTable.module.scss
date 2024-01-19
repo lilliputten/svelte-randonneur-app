@@ -1,4 +1,8 @@
 .EditableTable {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
   .EditableTable_Label {
     @include EditableLabel;
   }
@@ -14,6 +18,10 @@
       padding: $cellPaddingV $cellPaddingH;
       text-align: left;
       font-size: $defaultFontSize;
+      &:global(#__actions) {
+        // NOTE: One-icon column width
+        width: 36px;
+      }
     }
     th {
       border-bottom: $thBorderSize solid $borderColor;
@@ -43,5 +51,28 @@
         }
       }
     }
+  }
+  .PaginationAndStats {
+    margin-top: 8px;
+    display: flex;
+    gap: 16px;
+    flex-direction: column;
+    @media (min-width: 800px) {
+      flex-direction: row;
+      align-items: center;
+    }
+  }
+  .Pagination {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .Stats {
+    /*!KEEP*/
+    // flex: 1;
+    // justify-content: flex-end;
+    // text-align: right;
   }
 }
