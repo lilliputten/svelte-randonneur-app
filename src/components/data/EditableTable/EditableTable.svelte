@@ -29,7 +29,6 @@
   import { PaginationState } from 'svelte-headless-table/lib/plugins/addPagination';
   import classNames from 'classnames';
 
-  import { isDev } from '@/src/core/constants/app';
   import {
     TEditableListSpec,
     TEditableListData,
@@ -42,7 +41,7 @@
     TCreateMultiLevelTableHeadersOpts,
     createMultiLevelTableColumns,
   } from '@/src/core/helpers/data';
-
+  import { minPageSize, defaultPageSize } from '@/src/core/constants/rando';
   import { GenericEditable } from '@/src/components/data';
   import {
     getFlatItemId,
@@ -54,7 +53,7 @@
   import { HeaderActions } from './HeaderActions';
   import { EditRowForm } from './EditRowForm';
   import { PaginationBlock } from './PaginationBlock';
-  import { StatsBlock } from './StatsBlock';
+  import { PaginationInfo } from './PaginationInfo';
 
   import styles from './EditableTable.module.scss';
 
@@ -66,8 +65,6 @@
   export let data: TEditableListData = [];
   export let onChange: TOnChangeCallback | undefined = undefined;
 
-  const defaultPageSize = isDev ? 5 : 20;
-
   const flatData: TEditableObjectData[] = data.map((rowData) =>
     makeFlatFromFullData(rowData as TEditableObjectData),
   );
@@ -75,6 +72,8 @@
   /** Local table data store */
   let tableFlatDataStore = writable<TEditableObjectData[]>(flatData);
   let tableFullDataStore = writable<TEditableObjectData[]>([...(data as TEditableObjectData[])]);
+
+  $: allowPagination = $tableFullDataStore.length >= minPageSize;
 
   /** Table object */
   const table = createTable(tableFlatDataStore, {
@@ -183,7 +182,7 @@
   const { headerRows, pageRows, tableAttrs, tableBodyAttrs, pluginStates } =
     table.createViewModel(tableColumns);
 
-  // Get pagination state (see `PaginationBlock` and `StatsBlock`)...
+  // Get pagination state (see `PaginationBlock` and `PaginationInfo`)...
   const paginationState: PaginationState = pluginStates.page;
   const {
     pageIndex,
@@ -364,14 +363,16 @@
   </table>
 
   <!-- Pagination and stats -->
-  <div class={styles.PaginationAndStats}>
-    <div class={classNames(styles.Pagination)}>
-      <PaginationBlock {paginationState} />
+  {#if allowPagination}
+    <div class={classNames(styles.PaginationAndStats, allowPagination && styles.allowPagination)}>
+      <div class={classNames(styles.Pagination)}>
+        <PaginationBlock {paginationState} />
+      </div>
+      <div class={styles.Stats}>
+        <PaginationInfo {paginationState} />
+      </div>
     </div>
-    <div class={styles.Stats}>
-      <StatsBlock {paginationState} />
-    </div>
-  </div>
+  {/if}
 
   <!-- Edit data modal -->
   <Modal

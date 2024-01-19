@@ -1,10 +1,18 @@
 DirectoryIndex index.html
 
+Options -Indexes
+
 ErrorDocument 404 /index.html
 # ErrorDocument 403 /404.html
 
 # Remove .html extensions...
 RewriteEngine On
+
+RewriteBase /
+
 RewriteCond %{REQUEST_URI} !\.[a-zA-Z0-9]{3,4}
 RewriteCond %{REQUEST_URI} !/$
 RewriteRule ^(.*)$ $1.html
+
+RewriteRule ^data/$ / [R=301,NC,L]
+RewriteRule ^_app/$ / [R=301,NC,L]
