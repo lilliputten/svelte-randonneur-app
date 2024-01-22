@@ -1,6 +1,8 @@
 import { TDisplayLayout } from './TDisplayLayout';
 import { TGenericEditableSpec } from './TGenericEditableSpec';
 
+type TFilterItem = true | 'select' | false | undefined;
+
 export interface TEditableListSpec {
   id: string;
   type: 'list';
@@ -17,6 +19,8 @@ export interface TEditableListSpec {
   // TODO: Displayed fiedls list
   title?: string;
   label?: string; // ???
+  /** Filter columns */
+  filters?: Record<string, TFilterItem>;
   /** Use 'table' to display as a table */
   layout?: TDisplayLayout | 'table';
   /** List items spec */

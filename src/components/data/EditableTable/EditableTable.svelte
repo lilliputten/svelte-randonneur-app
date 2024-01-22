@@ -12,11 +12,11 @@
   } from 'svelte-headless-table';
   import {
     addPagination,
-    // addColumnFilters,
+    addColumnFilters,
     // addColumnOrder,
     // addHiddenColumns,
     // addSortBy,
-    // addTableFilter,
+    addTableFilter,
     // addExpandedRows,
     // matchFilter,
     // numberRangeFilter,
@@ -43,6 +43,7 @@
   } from '@/src/core/helpers/data';
   import { minPageSize, defaultPageSize } from '@/src/core/constants/rando';
   import { GenericEditable } from '@/src/components/data';
+
   import {
     getFlatItemId,
     isScalarSpec,
@@ -75,12 +76,18 @@
 
   $: allowPagination = $tableFullDataStore.length >= minPageSize;
 
-  /** Table object */
-  const table = createTable(tableFlatDataStore, {
-    page: addPagination({
+  const colFilter = addColumnFilters<TEditableObjectData>();
+  const tablePlugins = {
+    colFilter,
+    // tableFilter: addTableFilter({
+    //   includeHiddenColumns: true,
+    // }),
+    page: addPagination<TEditableObjectData>({
       initialPageSize: defaultPageSize,
     }),
-  });
+  };
+  /** Table object */
+  const table = createTable(tableFlatDataStore, tablePlugins);
 
   // Get specification params...
   const {
@@ -158,6 +165,7 @@
     colSpecsHash: multiLevelColSpecsHash,
     EditableCell,
     table,
+    listSpec: spec,
   };
   const multiLevelTableColumns = createMultiLevelTableColumns(
     rowObjSpec.spec,
@@ -181,6 +189,12 @@
   // Get render parameters...
   const { headerRows, pageRows, tableAttrs, tableBodyAttrs, pluginStates } =
     table.createViewModel(tableColumns);
+
+  const { filterValues } = pluginStates.colFilter;
+
+  $: console.log('[EditableTable:filterValues]', {
+    $filterValues,
+  });
 
   // Get pagination state (see `PaginationBlock` and `PaginationInfo`)...
   const paginationState: PaginationState = pluginStates.page;
@@ -335,9 +349,12 @@
         <Subscribe attrs={headerRow.attrs()} let:attrs>
           <tr {...attrs}>
             {#each headerRow.cells as cell (cell.id)}
-              <Subscribe attrs={cell.attrs()} let:attrs>
+              <Subscribe attrs={cell.attrs()} let:attrs props={cell.props()} let:props>
                 <th {...attrs} id={cell.id}>
                   <Render of={cell.render()} />
+                  {#if props.colFilter?.render}
+                    <Render of={props.colFilter.render} />
+                  {/if}
                 </th>
               </Subscribe>
             {/each}
