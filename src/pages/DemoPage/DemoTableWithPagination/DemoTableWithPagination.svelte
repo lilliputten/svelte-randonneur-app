@@ -3,7 +3,7 @@
 
   import { GenericEditable } from '@/src/components/data';
   import { deriveDataSetSpec, extendDataSetSpec } from '@/src/core/helpers/rando';
-  import { TGenericEditableData, TGenericEditableSpec } from '@/src/core/types/editable';
+  import { TEditableListSpec, TGenericEditableData, TGenericEditableSpec } from '@/src/core/types/editable';
   import { TDataSetDictSlot } from '@/src/core/types/rando';
 
   const itemsCount = 35;
@@ -11,7 +11,15 @@
     value: n,
   }));
 
-  const dataSetSpec = deriveDataSetSpec('sample', dataSetData as TDataSetDictSlot);
+  const dataSetSpec = deriveDataSetSpec('sample', dataSetData as TDataSetDictSlot) as TEditableListSpec;
+
+  dataSetSpec.filters = {
+    value: true,
+  };
+
+  console.log('[DemoTableWithPagination]', {
+    dataSetSpec,
+  });
 
   extendDataSetSpec(dataSetSpec);
 

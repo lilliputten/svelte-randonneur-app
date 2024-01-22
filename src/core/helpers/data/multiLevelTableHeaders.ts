@@ -1,7 +1,30 @@
-import { makeTitleFromPropertyId } from '@/src/core/helpers/data';
-import { TGenericEditableSpec, TEditableObjectData } from '@/src/core/types/editable';
-import { DataLabel, Table } from 'svelte-headless-table';
+// import { get, writable } from 'svelte/store';
+import * as svelteStore from 'svelte/store';
+import { DataLabel, Table, createRender } from 'svelte-headless-table';
 import { PaginationState } from 'svelte-headless-table/lib/plugins/addPagination';
+import {
+  // matchFilter,
+  // numberRangeFilter,
+  textPrefixFilter,
+  // addColumnFilters,
+  // addColumnOrder,
+  // addHiddenColumns,
+  // addSortBy,
+  // addTableFilter,
+  // addPagination,
+  // addExpandedRows,
+  // addSubRows,
+  // addGroupBy,
+  // addSelectedRows,
+  // addResizedColumns,
+} from 'svelte-headless-table/plugins';
+
+import { makeTitleFromPropertyId } from '@/src/core/helpers/data';
+import {
+  TGenericEditableSpec,
+  TEditableObjectData,
+  TEditableListSpec,
+} from '@/src/core/types/editable';
 import {
   // AnyPlugins, // TODO: To use for correct typisation of `TCreateMultiLevelTableHeadersOpts.table` (below; not such specific as now)
   AnyTableAttributeSet,
@@ -9,12 +32,43 @@ import {
   TablePlugin,
 } from 'svelte-headless-table/lib/types/TablePlugin';
 
+import TextFilter from './TextFilter.svelte';
+import {
+  ColumnFiltersState,
+  ColumnFiltersColumnOptions,
+  ColumnFiltersPropSet,
+} from 'svelte-headless-table/lib/plugins/addColumnFilters';
+import { get } from 'http';
+
+type TTable = Table<
+  TEditableObjectData,
+  {
+    colFilter: TablePlugin<
+      TEditableObjectData,
+      ColumnFiltersState<TEditableObjectData>,
+      ColumnFiltersColumnOptions<TEditableObjectData>,
+      ColumnFiltersPropSet,
+      AnyTableAttributeSet
+    >;
+    page: TablePlugin<
+      TEditableObjectData,
+      PaginationState,
+      Record<string, never>,
+      NewTablePropSet<never>,
+      AnyTableAttributeSet
+    >;
+  }
+>;
 export interface TCreateMultiLevelTableHeadersOpts {
   /** Show only specified column (by flatId) */
   showFlatFields?: string[];
+  /** Parent list spec */
+  listSpec: TEditableListSpec;
   /** Collect item specs into the plain hash */
   colSpecsHash?: Record<string, TGenericEditableSpec>;
   EditableCell: DataLabel<TEditableObjectData>;
+  table: TTable;
+  /*
   table: Table<
     TEditableObjectData,
     {
@@ -27,6 +81,7 @@ export interface TCreateMultiLevelTableHeadersOpts {
       >;
     }
   >;
+  >*/
 }
 
 export function createMultiLevelTableColumns(
@@ -34,11 +89,17 @@ export function createMultiLevelTableColumns(
   opts: TCreateMultiLevelTableHeadersOpts,
   parentId: string = '',
 ) {
-  const { table, EditableCell } = opts;
+  const { table, EditableCell, listSpec } = opts;
   const resultSpecs = [];
   for (const item of colSpecs) {
     const flatId = [parentId, item.id].filter(Boolean).join('.');
     const title = item.title || item.label || makeTitleFromPropertyId(item.id);
+    console.log('[multiLevelTableHeaders:createMultiLevelTableColumns] item', flatId, {
+      flatId,
+      title,
+      item,
+      listSpec,
+    });
     // TODO: Process here 'exclude' lists, including intermediate object' names?
     if (item.type === 'object') {
       const subColumns = createMultiLevelTableColumns(item.spec, opts, flatId);
@@ -73,18 +134,69 @@ export function createMultiLevelTableColumns(
       if (opts.colSpecsHash) {
         opts.colSpecsHash[flatId] = item;
       }
-      const col = table.column({
+      const filter = listSpec.filters?.[flatId];
+      // const plugins: Partial<{
+      //   page: Record<string, never> | undefined;
+      // }> = {};
+      // if (filter) {
+      //   plugins.filter = {
+      //     fn: textPrefixFilter,
+      //     render: ({ filterValue, values }) => createRender(TextFilter, { filterValue, values }),
+      //   };
+      // }
+      // const plugins: Partial<TTable['plugins']> = {};
+      let colFilter: ColumnFiltersColumnOptions<TEditableObjectData> | undefined;
+      if (filter) {
+        colFilter = {
+          fn: textPrefixFilter,
+          render: (params) => {
+            const {
+              id, // "value"
+              values, // {subscribe: ƒ}
+              filterValue, // {subscribe: ƒ, set: ƒ, update: ƒ}
+              columns, // (2) [DataColumn, DataColumn]
+              data, // {set: ƒ, update: ƒ, subscribe: ƒ}
+              flatColumns, // (2) [DataColumn, DataColumn]
+              headerRows, // {set: ƒ, update: ƒ, subscribe: ƒ}
+              originalRows, // {subscribe: ƒ}
+              pageRows, // {set: ƒ, update: ƒ, subscribe: ƒ}
+              preFilteredRows, // {set: ƒ, update: ƒ, subscribe: ƒ}
+              preFilteredValues, // {subscribe: ƒ}
+              rows, // {set: ƒ, update: ƒ, subscribe: ƒ}
+              tableAttrs, // {set: ƒ, update: ƒ, subscribe: ƒ}
+              tableBodyAttrs, // {set: ƒ, update: ƒ, subscribe: ƒ}
+              tableHeadAttrs, // {set: ƒ, update: ƒ, subscribe: ƒ}
+              visibleColumns, // {set: ƒ, update: ƒ, subscribe: ƒ}
+            } = params;
+            console.log('[multiLevelTableHeaders:createMultiLevelTableColumns:colFilter]', id, {
+              id,
+              values: svelteStore.get(values), // {subscribe: ƒ}
+              filterValue: svelteStore.get(filterValue), // {subscribe: ƒ, set: ƒ, update: ƒ}
+              params,
+            });
+            return createRender(TextFilter, { filterValue, values });
+          },
+        };
+      }
+      const columnData = {
         id: flatId,
         accessor: flatId, // item.id,
         header: title,
         cell: EditableCell,
+        plugins: {
+          colFilter,
+        },
+        // TODO: plugins: filter from listSpec...
+      };
+      const col = table.column(columnData);
+      console.log('[multiLevelTableHeaders:createMultiLevelTableColumns] item', flatId, {
+        flatId,
+        col,
+        item,
+        filter,
+        colFilter,
+        columnData,
       });
-      /* console.log('[multiLevelTableHeaders:createMultiLevelTableColumns] item', flatId, {
-       *   flatId,
-       *   col,
-       *   item,
-       * });
-       */
       resultSpecs.push(col);
     }
   }
