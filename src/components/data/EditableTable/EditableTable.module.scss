@@ -32,6 +32,11 @@
       font-weight: 500;
       // TODO: There possible more higher (filter, search nodes) in the headers later
     }
+    .thWrapper {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
     thead {
       // Multilevel table headers
       > tr:not(:last-child) > th {
@@ -41,6 +46,9 @@
     }
     td {
       border-bottom: 1px solid $borderColor;
+    }
+    .tdWrapper {
+      /*!KEEP*/
     }
     &.activeRows {
       tbody tr {
@@ -72,10 +80,7 @@
     gap: 16px;
     flex-wrap: wrap;
   }
-  .Stats {
+  .Info {
     /*!KEEP*/
-    // flex: 1;
-    // justify-content: flex-end;
-    // text-align: right;
   }
 }

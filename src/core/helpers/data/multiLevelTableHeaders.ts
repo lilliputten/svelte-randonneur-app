@@ -1,6 +1,6 @@
-// import { get, writable } from 'svelte/store';
-import * as svelteStore from 'svelte/store';
-import { DataLabel, Table, createRender } from 'svelte-headless-table';
+import { get } from 'svelte/store';
+// import * as svelteStore from 'svelte/store';
+import { DataLabel, Table, createRender, HeaderLabel } from 'svelte-headless-table';
 import { PaginationState } from 'svelte-headless-table/lib/plugins/addPagination';
 import {
   // matchFilter,
@@ -32,13 +32,14 @@ import {
   TablePlugin,
 } from 'svelte-headless-table/lib/types/TablePlugin';
 
+import { isBrowser } from '@/src/core/constants/app';
+
 import TextFilter from './TextFilter.svelte';
 import {
   ColumnFiltersState,
   ColumnFiltersColumnOptions,
   ColumnFiltersPropSet,
 } from 'svelte-headless-table/lib/plugins/addColumnFilters';
-import { get } from 'http';
 
 type TTable = Table<
   TEditableObjectData,
@@ -67,6 +68,7 @@ export interface TCreateMultiLevelTableHeadersOpts {
   /** Collect item specs into the plain hash */
   colSpecsHash?: Record<string, TGenericEditableSpec>;
   EditableCell: DataLabel<TEditableObjectData>;
+  HeaderCell?: HeaderLabel<TEditableObjectData>;
   table: TTable;
   /*
   table: Table<
@@ -89,7 +91,7 @@ export function createMultiLevelTableColumns(
   opts: TCreateMultiLevelTableHeadersOpts,
   parentId: string = '',
 ) {
-  const { table, EditableCell, listSpec } = opts;
+  const { table, EditableCell, HeaderCell, listSpec } = opts;
   const resultSpecs = [];
   for (const item of colSpecs) {
     const flatId = [parentId, item.id].filter(Boolean).join('.');
@@ -134,17 +136,11 @@ export function createMultiLevelTableColumns(
       if (opts.colSpecsHash) {
         opts.colSpecsHash[flatId] = item;
       }
-      const filter = listSpec.filters?.[flatId];
-      // const plugins: Partial<{
-      //   page: Record<string, never> | undefined;
-      // }> = {};
-      // if (filter) {
-      //   plugins.filter = {
-      //     fn: textPrefixFilter,
-      //     render: ({ filterValue, values }) => createRender(TextFilter, { filterValue, values }),
-      //   };
-      // }
-      // const plugins: Partial<TTable['plugins']> = {};
+      const __debugUseFilters = true && isBrowser;
+      const filter = __debugUseFilters && listSpec.filters?.[flatId];
+      if (flatId.includes('test')) {
+        // debugger;
+      }
       let colFilter: ColumnFiltersColumnOptions<TEditableObjectData> | undefined;
       if (filter) {
         colFilter = {
@@ -154,48 +150,46 @@ export function createMultiLevelTableColumns(
               id, // "value"
               values, // {subscribe: ƒ}
               filterValue, // {subscribe: ƒ, set: ƒ, update: ƒ}
-              columns, // (2) [DataColumn, DataColumn]
-              data, // {set: ƒ, update: ƒ, subscribe: ƒ}
-              flatColumns, // (2) [DataColumn, DataColumn]
-              headerRows, // {set: ƒ, update: ƒ, subscribe: ƒ}
-              originalRows, // {subscribe: ƒ}
-              pageRows, // {set: ƒ, update: ƒ, subscribe: ƒ}
-              preFilteredRows, // {set: ƒ, update: ƒ, subscribe: ƒ}
-              preFilteredValues, // {subscribe: ƒ}
-              rows, // {set: ƒ, update: ƒ, subscribe: ƒ}
-              tableAttrs, // {set: ƒ, update: ƒ, subscribe: ƒ}
-              tableBodyAttrs, // {set: ƒ, update: ƒ, subscribe: ƒ}
-              tableHeadAttrs, // {set: ƒ, update: ƒ, subscribe: ƒ}
-              visibleColumns, // {set: ƒ, update: ƒ, subscribe: ƒ}
+              // columns, // (2) [DataColumn, DataColumn]
+              // data, // {set: ƒ, update: ƒ, subscribe: ƒ}
+              // flatColumns, // (2) [DataColumn, DataColumn]
+              // headerRows, // {set: ƒ, update: ƒ, subscribe: ƒ}
+              // originalRows, // {subscribe: ƒ}
+              // pageRows, // {set: ƒ, update: ƒ, subscribe: ƒ}
+              // preFilteredRows, // {set: ƒ, update: ƒ, subscribe: ƒ}
+              // preFilteredValues, // {subscribe: ƒ}
+              // rows, // {set: ƒ, update: ƒ, subscribe: ƒ}
+              // tableAttrs, // {set: ƒ, update: ƒ, subscribe: ƒ}
+              // tableBodyAttrs, // {set: ƒ, update: ƒ, subscribe: ƒ}
+              // tableHeadAttrs, // {set: ƒ, update: ƒ, subscribe: ƒ}
+              // visibleColumns, // {set: ƒ, update: ƒ, subscribe: ƒ}
             } = params;
             console.log('[multiLevelTableHeaders:createMultiLevelTableColumns:colFilter]', id, {
               id,
-              values: svelteStore.get(values), // {subscribe: ƒ}
-              filterValue: svelteStore.get(filterValue), // {subscribe: ƒ, set: ƒ, update: ƒ}
+              values: get(values), // {subscribe: ƒ}
+              filterValue: get(filterValue), // {subscribe: ƒ, set: ƒ, update: ƒ}
               params,
             });
             return createRender(TextFilter, { filterValue, values });
           },
         };
       }
-      const columnData = {
+      const col = table.column({
         id: flatId,
         accessor: flatId, // item.id,
-        header: title,
+        header: HeaderCell || title,
         cell: EditableCell,
         plugins: {
           colFilter,
         },
         // TODO: plugins: filter from listSpec...
-      };
-      const col = table.column(columnData);
+      });
       console.log('[multiLevelTableHeaders:createMultiLevelTableColumns] item', flatId, {
         flatId,
         col,
         item,
         filter,
         colFilter,
-        columnData,
       });
       resultSpecs.push(col);
     }

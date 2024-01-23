@@ -3,18 +3,27 @@
 
   import { GenericEditable } from '@/src/components/data';
   import { deriveDataSetSpec, extendDataSetSpec } from '@/src/core/helpers/rando';
-  import { TEditableListSpec, TGenericEditableData, TGenericEditableSpec } from '@/src/core/types/editable';
+  import {
+    TEditableListSpec,
+    TGenericEditableData,
+    TGenericEditableSpec,
+  } from '@/src/core/types/editable';
   import { TDataSetDictSlot } from '@/src/core/types/rando';
 
   const itemsCount = 35;
   const dataSetData: TGenericEditableData = Array.apply(null, Array(itemsCount)).map((_, n) => ({
     value: n,
+    object: { test: n },
   }));
 
-  const dataSetSpec = deriveDataSetSpec('sample', dataSetData as TDataSetDictSlot) as TEditableListSpec;
+  const dataSetSpec = deriveDataSetSpec(
+    'sample',
+    dataSetData as TDataSetDictSlot,
+  ) as TEditableListSpec;
 
   dataSetSpec.filters = {
     value: true,
+    // 'object.test': true,
   };
 
   console.log('[DemoTableWithPagination]', {
