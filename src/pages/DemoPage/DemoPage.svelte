@@ -5,7 +5,8 @@
   // import { DemoDates } from './DemoDates';
   // import { DemoEditProperties } from './DemoEditProperties';
   // import { DemoEditDataSet } from './DemoEditDataSet'; // 2024.01.19, 16:00
-  import { DemoTableWithPagination } from './DemoTableWithPagination'; // 2024.01.19, 21:20
+  // import { DemoTableWithPagination } from './DemoTableWithPagination'; // 2024.01.23
+  import { DemoTableWithFilters } from './DemoTableWithFilters'; // 2024.01.23
 
   // import styles from './DemoPage.module.scss';
 </script>
@@ -25,8 +26,9 @@
       <DemoEditableObjects />
       <DemoEditProperties />
       <DemoEditDataSet />
-      -->
       <DemoTableWithPagination />
+      -->
+      <DemoTableWithFilters />
     </div>
   </div>
 </div>

@@ -53,12 +53,12 @@ function getNewValWithOldVal(
   if (newVal == null || oldVal == null) {
     return newVal;
   } else if (typeof newVal === 'object') {
-    if (typeof oldVal === 'object') {
-      return { ...newVal, ...oldVal };
+    if (typeof oldVal !== 'object') {
+      return newVal;
     } else if (Array.isArray(newVal) && Array.isArray(oldVal)) {
       return newVal.concat(oldVal);
     } else {
-      return newVal;
+      return { ...newVal, ...oldVal };
     }
   } else if (scalarValueTypes.includes(typeof newVal as TScalarValueType)) {
     if (typeof oldVal !== 'string') {
@@ -90,7 +90,7 @@ export function deriveListItemSpec(
     if (!data) {
       return;
     }
-    if (typeof data !== 'object') {
+    if (typeof data !== 'object' /* || Array.isArray(data) */) {
       /* // TODO: Issue #16: Analyze list data cardinality (including these for nested objects' properties)
        * if (data != null && !allValues.includes(data)) {
        *   allValues.push(data);
@@ -118,7 +118,9 @@ export function deriveListItemSpec(
       ids.forEach((id) => {
         const oldVal = combo[id];
         const newVal = data[id];
+        const nextVal = getNewValWithOldVal(newVal, oldVal);
         /* console.log('[deriveDataSetSpec:deriveListItemSpec] list ids item', {
+         *   nextVal,
          *   newVal,
          *   oldVal,
          *   id,
@@ -130,7 +132,7 @@ export function deriveListItemSpec(
          *   combo,
          * });
          */
-        combo[id] = getNewValWithOldVal(newVal, oldVal);
+        combo[id] = nextVal;
       });
     }
   });
@@ -174,8 +176,10 @@ export function deriveDataSetSpec(
   opts?: TDeriveOpts,
   level: number = 0,
 ): TGenericEditableSpec {
-  /* console.log('[deriveDataSetSpec:deriveDataSetSpec]', {
+  /* console.log('[deriveDataSetSpec:deriveDataSetSpec]', id, {
    *   data,
+   *   opts,
+   *   level,
    * });
    */
   if (data != null && Array.isArray(data)) {
