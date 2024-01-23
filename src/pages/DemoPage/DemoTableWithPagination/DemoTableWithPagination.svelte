@@ -10,7 +10,7 @@
   } from '@/src/core/types/editable';
   import { TDataSetDictSlot } from '@/src/core/types/rando';
 
-  const itemsCount = 35;
+  const itemsCount = 2; // 35;
   const dataSetData: TGenericEditableData = Array.apply(null, Array(itemsCount)).map((_, n) => ({
     value: n,
     object: { test: n },
@@ -23,7 +23,7 @@
 
   dataSetSpec.filters = {
     value: true,
-    // 'object.test': true,
+    'object.test': true,
   };
 
   console.log('[DemoTableWithPagination]', {

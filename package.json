@@ -1,7 +1,7 @@
 {
   "name": "svelte-randonneur-app",
   "version": "0.0.3",
-  "changed": "2024.01.17, 00:13",
+  "changed": "2024.01.23, 22:04",
   "timetag": "240120-0058",
   "timestamp": "2024.01.20, 00:58 +0700",
   "private": true,
@@ -37,6 +37,7 @@
     "eslint-plugin-svelte": "^2.30.0",
     "gulp": "^4.0.2",
     "npm-run-all": "^4.1.5",
+    "patch-package": "^8.0.0",
     "prettier": "^3.1.1",
     "prettier-plugin-svelte": "^3.1.2",
     "rimraf": "^5.0.5",
@@ -55,6 +56,7 @@
     "vitest": "^1.0.0"
   },
   "scripts": {
+    "patch-node-packages": "echo --Patch node packages, should be run after install-- && patch-package",
     "stylelint": "echo --Lint styles-- && stylelint src/**/*.{css,scss,less}",
     "eslint": "echo --Lint sources-- && eslint src --ext js,ts,svelte,json",
     "type-check": "echo --Run typescript linter-- && tsc --pretty --noEmit",
@@ -71,6 +73,7 @@
     "svelte-check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
     "lint-UNUSED": "prettier --check . && eslint .",
     "format-UNUSED": "prettier --write .",
+    "clear-cache": "echo --Clear caches-- && rimraf node_modules/.cache node_modules/.vite node_modules/.vitest .svelte-kit",
     "test:integration": "playwright test",
     "test:unit": "vitest",
     "test": "npm run test:integration && npm run test:unit"

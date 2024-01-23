@@ -41,6 +41,13 @@ import {
   ColumnFiltersPropSet,
 } from 'svelte-headless-table/lib/plugins/addColumnFilters';
 
+/* // DEBUG: Expose svelte's `get` for debug purposes...
+ * if (isDev && typeof window === 'object') {
+ *   // @ts-expect-error: Expose get for debug purposes
+ *   window._svelteGet = get;
+ * }
+ */
+
 type TTable = Table<
   TEditableObjectData,
   {
@@ -62,6 +69,7 @@ type TTable = Table<
 >;
 export interface TCreateMultiLevelTableHeadersOpts {
   /** Show only specified column (by flatId) */
+
   showFlatFields?: string[];
   /** Parent list spec */
   listSpec: TEditableListSpec;

@@ -1,0 +1,52 @@
+diff --git a/node_modules/svelte-headless-table/.editorconfig b/node_modules/svelte-headless-table/.editorconfig
+new file mode 100644
+index 0000000..930c491
+--- /dev/null
++++ b/node_modules/svelte-headless-table/.editorconfig
+@@ -0,0 +1,2 @@
++[*]
++indent_size = 4
+index 691e328..318c0a0 100644
+--- a/node_modules/svelte-headless-table/plugins/addColumnFilters.js
++++ b/node_modules/svelte-headless-table/plugins/addColumnFilters.js
+@@ -2,18 +2,18 @@ import { keyed } from 'svelte-keyed';
+ import { derived, writable } from 'svelte/store';
+ const getFilteredRows = (rows, filterValues, columnOptions) => {
+     const $filteredRows = rows
+-        // Filter `subRows`
+-        .map((row) => {
+-        const { subRows } = row;
+-        if (subRows === undefined) {
+-            return row;
+-        }
+-        const filteredSubRows = getFilteredRows(subRows, filterValues, columnOptions);
+-        const clonedRow = row.clone();
+-        clonedRow.subRows = filteredSubRows;
+-        return clonedRow;
+-    })
+-        .filter((row) => {
++      // Filter `subRows`
++      .map((row) => {
++          const { subRows } = row;
++          if (subRows === undefined) {
++              return row;
++          }
++          const filteredSubRows = getFilteredRows(subRows, filterValues, columnOptions);
++          const clonedRow = row.clone();
++          clonedRow.subRows = filteredSubRows;
++          return clonedRow;
++      })
++      .filter((row) => {
+         if ((row.subRows?.length ?? 0) !== 0) {
+             return true;
+         }
+@@ -58,7 +58,8 @@ export const addColumnFilters = ({ serverSide = false } = {}) => ({ columnOption
+         deriveRows,
+         hooks: {
+             'thead.tr.th': (headerCell) => {
+-                const filterValue = keyed(filterValues, headerCell.id);
++                // Use 'flat' mode because 'svelte-keyed' library has a bug with nested identifiers (like `object.field`).
++                const filterValue = keyed(filterValues, headerCell.id, { flat: true });
+                 const props = derived([], () => {
+                     const columnOption = columnOptions[headerCell.id];
+                     if (columnOption === undefined) {

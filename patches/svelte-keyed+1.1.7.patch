@@ -1,0 +1,40 @@
+diff --git a/node_modules/svelte-keyed/.editorconfig b/node_modules/svelte-keyed/.editorconfig
+new file mode 100644
+index 0000000..930c491
+--- /dev/null
++++ b/node_modules/svelte-keyed/.editorconfig
+@@ -0,0 +1,2 @@
++[*]
++indent_size = 4
+diff --git a/node_modules/svelte-keyed/dist/index.es.js b/node_modules/svelte-keyed/dist/index.es.js
+index 49d1069..3a85f7e 100644
+--- a/node_modules/svelte-keyed/dist/index.es.js
++++ b/node_modules/svelte-keyed/dist/index.es.js
+@@ -50,12 +50,22 @@ var clonedWithPrototype = function (source) {
+     Object.assign(clone, source);
+     return clone;
+ };
+-function keyed(parent, path) {
+-    var keyTokens = getTokens(path);
+-    if (keyTokens.some(function (token) { return token === '__proto__'; })) {
+-        throw new Error('key cannot include "__proto__"');
++function keyed(parent, path, opts) {
++    // Optional options...
++    opts = opts || {};
++    var keyTokens, branchTokens;
++    // NOTE: Use flat mode for `svelte-headless-table/plugins/addColumnFilters` module because it's impossible to used 'nested' ids like `object.field`
++    if (opts.flat) {
++        // If not flat mode...
++        keyTokens = [path];
++        branchTokens = [];
++    } else {
++        keyTokens = getTokens(path);
++        if (keyTokens.some(function (token) { return token === '__proto__'; })) {
++            throw new Error('key cannot include "__proto__"');
++        }
++        branchTokens = keyTokens.slice(0, keyTokens.length - 1);
+     }
+-    var branchTokens = keyTokens.slice(0, keyTokens.length - 1);
+     var leafToken = keyTokens[keyTokens.length - 1];
+     var keyedValue = derived(parent, function ($parent) {
+         return getNested($parent, keyTokens);
