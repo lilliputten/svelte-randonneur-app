@@ -2,24 +2,13 @@ import { get } from 'svelte/store';
 // import * as svelteStore from 'svelte/store';
 import { DataLabel, Table, createRender, HeaderLabel } from 'svelte-headless-table';
 import { PaginationState } from 'svelte-headless-table/lib/plugins/addPagination';
-import {
-  // matchFilter,
-  // numberRangeFilter,
-  textPrefixFilter,
-  // addColumnFilters,
-  // addColumnOrder,
-  // addHiddenColumns,
-  // addSortBy,
-  // addTableFilter,
-  // addPagination,
-  // addExpandedRows,
-  // addSubRows,
-  // addGroupBy,
-  // addSelectedRows,
-  // addResizedColumns,
-} from 'svelte-headless-table/plugins';
+// import {
+//   // matchFilter,
+//   // numberRangeFilter,
+//   textPrefixFilter,
+// } from 'svelte-headless-table/plugins';
 
-import { makeTitleFromPropertyId } from '@/src/core/helpers/data';
+import { makeTitleFromPropertyId, textContainsFilter } from '@/src/core/helpers/data';
 import {
   TGenericEditableSpec,
   TEditableObjectData,
@@ -104,12 +93,13 @@ export function createMultiLevelTableColumns(
   for (const item of colSpecs) {
     const flatId = [parentId, item.id].filter(Boolean).join('.');
     const title = item.title || item.label || makeTitleFromPropertyId(item.id);
-    console.log('[multiLevelTableHeaders:createMultiLevelTableColumns] item', flatId, {
-      flatId,
-      title,
-      item,
-      listSpec,
-    });
+    /* console.log('[multiLevelTableHeaders:createMultiLevelTableColumns] item', flatId, {
+     *   flatId,
+     *   title,
+     *   item,
+     *   listSpec,
+     * });
+     */
     // TODO: Process here 'exclude' lists, including intermediate object' names?
     if (item.type === 'object') {
       const subColumns = createMultiLevelTableColumns(item.spec, opts, flatId);
@@ -152,7 +142,8 @@ export function createMultiLevelTableColumns(
       let colFilter: ColumnFiltersColumnOptions<TEditableObjectData> | undefined;
       if (filter) {
         colFilter = {
-          fn: textPrefixFilter,
+          // fn: textPrefixFilter,
+          fn: textContainsFilter,
           render: (params) => {
             const {
               id, // "value"
@@ -192,13 +183,14 @@ export function createMultiLevelTableColumns(
         },
         // TODO: plugins: filter from listSpec...
       });
-      console.log('[multiLevelTableHeaders:createMultiLevelTableColumns] item', flatId, {
-        flatId,
-        col,
-        item,
-        filter,
-        colFilter,
-      });
+      /* console.log('[multiLevelTableHeaders:createMultiLevelTableColumns] item', flatId, {
+       *   flatId,
+       *   col,
+       *   item,
+       *   filter,
+       *   colFilter,
+       * });
+       */
       resultSpecs.push(col);
     }
   }
