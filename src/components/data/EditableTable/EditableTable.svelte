@@ -16,7 +16,7 @@
     // addColumnOrder,
     // addHiddenColumns,
     // addSortBy,
-    addTableFilter,
+    // addTableFilter,
     // addExpandedRows,
     // matchFilter,
     // numberRangeFilter,
@@ -55,6 +55,7 @@
   import { EditRowForm } from './EditRowForm';
   import { PaginationBlock } from './PaginationBlock';
   import { PaginationInfo } from './PaginationInfo';
+  import { HeaderCellComponent } from './HeaderCellComponent';
 
   import styles from './EditableTable.module.scss';
 
@@ -87,7 +88,8 @@
     }),
   };
   /** Table object */
-  const table = createTable(tableFlatDataStore, tablePlugins);
+  const table = createTable(tableFlatDataStore, tablePlugins); // XXX
+  // const table = createTable(tableFullDataStore, tablePlugins);
 
   // Get specification params...
   const {
@@ -102,6 +104,54 @@
 
   /** Flat hash of column header specs. Will be created in `createMultiLevelTableColumns`. */
   const multiLevelColSpecsHash: Record<string, TGenericEditableSpec> = {};
+
+  /** Header cell constructor */
+  const HeaderCell: HeaderLabel<TEditableObjectData> = (params) => {
+    const {
+      id, // 'value'
+      // attrsForName, // {} (private)
+      // propsForName, // { colFilter: [Object] } (private)
+      state, // {...}
+      label, // [Function: HeaderCell]
+      colspan, // 1
+      colstart, // 0
+      // __flat, // true (private)
+      // __data, // true (private)
+      // accessorKey, // 'value' (private)
+      // accessorFn, // undefined (private)
+    } = params;
+    /* `state` format:
+     *   data: [Object],
+     *   columns: [Array],
+     *   flatColumns: [Array],
+     *   tableAttrs: [Object],
+     *   tableHeadAttrs: [Object],
+     *   tableBodyAttrs: [Object],
+     *   visibleColumns: [Object],
+     *   headerRows: [Object],
+     *   originalRows: [Object],
+     *   rows: [Object],
+     *   pageRows: [Object],
+     *   pluginStates: [Object]
+     */
+    const colSpec = multiLevelColSpecsHash[id];
+    const value = undefined;
+    console.log('[EditableTable:HeaderCell]', {
+      colSpec,
+      id, // 'value',
+      state, // {...},
+      label, // [Function: HeaderCell],
+      colspan, // 1,
+      colstart, // 0,
+      params,
+    });
+    return createRender(HeaderCellComponent, {
+      id: id,
+      spec: colSpec,
+      // data: value,
+      // onFilterClick: ...,
+    });
+  };
 
   /** Cell elements constructor */
   const EditableCell: DataLabel<TEditableObjectData> = ({ column, row, value }) => {
@@ -164,6 +214,7 @@
     showFlatFields,
     colSpecsHash: multiLevelColSpecsHash,
     EditableCell,
+    // HeaderCell,
     table,
     listSpec: spec,
   };
@@ -351,10 +402,12 @@
             {#each headerRow.cells as cell (cell.id)}
               <Subscribe attrs={cell.attrs()} let:attrs props={cell.props()} let:props>
                 <th {...attrs} id={cell.id}>
-                  <Render of={cell.render()} />
-                  {#if props.colFilter?.render}
-                    <Render of={props.colFilter.render} />
-                  {/if}
+                  <div class={styles.thWrapper}>
+                    <Render of={cell.render()} />
+                    {#if props.colFilter?.render}
+                      <Render of={props.colFilter.render} />
+                    {/if}
+                  </div>
                 </th>
               </Subscribe>
             {/each}
@@ -369,7 +422,9 @@
             {#each row.cells as cell (cell.id)}
               <Subscribe attrs={cell.attrs()} let:attrs>
                 <td {...attrs} id={cell.id}>
-                  <Render of={cell.render()} />
+                  <div class={styles.tdWrapper}>
+                    <Render of={cell.render()} />
+                  </div>
                 </td>
               </Subscribe>
             {/each}
@@ -385,7 +440,7 @@
       <div class={classNames(styles.Pagination)}>
         <PaginationBlock {paginationState} />
       </div>
-      <div class={styles.Stats}>
+      <div class={styles.Info}>
         <PaginationInfo {paginationState} />
       </div>
     </div>
