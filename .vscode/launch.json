@@ -78,7 +78,7 @@
         "run",
         "related",
         // Add module name below...
-        "makeTitleFromPropertyId"
+        "deriveDataSetSpec"
       ],
       "type": "node",
       "request": "launch",
@@ -86,6 +86,7 @@
       // "outputCapture" : "std",
       // "protocol": "inspector",
       "console": "integratedTerminal"
+      // TODO: We have a bug with missing console log outputs for vitest in vscode
     },
     {
       "name": "Python: Run file",

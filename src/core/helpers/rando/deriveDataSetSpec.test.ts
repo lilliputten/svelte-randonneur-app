@@ -7,6 +7,8 @@ import { propertiesDataSample, propertiesDataSpec } from '@/src/core/constants/r
 
 import { deriveDataSetSpec, TDeriveOpts } from './deriveDataSetSpec';
 
+// TODO: Update `TDataSetDictSlot` typings to allow recursive references!
+
 describe('deriveDataSetSpec', () => {
   describe('should derive scalar types', () => {
     it('string', () => {
@@ -44,7 +46,7 @@ describe('deriveDataSetSpec', () => {
       expect(result).toStrictEqual(expectedResult);
     });
   });
-  describe('should derive comples types', () => {
+  describe('should derive complex types', () => {
     it('properties object', () => {
       const data: TDataSetDictSlot = propertiesDataSample;
       const expectedResult: TGenericEditableSpec = propertiesDataSpec;
@@ -121,6 +123,78 @@ describe('deriveDataSetSpec', () => {
         maxDictListSize: 2,
       };
       const result: TGenericEditableSpec = deriveDataSetSpec('update', data, opts);
+      expect(result).toStrictEqual(expectedResult);
+    });
+    it('dataset with a list on the first level', () => {
+      const data: TDataSetDictSlot = {
+        root: [
+          {
+            categories: ['item1'],
+          },
+          {
+            categories: ['item2'],
+          },
+        ],
+      } as unknown as TDataSetDictSlot;
+      const expectedResult: TGenericEditableSpec = {
+        id: 'sample',
+        type: 'object',
+        spec: [
+          {
+            id: 'root',
+            type: 'list',
+            spec: {
+              id: 'root-item',
+              type: 'object',
+              spec: [
+                { id: 'categories', type: 'list', spec: { id: 'categories', type: 'string' } },
+              ],
+            },
+          },
+        ],
+      };
+      const result: TGenericEditableSpec = deriveDataSetSpec('sample', data);
+      expect(result).toStrictEqual(expectedResult);
+    });
+    it('dataset with a list on the second level', () => {
+      const data: TDataSetDictSlot = {
+        root: [
+          {
+            object: {
+              categories: ['item1'],
+            },
+          },
+          {
+            object: {
+              categories: ['item2'],
+            },
+          },
+        ],
+      } as unknown as TDataSetDictSlot;
+      const expectedResult: TGenericEditableSpec = {
+        id: 'sample',
+        type: 'object',
+        spec: [
+          {
+            id: 'root',
+            type: 'list',
+            spec: {
+              id: 'root-item',
+              type: 'object',
+              spec: [
+                {
+                  id: 'object',
+                  type: 'object',
+                  spec: [
+                    { id: 'categories', type: 'list', spec: { id: 'categories', type: 'string' } },
+                  ],
+                },
+              ],
+            },
+          },
+        ],
+      };
+      const result: TGenericEditableSpec = deriveDataSetSpec('sample', data);
       expect(result).toStrictEqual(expectedResult);
     });
   });

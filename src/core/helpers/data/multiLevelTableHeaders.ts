@@ -67,20 +67,6 @@ export interface TCreateMultiLevelTableHeadersOpts {
   EditableCell: DataLabel<TEditableObjectData>;
   HeaderCell?: HeaderLabel<TEditableObjectData>;
   table: TTable;
-  /*
-  table: Table<
-    TEditableObjectData,
-    {
-      page: TablePlugin<
-        unknown,
-        PaginationState,
-        Record<string, never>,
-        NewTablePropSet<never>,
-        AnyTableAttributeSet
-      >;
-    }
-  >;
-  >*/
 }
 
 export function createMultiLevelTableColumns(
@@ -169,6 +155,7 @@ export function createMultiLevelTableColumns(
               filterValue: get(filterValue), // {subscribe: ƒ, set: ƒ, update: ƒ}
               params,
             });
+            // TODO: Use generic filter render. It should support inactive mode (button only), active mode with inputs for text search
             return createRender(TextFilter, { filterValue, values });
           },
         };
