@@ -1,4 +1,4 @@
 export * from './filterHelpers';
 export * from './makeTitleFromPropertyId';
-export * from './multiLevelTableHeaders';
+export * from './multiLevelTable';
 export * from './safeParseJson';
