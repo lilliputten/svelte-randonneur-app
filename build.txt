@@ -3,4 +3,4 @@ Version: 0.0.4
 Branch: 43-filters
 Commit: be5df11
 Fixed: 2024.01.24, 18:02 +0700
-Built: 2024.01.24 18:06 +0700
+Built: 2024.01.24 18:11 +0700
