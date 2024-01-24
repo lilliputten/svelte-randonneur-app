@@ -54,8 +54,20 @@
     colSpec,
   });
 
+  let inputGroupElement: HTMLElement;
+
   function toggleOpen() {
     isOpen = !isOpen;
+    if (isOpen) {
+      // Try to find input and focus it (with delay to update dom)...
+      requestAnimationFrame(() => {
+        // TODO: Use `requestAnimationFrame`?
+        const input = inputGroupElement?.getElementsByTagName('input')[0];
+        if (input) {
+          input.focus();
+        }
+      });
+    }
   }
 </script>
 
@@ -63,7 +75,7 @@
 
 {#if isOpen}
   <div class={classNames(styles.FilterControl, isActive && styles.active)}>
-    <div class={styles.InputGroup}>
+    <div class={styles.InputGroup} bind:this={inputGroupElement}>
       {#if filter === 'select'}
         <FilterSelectInput className={styles.Input} {filterValue} {values} {data} {id} />
       {:else}

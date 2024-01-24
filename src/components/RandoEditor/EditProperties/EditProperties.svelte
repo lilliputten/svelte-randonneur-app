@@ -9,7 +9,7 @@
   const propertiesSpec = { ...propertiesDataSpec };
 
   extendPropertiesSpec(propertiesSpec);
-  extendDataSetWithFilters(propertiesSpec)
+  extendDataSetWithFilters(propertiesSpec);
 
   function onChange(data: TGenericEditableData, _spec: TGenericEditableSpec) {
     /* console.log('[EditProperties:onChange]', spec.id, {

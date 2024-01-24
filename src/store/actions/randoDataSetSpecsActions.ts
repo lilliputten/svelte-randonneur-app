@@ -19,7 +19,7 @@ export function createRandoDataSetSpec(id: TRandoDataSetKey, data: TDataSetDictS
     return;
   }
   const spec = deriveDataSetSpec(id, data) as TEditableObjectSpec; // TEditableObjectSpec | TEditableListSpec | TEditableFieldSpec;
-  extendPropertiesSpec(spec);
+  // extendPropertiesSpec(spec);
   extendDataSetWithFilters(spec);
   /* console.log('[randoDataSetSpecsActions:createRandoDataSetSpec]', {
    *   id,

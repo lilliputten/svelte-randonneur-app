@@ -32,8 +32,11 @@
       color: #fff;
       font-weight: 500;
       position: relative;
-      &[data-has-filter] {
+      &[data-has-active-filter] {
         background-color: color.adjust($primaryColor, $lightness: -10%);
+      }
+      &[data-with-filter] {
+        min-width: 150px;
       }
     }
     .thWrapper {
@@ -54,7 +57,7 @@
     }
     td {
       border-bottom: 1px solid $borderColor;
-      &[data-has-filter] {
+      &[data-has-active-filter] {
         background-color: color.change($primaryColor, $alpha: 0.1);
       }
     }
