@@ -24,28 +24,39 @@
       }
     }
     th {
+      // TODO: There are possible more higher (filter, search nodes) elements in the headers later
       border-bottom: $thBorderSize solid $borderColor;
       padding-top: $thPaddingV + $thBorderSize;
       padding-bottom: $thPaddingV;
       background-color: $primaryColor;
       color: #fff;
       font-weight: 500;
-      // TODO: There possible more higher (filter, search nodes) in the headers later
+      position: relative;
+      &[data-has-filter] {
+        background-color: color.adjust($primaryColor, $lightness: -10%);
+      }
     }
     .thWrapper {
       display: flex;
       align-items: center;
       gap: 8px;
+      // position: relative;
     }
     thead {
       // Multilevel table headers
       > tr:not(:last-child) > th {
         text-align: center;
         border-bottom-color: transparent;
+        > .thWrapper {
+          justify-content: center;
+        }
       }
     }
     td {
       border-bottom: 1px solid $borderColor;
+      &[data-has-filter] {
+        background-color: color.change($primaryColor, $alpha: 0.1);
+      }
     }
     .tdWrapper {
       /*!KEEP*/

@@ -17,8 +17,11 @@
       test: 'x' + n,
       categories: ['item-' + n],
     },
-    categories: ['item-' + n],
+    // categories: ['item-' + n],
   }));
+
+  // @ts-expect-error: Debug value
+  dataSetData[0].object.categories.push('X');
 
   const dataSetSpec = deriveDataSetSpec(
     'sample',
@@ -28,6 +31,7 @@
   dataSetSpec.filters = {
     value: true,
     'object.test': true,
+    'object.categories': 'select',
   };
 
   const origDataSetSpec = { ...dataSetSpec };

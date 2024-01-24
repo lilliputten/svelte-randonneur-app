@@ -8,11 +8,19 @@
 
   export let className: string | undefined = undefined;
   export let id: string;
+  export let hasActiveFilter: boolean = false;
   export let spec: TGenericEditableSpec;
 
   $: title = spec.title || spec.label || makeTitleFromPropertyId(spec.id);
 </script>
 
-<div class={classNames(className, styles.HeaderCellComponent)} data-header-cell-id={id}>
-  {title}
+<div
+  class={classNames(
+    className,
+    styles.HeaderCellComponent,
+    hasActiveFilter && styles.hasActiveFilter,
+  )}
+  data-header-cell-id={id}
+>
+  <span class={styles.Content}>{title}</span>
 </div>

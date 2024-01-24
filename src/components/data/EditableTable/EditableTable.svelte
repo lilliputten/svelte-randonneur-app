@@ -135,7 +135,6 @@
      *   pluginStates: [Object]
      */
     const colSpec = multiLevelColSpecsHash[id];
-    const value = undefined;
     console.log('[EditableTable:HeaderCell]', {
       colSpec,
       id, // 'value',
@@ -148,8 +147,7 @@
     return createRender(HeaderCellComponent, {
       id: id,
       spec: colSpec,
-      // data: value,
-      // onFilterClick: ...,
+      // hasActiveFilter: !!$filterValues[id],
     });
   };
 
@@ -401,7 +399,11 @@
           <tr {...attrs}>
             {#each headerRow.cells as cell (cell.id)}
               <Subscribe attrs={cell.attrs()} let:attrs props={cell.props()} let:props>
-                <th {...attrs} id={cell.id}>
+                <th
+                  {...attrs}
+                  id={cell.id}
+                  data-has-filter={$filterValues[cell.id] ? true : undefined}
+                >
                   <div class={styles.thWrapper}>
                     <Render of={cell.render()} />
                     {#if props.colFilter?.render}
@@ -421,7 +423,11 @@
           <tr {...attrs} id={row.id} on:click={onRowClick}>
             {#each row.cells as cell (cell.id)}
               <Subscribe attrs={cell.attrs()} let:attrs>
-                <td {...attrs} id={cell.id}>
+                <td
+                  {...attrs}
+                  id={cell.id}
+                  data-has-filter={$filterValues[cell.id] ? true : undefined}
+                >
                   <div class={styles.tdWrapper}>
                     <Render of={cell.render()} />
                   </div>
