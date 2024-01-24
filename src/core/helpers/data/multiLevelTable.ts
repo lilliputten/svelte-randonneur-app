@@ -7,13 +7,6 @@ import { PaginationState } from 'svelte-headless-table/lib/plugins/addPagination
 //   // numberRangeFilter,
 //   textPrefixFilter,
 // } from 'svelte-headless-table/plugins';
-
-import { makeTitleFromPropertyId, textContainsFilter } from '@/src/core/helpers/data';
-import {
-  TGenericEditableSpec,
-  TEditableObjectData,
-  TEditableListSpec,
-} from '@/src/core/types/editable';
 import {
   // AnyPlugins, // TODO: To use for correct typisation of `TCreateMultiLevelTableHeadersOpts.table` (below; not such specific as now)
   AnyTableAttributeSet,
@@ -21,14 +14,22 @@ import {
   TablePlugin,
 } from 'svelte-headless-table/lib/types/TablePlugin';
 
+import { makeTitleFromPropertyId, textContainsFilter } from '@/src/core/helpers/data';
+import {
+  TGenericEditableSpec,
+  TEditableObjectData,
+  TEditableListSpec,
+} from '@/src/core/types/editable';
+
 import { isBrowser } from '@/src/core/constants/app';
 
-import TextFilter from './TextFilter.svelte';
 import {
   ColumnFiltersState,
   ColumnFiltersColumnOptions,
   ColumnFiltersPropSet,
 } from 'svelte-headless-table/lib/plugins/addColumnFilters';
+
+import TextFilter from './TextFilter.svelte';
 
 /* // DEBUG: Expose svelte's `get` for debug purposes...
  * if (isDev && typeof window === 'object') {
@@ -79,7 +80,7 @@ export function createMultiLevelTableColumns(
   for (const item of colSpecs) {
     const flatId = [parentId, item.id].filter(Boolean).join('.');
     const title = item.title || item.label || makeTitleFromPropertyId(item.id);
-    /* console.log('[multiLevelTableHeaders:createMultiLevelTableColumns] item', flatId, {
+    /* console.log('[multiLevelTable:createMultiLevelTableColumns] item', flatId, {
      *   flatId,
      *   title,
      *   item,
@@ -103,7 +104,7 @@ export function createMultiLevelTableColumns(
         header: title,
         columns: subColumns,
       });
-      /* console.log('[multiLevelTableHeaders:createMultiLevelTableColumns] sublist', flatId, {
+      /* console.log('[multiLevelTable:createMultiLevelTableColumns] sublist', flatId, {
        *   flatId,
        *   group,
        *   subColumns,
@@ -149,7 +150,7 @@ export function createMultiLevelTableColumns(
               // tableHeadAttrs, // {set: ƒ, update: ƒ, subscribe: ƒ}
               // visibleColumns, // {set: ƒ, update: ƒ, subscribe: ƒ}
             } = params;
-            console.log('[multiLevelTableHeaders:createMultiLevelTableColumns:colFilter]', id, {
+            console.log('[multiLevelTable:createMultiLevelTableColumns:colFilter]', id, {
               id,
               values: get(values), // {subscribe: ƒ}
               filterValue: get(filterValue), // {subscribe: ƒ, set: ƒ, update: ƒ}
@@ -170,7 +171,7 @@ export function createMultiLevelTableColumns(
         },
         // TODO: plugins: filter from listSpec...
       });
-      /* console.log('[multiLevelTableHeaders:createMultiLevelTableColumns] item', flatId, {
+      /* console.log('[multiLevelTable:createMultiLevelTableColumns] item', flatId, {
        *   flatId,
        *   col,
        *   item,
