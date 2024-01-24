@@ -1,16 +1,9 @@
-import { TDataSetDictItemValue, TDataSetDictSlot } from '@/src/core/types/rando';
 import {
-  scalarValueTypes,
-  TEditableFieldSpec,
   TEditableListSpec,
-  TEditableObjectSpec,
   TFilterItem,
   TFiltersData,
   TGenericEditableSpec,
-  // TScalarValue,
-  TScalarValueType,
 } from '@/src/core/types/editable';
-import { isScalarType } from '@/src/components/data/EditableTable/EditableTableHelpers';
 import { ensureArray } from '@/src/core/helpers/basic';
 
 interface TExtendDataSetWithFiltersOptions {

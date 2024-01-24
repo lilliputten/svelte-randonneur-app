@@ -403,7 +403,10 @@
                 <th
                   {...attrs}
                   id={cell.id}
-                  data-has-filter={$filterValues[cell.id] ? true : undefined}
+                  data-with-filter={Object.prototype.hasOwnProperty.call($filterValues, cell.id)
+                    ? true
+                    : undefined}
+                  data-has-active-filter={$filterValues[cell.id] ? true : undefined}
                 >
                   <div class={styles.thWrapper}>
                     <Render of={cell.render()} />
@@ -427,7 +430,10 @@
                 <td
                   {...attrs}
                   id={cell.id}
-                  data-has-filter={$filterValues[cell.id] ? true : undefined}
+                  data-with-filter={Object.prototype.hasOwnProperty.call($filterValues, cell.id)
+                    ? true
+                    : undefined}
+                  data-has-active-filter={$filterValues[cell.id] ? true : undefined}
                 >
                   <div class={styles.tdWrapper}>
                     <Render of={cell.render()} />
