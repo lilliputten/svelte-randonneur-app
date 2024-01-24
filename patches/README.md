@@ -1,6 +1,5 @@
 # Project patches
 
-
 ## Patching modules:
 
 Patched `svelte-headless-table` and `svelte-keyed` modules to allow nested table ids (like `object.field`).
@@ -15,7 +14,6 @@ Added 3rd optional `opts` argument to `keyed` function. `opts.flat` tells to not
 
 - `node_modules/svelte-keyed/dist/index.es.js`
 
-
 ## To create patch for a package name 'NAME':
 
 ```
@@ -23,7 +21,6 @@ npx patch-package NAME
 ```
 
 (Check for accidentally included swap files: eg, diffs for `.swp` files.)
-
 
 ## To apply all the patches:
 
@@ -38,7 +35,6 @@ or call it directly:
 ```
 npx patch-package
 ```
-
 
 ## See for a details:
 

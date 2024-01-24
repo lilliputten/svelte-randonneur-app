@@ -1,7 +1,7 @@
 import { TDisplayLayout } from './TDisplayLayout';
 import { TGenericEditableSpec } from './TGenericEditableSpec';
 
-type TFilterItem = true | 'select' | false | undefined;
+export type TFilterItem = true | 'select' | false | undefined;
 
 export interface TEditableListSpec {
   id: string;

@@ -2,17 +2,17 @@ import { get } from 'svelte/store';
 // import * as svelteStore from 'svelte/store';
 import { DataLabel, Table, createRender, HeaderLabel } from 'svelte-headless-table';
 import { PaginationState } from 'svelte-headless-table/lib/plugins/addPagination';
-// import {
-//   // matchFilter,
-//   // numberRangeFilter,
-//   textPrefixFilter,
-// } from 'svelte-headless-table/plugins';
 import {
   // AnyPlugins, // TODO: To use for correct typisation of `TCreateMultiLevelTableHeadersOpts.table` (below; not such specific as now)
   AnyTableAttributeSet,
   NewTablePropSet,
   TablePlugin,
 } from 'svelte-headless-table/lib/types/TablePlugin';
+import {
+  ColumnFiltersState,
+  ColumnFiltersColumnOptions,
+  ColumnFiltersPropSet,
+} from 'svelte-headless-table/lib/plugins/addColumnFilters';
 
 import { makeTitleFromPropertyId, textContainsFilter } from '@/src/core/helpers/data';
 import {
@@ -21,22 +21,15 @@ import {
   TEditableListSpec,
 } from '@/src/core/types/editable';
 
-import { isBrowser } from '@/src/core/constants/app';
+import { isBrowser, isDev } from '@/src/core/constants/app';
 
-import {
-  ColumnFiltersState,
-  ColumnFiltersColumnOptions,
-  ColumnFiltersPropSet,
-} from 'svelte-headless-table/lib/plugins/addColumnFilters';
+import { GenericFilter } from '@/src/components/data/GenericFilter';
 
-import TextFilter from './TextFilter.svelte';
-
-/* // DEBUG: Expose svelte's `get` for debug purposes...
- * if (isDev && typeof window === 'object') {
- *   // @ts-expect-error: Expose get for debug purposes
- *   window._svelteGet = get;
- * }
- */
+// DEBUG: Expose svelte's `get` for debug purposes...
+if (isDev && typeof window === 'object') {
+  // @ts-expect-error: Expose get for debug purposes
+  window._svelteGet = get;
+}
 
 type TTable = Table<
   TEditableObjectData,
@@ -136,8 +129,8 @@ export function createMultiLevelTableColumns(
               id, // "value"
               values, // {subscribe: ƒ}
               filterValue, // {subscribe: ƒ, set: ƒ, update: ƒ}
+              data, // {set: ƒ, update: ƒ, subscribe: ƒ}
               // columns, // (2) [DataColumn, DataColumn]
-              // data, // {set: ƒ, update: ƒ, subscribe: ƒ}
               // flatColumns, // (2) [DataColumn, DataColumn]
               // headerRows, // {set: ƒ, update: ƒ, subscribe: ƒ}
               // originalRows, // {subscribe: ƒ}
@@ -155,9 +148,29 @@ export function createMultiLevelTableColumns(
               values: get(values), // {subscribe: ƒ}
               filterValue: get(filterValue), // {subscribe: ƒ, set: ƒ, update: ƒ}
               params,
+              // columns, // (2) [DataColumn, DataColumn]
+              // data, // {set: ƒ, update: ƒ, subscribe: ƒ}
+              // flatColumns, // (2) [DataColumn, DataColumn]
+              // headerRows, // {set: ƒ, update: ƒ, subscribe: ƒ}
+              // originalRows, // {subscribe: ƒ}
+              // pageRows, // {set: ƒ, update: ƒ, subscribe: ƒ}
+              // preFilteredRows, // {set: ƒ, update: ƒ, subscribe: ƒ}
+              // preFilteredValues, // {subscribe: ƒ}
+              // rows, // {set: ƒ, update: ƒ, subscribe: ƒ}
+              // tableAttrs, // {set: ƒ, update: ƒ, subscribe: ƒ}
+              // tableBodyAttrs, // {set: ƒ, update: ƒ, subscribe: ƒ}
+              // tableHeadAttrs, // {set: ƒ, update: ƒ, subscribe: ƒ}
+              // visibleColumns, // {set: ƒ, update: ƒ, subscribe: ƒ}
             });
             // TODO: Use generic filter render. It should support inactive mode (button only), active mode with inputs for text search
-            return createRender(TextFilter, { filterValue, values });
+            return createRender(GenericFilter, {
+              id,
+              filterValue,
+              values,
+              colSpec: item,
+              filter,
+              data,
+            });
           },
         };
       }
