@@ -3,6 +3,7 @@
 
   import { GenericEditable } from '@/src/components/data';
   import { deriveDataSetSpec, extendDataSetSpec } from '@/src/core/helpers/rando';
+  import { extendDataSetWithFilters } from '@/src/core/helpers/rando/extendDataSetWithFilters';
   import {
     TEditableListSpec,
     TGenericEditableData,
@@ -28,11 +29,15 @@
     dataSetData as TDataSetDictSlot,
   ) as TEditableListSpec;
 
-  dataSetSpec.filters = {
-    value: true,
-    'object.test': true,
-    'object.categories': 'select',
-  };
+  const setCustomFilters = false;
+  if (setCustomFilters) {
+    dataSetSpec.filters = {
+      value: true,
+      'object.test': true,
+      'object.categories': 'select',
+    };
+  }
+  extendDataSetWithFilters(dataSetSpec);
 
   const origDataSetSpec = { ...dataSetSpec };
 

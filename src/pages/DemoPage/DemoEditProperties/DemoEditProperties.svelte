@@ -9,12 +9,14 @@
   } from '@/src/components/data';
   import { propertiesDataSample, propertiesDataSpec } from '@/src/core/constants/rando';
   import { extendPropertiesSpec } from '@/src/core/helpers/rando';
+  import { extendDataSetWithFilters } from '@/src/core/helpers/rando/extendDataSetWithFilters';
   import { TGenericEditableData, TGenericEditableSpec } from '@/src/core/types/editable';
 
   const propertiesData = { ...propertiesDataSample };
   const propertiesSpec = { ...propertiesDataSpec };
 
   extendPropertiesSpec(propertiesSpec);
+  extendDataSetWithFilters(propertiesSpec);
 
   /* // DEMO: Check only licenses list
    * const licensesSpec: TGenericEditableSpec = {

@@ -2,7 +2,11 @@
   /* eslint-disable no-console */
 
   import { GenericEditable } from '@/src/components/data';
-  import { deriveDataSetSpec, extendDataSetSpec } from '@/src/core/helpers/rando';
+  import {
+    deriveDataSetSpec,
+    extendDataSetSpec,
+    extendDataSetWithFilters,
+  } from '@/src/core/helpers/rando';
   import { TGenericEditableData, TGenericEditableSpec } from '@/src/core/types/editable';
   import { TDataSetDictSlot } from '@/src/core/types/rando';
 
@@ -33,6 +37,8 @@
     },
   ];
   const dataSetSpec = deriveDataSetSpec('sample', dataSetData as TDataSetDictSlot);
+  extendDataSetWithFilters(dataSetSpec);
+
   /* const sampleDataSetSpec: TGenericEditableSpec = {
    *   id: 'sample',
    *   type: 'list',

@@ -3,12 +3,13 @@
   import { randoPropertiesStore } from '@/src/store';
   import { TGenericEditableData, TGenericEditableSpec } from '@/src/core/types/editable';
   import { GenericEditable } from '@/src/components/data';
-  import { extendPropertiesSpec } from '@/src/core/helpers/rando';
+  import { extendDataSetWithFilters, extendPropertiesSpec } from '@/src/core/helpers/rando';
   import { TRandoPropertiesSlot } from '@/src/core/types/rando';
 
   const propertiesSpec = { ...propertiesDataSpec };
 
   extendPropertiesSpec(propertiesSpec);
+  extendDataSetWithFilters(propertiesSpec)
 
   function onChange(data: TGenericEditableData, _spec: TGenericEditableSpec) {
     /* console.log('[EditProperties:onChange]', spec.id, {

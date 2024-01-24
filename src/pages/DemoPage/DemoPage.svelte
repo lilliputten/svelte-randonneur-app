@@ -1,14 +1,20 @@
 <script lang="ts">
+  /* eslint-disable @typescript-eslint/no-unused-vars */
+
+  // Import all the demo components...
+
   // import { DemoEditableFields } from './DemoEditableFields';
   // import { DemoEditableTable } from './DemoEditableTable';
   // import { DemoEditableObjects } from './DemoEditableObjects';
   // import { DemoDates } from './DemoDates';
-  // import { DemoEditProperties } from './DemoEditProperties';
-  // import { DemoEditDataSet } from './DemoEditDataSet'; // 2024.01.19, 16:00
+  import { DemoEditProperties } from './DemoEditProperties'; // 2024.01.24, 16:45
+  import { DemoEditDataSet } from './DemoEditDataSet'; // 2024.01.24, 15:58
   // import { DemoTableWithPagination } from './DemoTableWithPagination'; // 2024.01.23
-  import { DemoTableWithFilters } from './DemoTableWithFilters'; // 2024.01.23
+  import { DemoTableWithFilters } from './DemoTableWithFilters'; // 2024.01.24, 15:58
 
-  // import styles from './DemoPage.module.scss';
+  /* eslint-enable @typescript-eslint/no-unused-vars */
+
+  // TODO: Add demo page selector
 </script>
 
 <svelte:head>
@@ -24,11 +30,11 @@
       <DemoEditableTable />
       <DemoDates />
       <DemoEditableObjects />
-      <DemoEditProperties />
-      <DemoEditDataSet />
       <DemoTableWithPagination />
-      -->
+      <DemoEditDataSet />
       <DemoTableWithFilters />
+      -->
+      <DemoEditProperties />
     </div>
   </div>
 </div>

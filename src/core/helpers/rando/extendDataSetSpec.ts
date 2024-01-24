@@ -26,7 +26,8 @@ export function extendDataSetSpec(
   // --@ts-expect-error: Using debug field
   spec._level = level;
   if (type === 'object' && spec.spec) {
-    spec.spec.forEach((itemSpec) => {
+    const subSpec = Array.isArray(spec.spec) ? spec.spec : [spec.spec];
+    subSpec.forEach((itemSpec) => {
       extendDataSetSpec(itemSpec, level + 1, thisId);
     });
   }

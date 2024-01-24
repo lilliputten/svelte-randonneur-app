@@ -20,6 +20,7 @@ import {
   TEditableObjectData,
   TEditableListSpec,
 } from '@/src/core/types/editable';
+import { ensureArray } from '@/src/core/helpers/basic';
 
 import { isBrowser, isDev } from '@/src/core/constants/app';
 
@@ -82,7 +83,7 @@ export function createMultiLevelTableColumns(
      */
     // TODO: Process here 'exclude' lists, including intermediate object' names?
     if (item.type === 'object') {
-      const subColumns = createMultiLevelTableColumns(item.spec, opts, flatId);
+      const subColumns = createMultiLevelTableColumns(ensureArray(item.spec), opts, flatId);
       // Don't do nothing with an empty lists...
       if (!Array.isArray(subColumns) || !subColumns.length) {
         continue;

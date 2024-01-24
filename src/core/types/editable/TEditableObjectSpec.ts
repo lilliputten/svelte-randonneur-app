@@ -8,7 +8,7 @@ export interface TEditableObjectSpec {
   label?: string;
   layout?: TDisplayLayout;
   /** Object fields specs list */
-  spec: TGenericEditableSpec[];
+  spec: TGenericEditableSpec | TGenericEditableSpec[];
   /** Internal id for flatterned fields, see `flatObjects` in tables */
   _flatId?: string;
   /** DEBUG: Full id for debug purposes */
