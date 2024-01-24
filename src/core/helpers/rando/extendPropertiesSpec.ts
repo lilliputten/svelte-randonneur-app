@@ -1,4 +1,4 @@
-import { ucFirst } from '@/src/core/helpers/basic';
+import { ensureArray, ucFirst } from '@/src/core/helpers/basic';
 import {
   TEditableObjectSpec,
   // TEditableListSpec,
@@ -32,7 +32,8 @@ export function extendPropertiesSpec(
   // --@ts-expect-error: Using debug field
   spec._level = level;
   if (type === 'object' && spec.spec) {
-    spec.spec.forEach((itemSpec) => {
+    const subSpec = ensureArray(spec.spec);
+    subSpec.forEach((itemSpec) => {
       extendPropertiesSpec(itemSpec, level + 1, thisId);
     });
   }

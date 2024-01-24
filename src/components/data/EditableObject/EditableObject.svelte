@@ -13,6 +13,7 @@
   import { GenericEditable } from '../GenericEditable';
 
   import styles from './EditableObject.module.scss';
+  import { ensureArray } from '@/src/core/helpers/basic';
 
   type TOnChangeCallback = (data: TEditableObjectData, spec: TEditableObjectSpec) => void;
 
@@ -68,7 +69,7 @@
       {spec.label}
     </div>
   {/if}
-  {#each fieldsSpec as item}
+  {#each ensureArray(fieldsSpec) as item}
     <GenericEditable spec={item} data={data[item.id]} onChange={handleItemChange} />
   {/each}
 </div>

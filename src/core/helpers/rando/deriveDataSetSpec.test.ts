@@ -5,7 +5,7 @@ import { TDataSetDictSlot } from '@/src/core/types/rando';
 
 import { propertiesDataSample, propertiesDataSpec } from '@/src/core/constants/rando';
 
-import { deriveDataSetSpec, TDeriveOpts } from './deriveDataSetSpec';
+import { deriveDataSetSpec } from './deriveDataSetSpec';
 
 // TODO: Update `TDataSetDictSlot` typings to allow recursive references!
 
@@ -119,10 +119,7 @@ describe('deriveDataSetSpec', () => {
           },
         ],
       };
-      const opts: TDeriveOpts = {
-        maxDictListSize: 2,
-      };
-      const result: TGenericEditableSpec = deriveDataSetSpec('update', data, opts);
+      const result: TGenericEditableSpec = deriveDataSetSpec('update', data);
       expect(result).toStrictEqual(expectedResult);
     });
     it('dataset with a list on the first level', () => {

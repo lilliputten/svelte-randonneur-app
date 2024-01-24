@@ -43,6 +43,7 @@
   } from '@/src/core/helpers/data';
   import { minPageSize, defaultPageSize } from '@/src/core/constants/rando';
   import { GenericEditable } from '@/src/components/data';
+  import { ensureArray } from '@/src/core/helpers/basic';
 
   import {
     getFlatItemId,
@@ -217,7 +218,7 @@
     listSpec: spec,
   };
   const multiLevelTableColumns = createMultiLevelTableColumns(
-    rowObjSpec.spec,
+    ensureArray(rowObjSpec.spec),
     createMultiLevelTableHeadersOpts,
   );
 

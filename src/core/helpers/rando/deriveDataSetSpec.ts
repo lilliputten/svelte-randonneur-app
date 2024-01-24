@@ -10,13 +10,8 @@ import {
 } from '@/src/core/types/editable';
 import { isScalarType } from '@/src/components/data/EditableTable/EditableTableHelpers';
 
-/* // TODO: Issue #16: Analyze list data cardinality (including these for nested objects' properties)
- * [>* Default minimal different values in the list to treat it as a dictionary <]
- * const defaultMaxDictListSize = 10;
- */
-
 export interface TDeriveOpts {
-  maxDictListSize?: number;
+  // maxDictListSize?: number;
 }
 
 export function deriveObjectPropertiesSpec(
@@ -77,9 +72,6 @@ export function deriveListItemSpec(
 ): TGenericEditableSpec {
   const combo: TDataSetDictSlot = {};
   let value: TDataSetDictItemValue;
-  /* // TODO: Issue #16: Analyze list data cardinality (including these for nested objects' properties)
-   * const allValues: TScalarValue[] = [];
-   */
   /* console.log('[deriveDataSetSpec:deriveListItemSpec] start', {
    *   listId,
    *   list,
@@ -91,11 +83,6 @@ export function deriveListItemSpec(
       return;
     }
     if (typeof data !== 'object' /* || Array.isArray(data) */) {
-      /* // TODO: Issue #16: Analyze list data cardinality (including these for nested objects' properties)
-       * if (data != null && !allValues.includes(data)) {
-       *   allValues.push(data);
-       * }
-       */
       value = getNewValWithOldVal(data, value);
       /* console.log('[deriveDataSetSpec:deriveListItemSpec] list item: scalar', {
        *   value,
@@ -147,14 +134,6 @@ export function deriveListItemSpec(
     result = objSpec;
   } else {
     const scalarSpec: TEditableFieldSpec = createScalarSpec(listId, value);
-    /* // TODO: Issue #16: Analyze list data cardinality (including these for nested objects' properties)
-     * const allValuesCount = allValues.length;
-     * scalarSpec._allValuesCount = allValuesCount;
-     * const maxDictListSize = opts?.maxDictListSize || defaultMaxDictListSize;
-     * if (allValuesCount <= maxDictListSize) {
-     *   scalarSpec._allValues = allValues;
-     * }
-     */
     result = scalarSpec;
   }
   return result;

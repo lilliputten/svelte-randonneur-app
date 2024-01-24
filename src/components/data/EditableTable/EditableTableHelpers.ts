@@ -1,3 +1,4 @@
+import { ensureArray } from '@/src/core/helpers/basic';
 import { makeTitleFromPropertyId } from '@/src/core/helpers/data';
 import {
   TEditableListSpec,
@@ -113,7 +114,7 @@ function makeSpecsFlat(
     const flatId = [parentId, item.id].filter(Boolean).join('.');
     // TODO: Process here 'exclude' lists, including intermediate object' names?
     if (item.type === 'object') {
-      const flatItems = makeSpecsFlat(item.spec, showFlatFields, flatId);
+      const flatItems = makeSpecsFlat(ensureArray(item.spec), showFlatFields, flatId);
       /* console.log('[EditableTableHelpers:makeSpecsFlat] created sublist', flatId, {
        *   parentId,
        *   flatId,
@@ -151,7 +152,7 @@ export function getPlainTableColSpecs(
   /** Row specification */
   const rowObjSpec = spec.spec as TEditableObjectSpec;
   /** Row item specifications */
-  const colSpecs = rowObjSpec.spec;
+  const colSpecs = ensureArray(rowObjSpec.spec);
   if (!flatObjects || !colSpecs) {
     return colSpecs;
   }
