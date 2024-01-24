@@ -1,6 +1,6 @@
 Project: svelte-randonneur-app
-Version: 0.0.3
-Branch: 38-implement-dataset-table-pagination
-Commit: e46d24f
-Fixed: 2024.01.20, 00:58 +0700
-Built: 2024.01.20 01:00 +0700
+Version: 0.0.4
+Branch: 43-filters
+Commit: be5df11
+Fixed: 2024.01.24, 18:02 +0700
+Built: 2024.01.24 18:06 +0700
