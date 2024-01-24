@@ -1,18 +1,17 @@
 .FilterActionIcon {
   transition: all $transitionTimeMs;
-  color: #fff;
+  color: #fff !important;
   &:hover {
-    background-color: color.change(#fff, $alpha: 0.2);
+    background-color: color.change(#fff, $alpha: 0.2) !important;
   }
   &.active {
-    color: $primaryColor;
+    color: $primaryColor !important;
     background-color: #fff;
     &:hover {
-      background-color: color.change(#fff, $alpha: 0.7);
+      background-color: color.change(#fff, $alpha: 0.7) !important;
     }
   }
   &.open {
     /*!KEEP*/
-    // border: 1px solid red;
   }
 }
