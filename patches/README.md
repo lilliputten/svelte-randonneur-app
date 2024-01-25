@@ -6,6 +6,8 @@ Patched `svelte-headless-table` and `svelte-keyed` modules to allow nested table
 
 Added 3rd optional `opts` argument to `keyed` function. `opts.flat` tells to not use keys parsing and allows to use nested ones.
 
+Patched `browser-filesaver` library to prevent crashes in svelte SSR.
+
 ### svelte-headless-table
 
 - `node_modules/svelte-headless-table/plugins/addColumnFilters.js`
