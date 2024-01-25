@@ -9,7 +9,7 @@ import { scssPrepend } from './svelte-scss-options.js';
 // Pass build info to the application...
 process.env.VITE_BUILD_INFO = JSON.stringify(allData());
 
-const useStaticAdapter = false;
+const useStaticAdapter = true;
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
