@@ -1,7 +1,7 @@
 {
   "name": "svelte-randonneur-app",
   "version": "0.0.4",
-  "changed": "2024.01.23, 22:04",
+  "changed": "2024.01.25, 13:15",
   "timetag": "240124-1802",
   "timestamp": "2024.01.24, 18:02 +0700",
   "private": true,
@@ -57,6 +57,7 @@
   },
   "scripts": {
     "patch-node-packages": "echo --Patch node packages, should be run after install-- && patch-package",
+    "postinstall": "echo --Make postinstall tasks-- && npm-run-all patch-node-packages",
     "stylelint": "echo --Lint styles-- && stylelint src/**/*.{css,scss,less}",
     "eslint": "echo --Lint sources-- && eslint src --ext js,ts,svelte,json",
     "type-check": "echo --Run typescript linter-- && tsc --pretty --noEmit",

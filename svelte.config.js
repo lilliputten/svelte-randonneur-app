@@ -1,4 +1,4 @@
-// import autoAdapter from '@sveltejs/adapter-auto';
+import autoAdapter from '@sveltejs/adapter-auto';
 import staticAdapter from '@sveltejs/adapter-static'; // @see https://kit.svelte.dev/docs/adapter-static
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 import preprocess from 'svelte-preprocess';
@@ -27,14 +27,16 @@ const config = {
     // adapter-auto only supports some environments, see https://kit.svelte.dev/docs/adapter-auto for a list.
     // If your environment is not supported or you settled on a specific environment, switch out the adapter.
     // See https://kit.svelte.dev/docs/adapters for more information about adapters.
-    // adapter: staticAdapter({ // For build mode
-    adapter: staticAdapter({
-      pages: 'build',
-      assets: 'build',
-      precompress: false,
-      strict: true,
-      fallback: 'index.html',
-    }),
+    adapter: autoAdapter(),
+    /* // XXX
+     * adapter: staticAdapter({
+     *   pages: 'build',
+     *   assets: 'build',
+     *   precompress: false,
+     *   strict: true,
+     *   fallback: 'index.html',
+     * }),
+     */
     alias: {
       '@/src/*': 'src/*',
     },
