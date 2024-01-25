@@ -26,5 +26,6 @@ tsconfig.tsbuildinfo
 *crashed-session*
 *.session
 /temp*
+.gitmodules
 
 static/data/.*
