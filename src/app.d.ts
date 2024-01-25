@@ -10,8 +10,4 @@ declare global {
   }
 }
 
-// declare module 'tabulator-tables' {
-//   export = Tabulator;
-// }
-
 export {};
