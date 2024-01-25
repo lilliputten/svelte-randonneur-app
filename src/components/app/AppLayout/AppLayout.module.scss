@@ -7,12 +7,6 @@
     height: 100vh;
     overflow: hidden;
   }
-  .AppLayout_Footer,
-  .AppLayout_Header,
-  .AppLayout_Navbar {
-    // DEBUG!
-    /*!KEEP*/
-  }
   .AppLayout_Header {
     display: flex;
     flex-shrink: 0;
@@ -53,7 +47,6 @@
     flex-direction: column;
     align-items: stretch;
     justify-content: stretch;
-    // height: 100vh;
     overflow: hidden;
   }
   .AppLayout_MainContent {

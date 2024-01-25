@@ -22,7 +22,7 @@ export function extendPropertiesSpec(
 ) {
   const { id, type } = spec;
   const thisId = [parentId, id].filter(Boolean).join('.');
-  if (!spec.label && !opts.dontAddLabels) {
+  if (level && !spec.label && !opts.dontAddLabels) {
     spec.label = spec.title || ucFirst(id);
   }
   if (!spec.title && !opts.dontAddTitles) {

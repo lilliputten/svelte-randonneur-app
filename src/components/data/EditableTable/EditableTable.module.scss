@@ -1,7 +1,7 @@
 .EditableTable {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 4px;
 
   .EditableTable_Label {
     @include EditableLabel;

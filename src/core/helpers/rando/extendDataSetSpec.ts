@@ -17,9 +17,10 @@ export function extendDataSetSpec(
 ) {
   const { id, type } = spec;
   const thisId = [parentId, id].filter(Boolean).join('.');
-  if (!spec.label && !opts.dontAddLabels) {
+  if (level && !spec.label && !opts.dontAddLabels) {
     spec.label = spec.title || makeTitleFromPropertyId(id);
-  } else if (!spec.title && !opts.dontAddTitles) {
+  }
+  if (!spec.title && !opts.dontAddTitles) {
     spec.title = spec.label || makeTitleFromPropertyId(id);
   }
   spec._fullId = thisId;
