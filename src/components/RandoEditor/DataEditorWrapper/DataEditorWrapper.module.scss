@@ -6,8 +6,6 @@
   flex-direction: column;
   // gap: 16px;
   .header {
-    @include BigTitleText;
-    padding: 0 16px;
     margin-top: 16px;
   }
   .container {
