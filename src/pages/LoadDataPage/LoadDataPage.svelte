@@ -49,7 +49,7 @@
      */
     loadingDemoData = true;
     // Show notification
-    addToast({ message: 'Demo data loading started', type: 'info' });
+    // addToast({ message: 'Demo data loading started', type: 'info' });
     loadDemoDataByIdx<TRandoData>(demoDataFileIdx)
       .then((data) => {
         /* console.log('[LoadDataPage:loadDemoData] success', {
@@ -139,7 +139,7 @@
      * });
      */
     // Show notification
-    addToast({ message: 'Local data loading started', type: 'info' });
+    // addToast({ message: 'Local data loading started', type: 'info' });
     loadingLocalData = true;
     loadDataFile<TRandoData>(localDataFile, {
       timeout: 5000,

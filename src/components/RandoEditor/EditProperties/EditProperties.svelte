@@ -12,13 +12,6 @@
   extendDataSetWithFilters(propertiesSpec);
 
   function onChange(data: TGenericEditableData, _spec: TGenericEditableSpec) {
-    /* console.log('[EditProperties:onChange]', spec.id, {
-     *   id: spec.id,
-     *   data,
-     *   _spec,
-     * });
-     */
-    // TODO: Update data
     randoPropertiesStore.set(data as TRandoPropertiesSlot);
   }
 </script>

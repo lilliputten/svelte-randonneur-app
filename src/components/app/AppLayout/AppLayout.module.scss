@@ -1,4 +1,5 @@
 .AppLayout {
+  @include defaultFont;
   &,
   & > div {
     // Stylize unclassed wrapper too

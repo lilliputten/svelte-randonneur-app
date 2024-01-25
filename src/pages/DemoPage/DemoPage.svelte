@@ -5,12 +5,13 @@
 
   import { DemoEditableFields } from './DemoEditableFields';
   import { DemoEditableTable } from './DemoEditableTable';
-  import { DemoEditableObjects } from './DemoEditableObjects';
+  import { DemoEditableObjects } from './DemoEditableObjects'; // 2024.01.25, 23:30
   import { DemoDates } from './DemoDates';
   import { DemoEditProperties } from './DemoEditProperties'; // 2024.01.24, 16:45
   import { DemoEditDataSet } from './DemoEditDataSet'; // 2024.01.24, 17:28
   import { DemoTableWithPagination } from './DemoTableWithPagination'; // 2024.01.23
   import { DemoTableWithFilters } from './DemoTableWithFilters'; // 2024.01.24, 15:58
+  import { DemoEditorHeader } from './DemoEditorHeader'; // 2024.01.25, 23:30
 
   /* eslint-enable @typescript-eslint/no-unused-vars */
 
@@ -33,8 +34,9 @@
       <DemoTableWithFilters />
       <DemoEditProperties />
       <DemoEditDataSet />
-      -->
       <DemoEditableObjects />
+      -->
+      <DemoEditorHeader />
     </div>
   </div>
 </div>
