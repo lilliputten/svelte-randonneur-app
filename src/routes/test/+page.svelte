@@ -3,9 +3,7 @@
   // import { DemoPage } from '@/src/pages/DemoPage';
 </script>
 
-<div class="Test">
-  Test
-</div>
+<div class="Test">Test</div>
 
 <style lang="scss">
   .Test {

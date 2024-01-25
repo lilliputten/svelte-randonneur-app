@@ -1,12 +1,8 @@
 <script lang="ts">
-  import AppLayout from '@/src/components/app/AppLayout';
+  // TODO: To avoid environment bug try to (temporarily) import the component
+  // from `AppLayoutDev` instead of `AppLayout`.
+  import AppLayout from '@/src/components/app/AppLayout/AppLayoutDev.svelte';
 </script>
-
-<!--
-<div class="layout">
-  <slot>Content</slot>
-</div>
--->
 
 <AppLayout>
   <slot>Content</slot>

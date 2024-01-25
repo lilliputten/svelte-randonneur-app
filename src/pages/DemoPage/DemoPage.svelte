@@ -3,13 +3,13 @@
 
   // Import all the demo components...
 
-  // import { DemoEditableFields } from './DemoEditableFields';
-  // import { DemoEditableTable } from './DemoEditableTable';
-  // import { DemoEditableObjects } from './DemoEditableObjects';
-  // import { DemoDates } from './DemoDates';
+  import { DemoEditableFields } from './DemoEditableFields';
+  import { DemoEditableTable } from './DemoEditableTable';
+  import { DemoEditableObjects } from './DemoEditableObjects';
+  import { DemoDates } from './DemoDates';
   import { DemoEditProperties } from './DemoEditProperties'; // 2024.01.24, 16:45
   import { DemoEditDataSet } from './DemoEditDataSet'; // 2024.01.24, 17:28
-  // import { DemoTableWithPagination } from './DemoTableWithPagination'; // 2024.01.23
+  import { DemoTableWithPagination } from './DemoTableWithPagination'; // 2024.01.23
   import { DemoTableWithFilters } from './DemoTableWithFilters'; // 2024.01.24, 15:58
 
   /* eslint-enable @typescript-eslint/no-unused-vars */
@@ -29,12 +29,12 @@
       <DemoTable />
       <DemoEditableTable />
       <DemoDates />
-      <DemoEditableObjects />
       <DemoTableWithPagination />
       <DemoTableWithFilters />
       <DemoEditProperties />
-      -->
       <DemoEditDataSet />
+      -->
+      <DemoEditableObjects />
     </div>
   </div>
 </div>

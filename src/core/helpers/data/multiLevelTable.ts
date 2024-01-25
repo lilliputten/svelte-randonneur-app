@@ -22,7 +22,7 @@ import {
 } from '@/src/core/types/editable';
 import { ensureArray } from '@/src/core/helpers/basic';
 
-import { isBrowser, isDev } from '@/src/core/constants/app';
+import { isDev } from '@/src/core/constants/app';
 
 import { GenericFilter } from '@/src/components/data/GenericFilter';
 
@@ -115,11 +115,8 @@ export function createMultiLevelTableColumns(
       if (opts.colSpecsHash) {
         opts.colSpecsHash[flatId] = item;
       }
-      const __debugUseFilters = true && isBrowser;
+      const __debugUseFilters = true;
       const filter = __debugUseFilters && listSpec.filters?.[flatId];
-      if (flatId.includes('test')) {
-        // debugger;
-      }
       let colFilter: ColumnFiltersColumnOptions<TEditableObjectData> | undefined;
       if (filter) {
         colFilter = {

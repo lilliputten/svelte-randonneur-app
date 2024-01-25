@@ -11,7 +11,7 @@
 
 <div class="DataEditorWrapper">
   <!-- // TODO: Reserved slot for common header -->
-  <div class="header">Edit: {title}</div>
+  <div class="header">{title}</div>
   <div class="container scrollable">
     <div class="content">
       {#if sectionId === 'properties'}

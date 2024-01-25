@@ -35,22 +35,9 @@
   /** Unique indices correspodning data items */
   const uniqueIndices = data.map(() => lastUniqueIdx++);
 
-  /* console.log('[EditableList:DEBUG]', {
-   *   spec,
-   *   id,
-   *   itemSpec,
-   *   data,
-   *   // EditableField,
-   * });
-   */
-
   const dispatch = createEventDispatcher();
 
   function triggerChange() {
-    /* console.log('[EditableList:triggerChange]', {
-     *   localList,
-     * });
-     */
     if (onChange) {
       onChange(localList, spec);
     }
@@ -64,25 +51,12 @@
   ) {
     localList[idx] = value;
     triggerChange();
-    /* console.log('[EditableList:handleItemChange]', {
-     *   idx,
-     *   value,
-     *   _itemSpec,
-     *   localList,
-     *   uniqueIndices,
-     * });
-     */
   }
 
   function handleAddItem() {
     localList = localList.concat(undefined);
     uniqueIndices.push(lastUniqueIdx++);
     triggerChange();
-    /* console.log('[EditableList:handleAddItem]', {
-     *   localList,
-     *   uniqueIndices,
-     * });
-     */
   }
 
   function handleRemoveItem(ev: Event) {
@@ -105,14 +79,6 @@
     localList = [...localList];
     uniqueIndices.splice(idx, 1);
     triggerChange();
-    /* console.log('[EditableList:handleRemoveItem]', {
-     *   itemNode,
-     *   target,
-     *   idx,
-     *   localList,
-     *   uniqueIndices,
-     * });
-     */
   }
 </script>
 
@@ -127,38 +93,40 @@
       {spec.label}
     </div>
   {/if}
-  <div class={styles.ItemsWrapper}>
-    {#each localList as itemValue, idx (uniqueIndices[idx])}
-      <div class={styles.Item} id={[spec.id, uniqueIndices[idx]].join('-')} data-idx={idx}>
-        <GenericEditable
-          className={styles.ItemElement}
-          spec={itemSpec}
-          data={itemValue}
-          onChange={handleItemChange.bind(null, idx)}
-        />
-        <!-- Actions -->
-        <ActionIcon
-          class={styles.removeRowIcon}
-          variant="light"
-          on:click={handleRemoveItem}
-          size={parseInt(cssVariables.defaultInputHeight)}
-          title="Remove item"
-        >
-          <Trash />
-        </ActionIcon>
-      </div>
-    {/each}
+  <div class={styles.Wrapper}>
+    <div class={styles.ItemsWrapper}>
+      {#each localList as itemValue, idx (uniqueIndices[idx])}
+        <div class={styles.Item} id={[spec.id, uniqueIndices[idx]].join('-')} data-idx={idx}>
+          <GenericEditable
+            className={styles.ItemElement}
+            spec={itemSpec}
+            data={itemValue}
+            onChange={handleItemChange.bind(null, idx)}
+          />
+          <!-- Actions -->
+          <ActionIcon
+            class={styles.removeRowIcon}
+            variant="light"
+            on:click={handleRemoveItem}
+            size={parseInt(cssVariables.defaultInputHeight)}
+            title="Remove item"
+          >
+            <Trash />
+          </ActionIcon>
+        </div>
+      {/each}
+    </div>
+    <!-- Actions -->
+    <ActionIcon
+      class={styles.addRowIcon}
+      variant="light"
+      on:click={handleAddItem}
+      size={parseInt(cssVariables.defaultInputHeight)}
+      title="Add new item"
+    >
+      <Plus />
+    </ActionIcon>
   </div>
-  <!-- Actions -->
-  <ActionIcon
-    class={styles.addRowIcon}
-    variant="light"
-    on:click={handleAddItem}
-    size={parseInt(cssVariables.defaultInputHeight)}
-    title="Add new item"
-  >
-    <Plus />
-  </ActionIcon>
 </div>
 
 <!--

@@ -62,7 +62,7 @@
     "eslint": "echo --Lint sources-- && eslint src --ext js,ts,svelte,json",
     "type-check": "echo --Run typescript linter-- && tsc --pretty --noEmit",
     "check-all": "echo --Run all pre-commit check-ups-- && npm-run-all prettier stylelint eslint type-check svelte-check && echo --All check-ups passed--",
-    "prettier": "echo --Run prettier-- && prettier --write --cache . | grep -v '(cached)' || true",
+    "prettier": "echo --Run prettier-- && prettier --write --cache . | grep -v '(unchanged)' || true",
     "start": "echo --Start dev server-- && vite dev",
     "patch-build": "echo --Patch build-- && gulp patchBuild",
     "svelte-build": "echo --Build static bundle-- && vite build",

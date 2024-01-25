@@ -5,19 +5,31 @@
   overflow: hidden;
   width: 100%;
 
-  $hPadding: 16px;
+  // $hPadding: 8px;
 
   $adaptiveTreshold: 600px;
 
   // .header, // TODO: Probably will be used in the future
   .layout {
-    padding-left: $hPadding;
-    padding-right: $hPadding;
+    // padding-left: $hPadding;
+    // padding-right: $hPadding;
     flex: 1;
     // flex-direction: column;
     overflow: auto;
-    gap: $hPadding;
-    @media (min-width: $adaptiveTreshold) {
+    // gap: $hPadding * 2;
+  }
+  .column {
+    display: flex;
+  }
+  .sideColumn {
+    background-color: color.change($primaryColor, $alpha: 0.05);
+    border-bottom: 1px solid $borderColor;
+  }
+  .mainColumn {
+    flex: 1;
+  }
+  @media (min-width: $adaptiveTreshold) {
+    .layout {
       display: flex;
       align-items: stretch;
       flex-direction: row;
@@ -27,18 +39,12 @@
         overflow: hidden;
       }
     }
-  }
-  .column {
-    display: flex;
-  }
-  .sideColumn {
-    @media (min-width: $adaptiveTreshold) {
+    .sideColumn {
       min-width: 200px;
-      max-width: 350px;
+      max-width: 250px;
       width: 20%;
+      border-bottom: none;
+      border-right: 1px solid $borderColor;
     }
-  }
-  .mainColumn {
-    flex: 1;
   }
 }

@@ -148,7 +148,7 @@
         type: 'list',
         title: 'Nested strings list (nestedStrList)',
         label: 'Nested strings list (nestedStrList)',
-        // layout: 'horizontal',
+        layout: 'horizontal',
         spec: {
           id: 'testString',
           type: 'string',
