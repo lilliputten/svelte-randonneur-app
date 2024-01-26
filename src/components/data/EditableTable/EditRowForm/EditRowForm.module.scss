@@ -1,9 +1,3 @@
-.Content,
-.Actions,
-.Action,
-.EditRowForm {
-  /*!KEEP*/
-}
 .EditRowForm {
   position: relative;
   overflow: hidden;
@@ -16,9 +10,6 @@
   overflow: auto;
   padding: 16px;
 }
-.Actions {
-  // padding: 16px 16px;
-}
 .ActionsLeft,
 .ActionsRight,
 .Actions {
@@ -29,4 +20,7 @@
 .ActionsRight {
   justify-content: flex-end;
   flex: 1;
+}
+.Action {
+  /*!KEEP*/
 }

@@ -217,6 +217,10 @@
   function closeFilterDialog() {
     $activeFilterParams = undefined;
   }
+  function resetFilter(filterParams: TFilterParams) {
+    const { id } = filterParams;
+    $filterValues[id] = undefined;
+  }
 
   /** Row specification */
   const rowObjSpec = spec.spec as TEditableObjectSpec;
@@ -479,12 +483,14 @@
     opened={!!$activeFilterParams}
     on:close={closeFilterDialog}
     title="Edit filter conditions"
-    size="l"
+    size="lg"
     overflow="inside"
   >
     {#if $activeFilterParams}
       <GenericFilterDialog
         filterParams={$activeFilterParams}
+        onClose={closeFilterDialog}
+        onReset={resetFilter}
       />
     {/if}
   </Modal>

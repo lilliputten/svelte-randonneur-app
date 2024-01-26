@@ -1,3 +1,20 @@
 .GenericFilterDialog {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.InputGroup {
+  /*!KEEP*/
   // border: 1px solid blue;
+}
+.ActionsLeft,
+.ActionsRight,
+.Actions {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+.ActionsRight {
+  justify-content: flex-end;
+  flex: 1;
 }
