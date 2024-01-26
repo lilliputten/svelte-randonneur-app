@@ -1,3 +1,11 @@
+<script context="module" lang="ts">
+  type TCallback = () => void;
+  export interface TEditableTableApi {
+    resetFilters: TCallback;
+    addDataRow: TCallback;
+  }
+</script>
+
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
   import { Modal } from '@svelteuidev/core';
@@ -44,7 +52,7 @@
   import { minPageSize, defaultPageSize } from '@/src/core/constants/rando';
   import { GenericEditable } from '@/src/components/data';
   import { ensureArray } from '@/src/core/helpers/basic';
-  import { TFilterParams } from '@/src/core/types/editable/TFilterParams';
+  import { TFilterParams, TFilterValues } from '@/src/core/types/editable/TFilterParams';
   import { GenericFilterDialog } from '@/src/components/data/GenericFilterDialog';
 
   import {
@@ -58,7 +66,6 @@
   import { EditRowForm } from './EditRowForm';
   import { PaginationBlock } from './PaginationBlock';
   import { PaginationInfo } from './PaginationInfo';
-  // import { HeaderCellComponent } from './HeaderCellComponent';
 
   import styles from './EditableTable.module.scss';
 
@@ -69,6 +76,7 @@
   export let spec: TEditableListSpec;
   export let data: TEditableListData = [];
   export let onChange: TOnChangeCallback | undefined = undefined;
+  export let setHasFilters: ((hasFilters: boolean) => void) | undefined = undefined;
 
   const flatData: TEditableObjectData[] = data.map((rowData) =>
     makeFlatFromFullData(rowData as TEditableObjectData),
@@ -83,16 +91,12 @@
   const colFilter = addColumnFilters<TEditableObjectData>();
   const tablePlugins = {
     colFilter,
-    // tableFilter: addTableFilter({
-    //   includeHiddenColumns: true,
-    // }),
     page: addPagination<TEditableObjectData>({
       initialPageSize: defaultPageSize,
     }),
   };
   /** Table object */
   const table = createTable(tableFlatDataStore, tablePlugins); // XXX
-  // const table = createTable(tableFullDataStore, tablePlugins);
 
   // Get specification params...
   const {
@@ -107,54 +111,6 @@
 
   /** Flat hash of column header specs. Will be created in `createMultiLevelTableColumns`. */
   const multiLevelColSpecsHash: Record<string, TGenericEditableSpec> = {};
-
-  /* // UNUSED (Temporarily?): HeaderCell
-   * [>* Header cell constructor <]
-   * const HeaderCell: HeaderLabel<TEditableObjectData> = (params) => {
-   *   const {
-   *     id, // 'value'
-   *     // attrsForName, // {} (private)
-   *     // propsForName, // { colFilter: [Object] } (private)
-   *     state, // {...}
-   *     label, // [Function: HeaderCell]
-   *     colspan, // 1
-   *     colstart, // 0
-   *     // __flat, // true (private)
-   *     // __data, // true (private)
-   *     // accessorKey, // 'value' (private)
-   *     // accessorFn, // undefined (private)
-   *   } = params;
-   *   [> `state` format:
-   *    *   data: [Object],
-   *    *   columns: [Array],
-   *    *   flatColumns: [Array],
-   *    *   tableAttrs: [Object],
-   *    *   tableHeadAttrs: [Object],
-   *    *   tableBodyAttrs: [Object],
-   *    *   visibleColumns: [Object],
-   *    *   headerRows: [Object],
-   *    *   originalRows: [Object],
-   *    *   rows: [Object],
-   *    *   pageRows: [Object],
-   *    *   pluginStates: [Object]
-   *    <]
-   *   const colSpec = multiLevelColSpecsHash[id];
-   *   console.log('[EditableTable:HeaderCell]', {
-   *     colSpec,
-   *     id, // 'value',
-   *     state, // {...},
-   *     label, // [Function: HeaderCell],
-   *     colspan, // 1,
-   *     colstart, // 0,
-   *     params,
-   *   });
-   *   return createRender(HeaderCellComponent, {
-   *     id: id,
-   *     spec: colSpec,
-   *     // hasActiveFilter: !!$filterValues[id],
-   *   });
-   * };
-   */
 
   /** Cell elements constructor */
   const EditableCell: DataLabel<TEditableObjectData> = ({ column, row, value }) => {
@@ -192,7 +148,7 @@
 
   const HeaderActionsCell: HeaderLabel<TEditableObjectData> = () => {
     return createRender(HeaderActions, {
-      onAddRow,
+      onAddRow: addDataRow,
     });
   };
 
@@ -259,6 +215,13 @@
 
   const { filterValues } = pluginStates.colFilter;
 
+  const hasFiltersStore = writable<boolean>(false);
+  $: $hasFiltersStore = Object.values($filterValues).reduce<boolean>(
+    (value, result) => !!(value || result),
+    false,
+  );
+  $: setHasFilters && setHasFilters($hasFiltersStore);
+
   // Get pagination state (see `PaginationBlock` and `PaginationInfo`)...
   const paginationState: PaginationState = pluginStates.page;
   const {
@@ -320,15 +283,6 @@
     const currentFlatItem = $tableFlatDataStore[rowIdx];
     const newFlatItem = { ...currentFlatItem, [flatId]: data } as TEditableObjectData;
     const newFullItem = restoreFullFromFlatData(newFlatItem);
-    /* console.log('[EditableTable:onUpdateValue] set item', {
-     *   id,
-     *   rowIdx,
-     *   data,
-     *   spec,
-     *   newFlatItem,
-     *   newFullItem,
-     * });
-     */
     // Update flat store...
     $tableFlatDataStore[rowIdx] = newFlatItem;
     $tableFlatDataStore = $tableFlatDataStore;
@@ -339,7 +293,7 @@
     triggerChange();
   }
 
-  function onAddRow() {
+  function addDataRow() {
     setActiveClickTimer();
     // Update flat store...
     const newFlatItem: TEditableObjectData = {};
@@ -376,6 +330,14 @@
     }
   }
 
+  function resetFilters() {
+    filterValues.update((filterValues: TFilterValues) => {
+      const keys = Object.keys(filterValues);
+      keys.forEach((key) => (filterValues[key] = undefined));
+      return filterValues;
+    });
+  }
+
   function handleRowDataChange(data: TGenericEditableData, _spec: TGenericEditableSpec) {
     const rowIdx = $selectedRow;
     if (rowIdx != null) {
@@ -391,6 +353,11 @@
       triggerChange();
     }
   }
+
+  export const api: TEditableTableApi = {
+    resetFilters,
+    addDataRow,
+  };
 </script>
 
 <div
@@ -471,18 +438,18 @@
         <PaginationBlock {paginationState} />
       </div>
       <div class={styles.Info}>
-        <PaginationInfo {paginationState} />
+        <PaginationInfo {paginationState} totalCount={$tableFlatDataStore.length} />
       </div>
     </div>
   {/if}
 
-  <!-- Edit filter conditions -->
+  <!-- Edit filter conditions modal -->
   <Modal
     id="GenericFilterDialog-Modal"
     class={styles.GenericFilterDialogModal}
     opened={!!$activeFilterParams}
     on:close={closeFilterDialog}
-    title="Edit filter conditions"
+    title={`Edit filter conditions for column '${$activeFilterParams?.id}'`}
     size="lg"
     overflow="inside"
   >

@@ -27,7 +27,7 @@
       });
       addToast({ message: 'Cannot export data: ' + errorMsg, type: 'error' });
     } finally {
-      addToast({ message: 'File has successfully exported', type: 'success' });
+      addToast({ message: 'Data file has successfully exported', type: 'success' });
     }
   }
 </script>

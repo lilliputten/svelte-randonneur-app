@@ -8,14 +8,16 @@
   import { getErrorText } from '@/src/core/helpers/basic';
   import { addToast } from '@/src/components/ui/Toasts';
   import { EditProperties } from '@/src/components/RandoEditor/EditProperties';
-  import { EditDataSet } from '@/src/components/RandoEditor/EditDataSet';
+  import { EditDataSet, TEditDataSetApi } from '@/src/components/RandoEditor/EditDataSet';
   import { EditorHeader } from '@/src/components/RandoEditor/EditorHeader';
 
   import styles from './DataEditorWrapper.module.scss';
+  import { writable } from 'svelte/store';
 
   export let sectionId: TRandoSectionId;
 
   function handleExportData() {
+    // TODO: Move this to helpers?
     // Save data parts to the general store
     saveRandoDataSets();
     saveRandoProperties();
@@ -25,10 +27,6 @@
     const dataJson = JSON.stringify(data, null, 2);
     const dataBlob = new Blob([dataJson], { type: 'application/json' });
     const filename = 'edited-data.json';
-    console.log('[DataEditorWrapper:exportData]', {
-      data,
-      filename,
-    });
     try {
       saveAs(dataBlob, filename);
     } catch (error) {
@@ -45,20 +43,43 @@
       debugger;
       addToast({ message: 'Cannot export data: ' + errorMsg, type: 'error' });
     } finally {
-      addToast({ message: 'File has successfully exported', type: 'success' });
+      addToast({ message: 'Data file has successfully exported', type: 'success' });
     }
+  }
+
+  let editDataSetApi: TEditDataSetApi;
+
+  const hasFiltersStore = writable<boolean>(false);
+
+  function setHasFilters(hasFilters: boolean) {
+    $hasFiltersStore = hasFilters;
+  }
+
+  function handleAddNewDataSetRow() {
+    editDataSetApi.addDataRow();
+  }
+
+  function handleResetAllFilters() {
+    editDataSetApi.resetFilters();
   }
 </script>
 
 <div class={styles.DataEditorWrapper}>
   <!-- // TODO: Reserved slot for common header -->
-  <EditorHeader className={styles.header} {sectionId} {handleExportData} />
+  <EditorHeader
+    className={styles.header}
+    {sectionId}
+    hasFilters={$hasFiltersStore}
+    {handleExportData}
+    {handleResetAllFilters}
+    {handleAddNewDataSetRow}
+  />
   <div class={classNames(styles.container, styles.scrollable)}>
     <div class={styles.content}>
       {#if sectionId === 'properties'}
         <EditProperties />
       {:else}
-        <EditDataSet dataSetId={sectionId} />
+        <EditDataSet dataSetId={sectionId} {setHasFilters} bind:api={editDataSetApi} />
       {/if}
       <!--
       <p>Placeholder for data set (check scrolling): <b>{sectionId}</b></p>

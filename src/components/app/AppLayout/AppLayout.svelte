@@ -12,7 +12,6 @@
     SvelteUIProvider,
     colorScheme,
   } from '@svelteuidev/core';
-  import classNames from 'classnames';
 
   import Toasts from '@/src/components/ui/Toasts';
 

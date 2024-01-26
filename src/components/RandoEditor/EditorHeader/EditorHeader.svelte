@@ -1,6 +1,6 @@
 <script lang="ts">
   import { Button } from '@svelteuidev/core';
-  import { Download, Plus } from 'radix-icons-svelte';
+  import { Download, Plus, Cross2 } from 'radix-icons-svelte';
   import classNames from 'classnames';
 
   import { TRandoSectionId } from '@/src/core/types/rando';
@@ -10,7 +10,16 @@
 
   export let sectionId: TRandoSectionId;
   export let className: string = '';
+  export let hasFilters: boolean = false;
   export let handleExportData: () => void;
+
+  type TCallback = () => void;
+
+  export let handleResetAllFilters: TCallback | undefined = undefined;
+  export let handleAddNewDataSetRow: TCallback | undefined = undefined;
+
+  $: isProperties = sectionId === 'properties';
+  $: isDataSet = !isProperties;
 
   $: title = sectionTitles[sectionId];
 </script>
@@ -20,12 +29,29 @@
     {title}
   </div>
   <div class={styles.MiddleMenu}>
-    <!-- Middle actions: Demo
-    <Button class={styles.MiddleButton} variant="subtle">
-      <Plus slot="leftIcon" />
-      Add row
-    </Button>
-    -->
+    <!-- Middle actions -->
+    {#if isDataSet}
+      <Button
+        class={styles.MiddleButton}
+        color="green"
+        variant="subtle"
+        on:click={handleAddNewDataSetRow}
+      >
+        <Plus slot="leftIcon" />
+        Add dataset row
+      </Button>
+    {/if}
+    {#if isDataSet && hasFilters}
+      <Button
+        class={styles.MiddleButton}
+        color="red"
+        variant="subtle"
+        on:click={handleResetAllFilters}
+      >
+        <Cross2 slot="leftIcon" />
+        Reset all filters
+      </Button>
+    {/if}
   </div>
   <div class={styles.RightMenu}>
     <!-- Right actions -->

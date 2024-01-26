@@ -20,14 +20,6 @@
   $: values = filterParams.values;
   $: data = filterParams.data;
 
-  $: console.log('[GenericFilterDialog]', id, {
-    id,
-    filter,
-    $filterValue,
-    $values,
-    $data,
-  });
-
   $: isActive = !!$filterValue;
 
   let inputGroupElement: HTMLElement;

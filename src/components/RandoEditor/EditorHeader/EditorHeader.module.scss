@@ -20,3 +20,13 @@
   color: $primaryColor;
   font-size: 190%;
 }
+
+.MiddleMenu,
+.RightMenu {
+  display: flex;
+  gap: 4px;
+  button {
+    // Make buttons a bit more compact
+    padding: 0 8px;
+  }
+}
