@@ -141,31 +141,32 @@ export function createMultiLevelTableColumns(
               // tableHeadAttrs, // {set: ƒ, update: ƒ, subscribe: ƒ}
               // visibleColumns, // {set: ƒ, update: ƒ, subscribe: ƒ}
             } = params;
-            console.log('[multiLevelTable:createMultiLevelTableColumns:colFilter]', id, {
-              id,
-              values: get(values), // {subscribe: ƒ}
-              filterValue: get(filterValue), // {subscribe: ƒ, set: ƒ, update: ƒ}
-              params,
-              // columns, // (2) [DataColumn, DataColumn]
-              // data, // {set: ƒ, update: ƒ, subscribe: ƒ}
-              // flatColumns, // (2) [DataColumn, DataColumn]
-              // headerRows, // {set: ƒ, update: ƒ, subscribe: ƒ}
-              // originalRows, // {subscribe: ƒ}
-              // pageRows, // {set: ƒ, update: ƒ, subscribe: ƒ}
-              // preFilteredRows, // {set: ƒ, update: ƒ, subscribe: ƒ}
-              // preFilteredValues, // {subscribe: ƒ}
-              // rows, // {set: ƒ, update: ƒ, subscribe: ƒ}
-              // tableAttrs, // {set: ƒ, update: ƒ, subscribe: ƒ}
-              // tableBodyAttrs, // {set: ƒ, update: ƒ, subscribe: ƒ}
-              // tableHeadAttrs, // {set: ƒ, update: ƒ, subscribe: ƒ}
-              // visibleColumns, // {set: ƒ, update: ƒ, subscribe: ƒ}
-            });
+            /* console.log('[multiLevelTable:createMultiLevelTableColumns:colFilter]', id, {
+             *   id,
+             *   values: get(values), // {subscribe: ƒ}
+             *   filterValue: get(filterValue), // {subscribe: ƒ, set: ƒ, update: ƒ}
+             *   params,
+             *   // columns, // (2) [DataColumn, DataColumn]
+             *   // data, // {set: ƒ, update: ƒ, subscribe: ƒ}
+             *   // flatColumns, // (2) [DataColumn, DataColumn]
+             *   // headerRows, // {set: ƒ, update: ƒ, subscribe: ƒ}
+             *   // originalRows, // {subscribe: ƒ}
+             *   // pageRows, // {set: ƒ, update: ƒ, subscribe: ƒ}
+             *   // preFilteredRows, // {set: ƒ, update: ƒ, subscribe: ƒ}
+             *   // preFilteredValues, // {subscribe: ƒ}
+             *   // rows, // {set: ƒ, update: ƒ, subscribe: ƒ}
+             *   // tableAttrs, // {set: ƒ, update: ƒ, subscribe: ƒ}
+             *   // tableBodyAttrs, // {set: ƒ, update: ƒ, subscribe: ƒ}
+             *   // tableHeadAttrs, // {set: ƒ, update: ƒ, subscribe: ƒ}
+             *   // visibleColumns, // {set: ƒ, update: ƒ, subscribe: ƒ}
+             * });
+             */
             // TODO: Use generic filter render. It should support inactive mode (button only), active mode with inputs for text search
             return createRender(GenericFilter, {
               id,
               filterValue,
               values,
-              colSpec: item,
+              // colSpec: item,
               filter,
               data,
             });

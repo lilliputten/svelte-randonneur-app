@@ -23,12 +23,13 @@ function getObjSpecFilters(
   parentId: string = '',
   level: number = 0,
 ) {
-  console.log('[extendDataSetWithFilters:getObjSpecFilters] start', level, parentId, {
-    objSpecs,
-    opts,
-    parentId,
-    level,
-  });
+  /* console.log('[extendDataSetWithFilters:getObjSpecFilters] start', level, parentId, {
+   *   objSpecs,
+   *   opts,
+   *   parentId,
+   *   level,
+   * });
+   */
   let filters: TFiltersData = {};
   objSpecs.forEach((item) => {
     const { id, type } = item;
@@ -50,9 +51,10 @@ function getObjSpecFilters(
       filters[subId] = detectFilterTypeByLastId(id);
     }
   });
-  console.log('[extendDataSetWithFilters:getObjSpecFilters] done', level, parentId, {
-    filters,
-  });
+  /* console.log('[extendDataSetWithFilters:getObjSpecFilters] done', level, parentId, {
+   *   filters,
+   * });
+   */
   return filters;
 }
 
@@ -64,13 +66,14 @@ export function extendDataSetWithFilters(
   level: number = 0,
 ) {
   const { id, type } = spec;
-  console.log('[extendDataSetWithFilters:extendDataSetWithFilters]', level, type, id, {
-    opts,
-    id,
-    type,
-    spec,
-    level,
-  });
+  /* console.log('[extendDataSetWithFilters:extendDataSetWithFilters]', level, type, id, {
+   *   opts,
+   *   id,
+   *   type,
+   *   spec,
+   *   level,
+   * });
+   */
   /* // Recursive?
    * if (type === 'list' && spec.layout === 'table') {
    *   extendDataSetWithFilters(spec, opts, level);
@@ -109,15 +112,16 @@ export function extendDataSetWithFilters(
         filters[id] = detectFilterTypeByLastId(id);
       }
       if (Object.keys(filters).length) {
-        console.log(
-          '[extendDataSetWithFilters:extendDataSetWithFilters] set filters',
-          level,
-          type,
-          id,
-          {
-            filters,
-          },
-        );
+        /* console.log(
+         *   '[extendDataSetWithFilters:extendDataSetWithFilters] set filters',
+         *   level,
+         *   type,
+         *   id,
+         *   {
+         *     filters,
+         *   },
+         * );
+         */
         spec.filters = filters;
       }
     }

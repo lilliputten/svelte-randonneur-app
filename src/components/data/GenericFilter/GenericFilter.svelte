@@ -6,7 +6,7 @@
   import {
     TEditableObjectData,
     TFilterItem,
-    TGenericEditableSpec,
+    // TGenericEditableSpec,
   } from '@/src/core/types/editable';
 
   /* import cssVariables from '@/src/core/assets/scss/variables.module.scss';
@@ -25,8 +25,8 @@
 
   // Column properties...
   export let id: string;
-  export let colSpec: TGenericEditableSpec;
   export let filter: TFilterItem;
+  // export let colSpec: TGenericEditableSpec;
 
   // Data...
   export let data: ReadOrWritable<TEditableObjectData[]>;
@@ -35,24 +35,25 @@
 
   let isOpen = false;
 
-  const {
-    // prettier-ignore
-    type,
-    title,
-    label,
-  } = colSpec;
-
-  $: console.log('[GenericFilter]', type, id, filter, {
-    $data,
-    $filterValue,
-    $values,
-    filter,
-    id,
-    type,
-    title,
-    label,
-    colSpec,
-  });
+  /* // DEBUG
+   * const {
+   *   // prettier-ignore
+   *   type,
+   *   title,
+   *   label,
+   * } = colSpec;
+   * $: console.log('[GenericFilter]', type, id, filter, {
+   *   $data,
+   *   $filterValue,
+   *   $values,
+   *   filter,
+   *   id,
+   *   type,
+   *   title,
+   *   label,
+   *   colSpec,
+   * });
+   */
 
   let inputGroupElement: HTMLElement;
 
