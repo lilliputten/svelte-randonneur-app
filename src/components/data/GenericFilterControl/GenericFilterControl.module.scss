@@ -1,9 +1,10 @@
-.GenericFilter {
-  border: 1px solid blue;
+.GenericFilterControl {
+  // border: 1px solid blue;
 }
 .FilterIcon {
   /*!KEEP*/
 }
+/* NOTE: Moved to `GenericFilterDialog.module.scss`
 .FilterControl {
   // border: 1px solid red;
   position: absolute;
@@ -38,3 +39,4 @@
     border-color: transparent !important;
   }
 }
+*/

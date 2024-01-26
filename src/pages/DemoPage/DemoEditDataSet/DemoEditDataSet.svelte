@@ -34,6 +34,11 @@
       conversion_factor: 1.0,
       comment: 'Identical names',
     },
+    {
+      source: {
+        categories: ['X'],
+      },
+    },
   ];
   const dataSetSpec = deriveDataSetSpec('sample', dataSetData as TDataSetDictSlot);
   extendDataSetWithFilters(dataSetSpec);

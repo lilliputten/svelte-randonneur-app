@@ -1,5 +1,4 @@
-import { get } from 'svelte/store';
-// import * as svelteStore from 'svelte/store';
+// import { get } from 'svelte/store';
 import { DataLabel, Table, createRender, HeaderLabel } from 'svelte-headless-table';
 import { PaginationState } from 'svelte-headless-table/lib/plugins/addPagination';
 import {
@@ -22,15 +21,17 @@ import {
 } from '@/src/core/types/editable';
 import { ensureArray } from '@/src/core/helpers/basic';
 
-import { isDev } from '@/src/core/constants/app';
+// import { isDev } from '@/src/core/constants/app';
 
-import { GenericFilter } from '@/src/components/data/GenericFilter';
+import { GenericFilterControl } from '@/src/components/data/GenericFilterControl';
+import { TOpenFilterCallback } from '@/src/core/types/editable';
 
-// DEBUG: Expose svelte's `get` for debug purposes...
-if (isDev && typeof window === 'object') {
-  // @ts-expect-error: Expose get for debug purposes
-  window._svelteGet = get;
-}
+/* // DEBUG: Expose svelte's `get` for debug purposes...
+ * if (isDev && typeof window === 'object') {
+ *   // @ts-expect-error: Expose get for debug purposes
+ *   window._svelteGet = get;
+ * }
+ */
 
 type TTable = Table<
   TEditableObjectData,
@@ -53,7 +54,6 @@ type TTable = Table<
 >;
 export interface TCreateMultiLevelTableHeadersOpts {
   /** Show only specified column (by flatId) */
-
   showFlatFields?: string[];
   /** Parent list spec */
   listSpec: TEditableListSpec;
@@ -62,6 +62,7 @@ export interface TCreateMultiLevelTableHeadersOpts {
   EditableCell: DataLabel<TEditableObjectData>;
   HeaderCell?: HeaderLabel<TEditableObjectData>;
   table: TTable;
+  onOpenFilter: TOpenFilterCallback;
 }
 
 export function createMultiLevelTableColumns(
@@ -69,7 +70,7 @@ export function createMultiLevelTableColumns(
   opts: TCreateMultiLevelTableHeadersOpts,
   parentId: string = '',
 ) {
-  const { table, EditableCell, HeaderCell, listSpec } = opts;
+  const { table, EditableCell, HeaderCell, listSpec, onOpenFilter } = opts;
   const resultSpecs = [];
   for (const item of colSpecs) {
     const flatId = [parentId, item.id].filter(Boolean).join('.');
@@ -162,13 +163,14 @@ export function createMultiLevelTableColumns(
              * });
              */
             // TODO: Use generic filter render. It should support inactive mode (button only), active mode with inputs for text search
-            return createRender(GenericFilter, {
+            return createRender(GenericFilterControl, {
               id,
               filterValue,
               values,
               // colSpec: item,
               filter,
               data,
+              onOpenFilter,
             });
           },
         };
