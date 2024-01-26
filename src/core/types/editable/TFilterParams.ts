@@ -11,3 +11,6 @@ export interface TFilterParams {
   data: ReadOrWritable<TEditableObjectData[]>;
 }
 export type TOpenFilterCallback = (filterParams: TFilterParams) => void;
+
+export type TFilterValues = Record<string, unknown>;
+export type TFilterValuesStore = Writable<TFilterValues>;

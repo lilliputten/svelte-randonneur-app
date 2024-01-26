@@ -6,7 +6,6 @@
     extendDataSetSpec,
     extendDataSetWithFilters,
   } from '@/src/core/helpers/rando';
-  import { TGenericEditableData, TGenericEditableSpec } from '@/src/core/types/editable';
   import {
     TDataSetDictSlot,
     TRandoData,

@@ -22,7 +22,10 @@
     @include EditableLabel;
   }
   .EditableTable_Table {
-    border-spacing: 2px;
+    $borderSize: 2px;
+    border-spacing: $borderSize;
+    // NOTE: Is it dangerous to different layout types?
+    margin: -$borderSize;
     border-collapse: separate;
     $cellPaddingV: 4px;
     $cellPaddingH: 8px;

@@ -24,6 +24,8 @@ module.exports = {
         endOfLine: 'auto',
       },
     ],
+    'svelte/no-unused-svelte-ignore': 0,
+    'svelte/valid-compile': 0,
   },
   parser: '@typescript-eslint/parser',
   plugins: ['@typescript-eslint'],

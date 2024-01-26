@@ -1,3 +1,5 @@
+<!-- svelte-ignore unused-export-let -->
+
 <script lang="ts">
   import { Readable, Writable } from 'svelte/store';
   import { NativeSelect, SelectItem } from '@svelteuidev/core';
@@ -12,7 +14,7 @@
 
   // Filter parameters...
   export let filterValue: Writable<string>;
-  export let values: Readable<string[]>;
+  export let values: Readable<string[]>; // Reserved!
 
   // Column properties...
   export let id: string;
@@ -23,13 +25,6 @@
   $: columnData = getColumnData($data);
   // const optionsData = getOptionsData($values);
   $: optionsData = getOptionsData(columnData);
-
-  console.log('[FilterSelectInput]', {
-    optionsData,
-    columnData,
-    $filterValue,
-    $values,
-  });
 
   function getOptionsData(values: unknown[]): SelectItem[] {
     // values = [...values];
