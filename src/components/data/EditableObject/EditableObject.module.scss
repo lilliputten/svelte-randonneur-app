@@ -1,4 +1,15 @@
 .EditableObject {
+  &[data-layout='vertical'] {
+    &:not(:first-child) {
+      margin-top: 12px;
+    }
+    &:not(:last-child) {
+      margin-bottom: 20px;
+    }
+    & + & {
+      margin-top: 0;
+    }
+  }
   .EditableObject_Label {
     @include EditableLabel;
   }

@@ -1,6 +1,4 @@
 <script lang="ts">
-  /* eslint-disable no-console */
-
   import { GenericEditable } from '@/src/components/data';
   import {
     deriveDataSetSpec,
@@ -10,14 +8,15 @@
   import { TGenericEditableData, TGenericEditableSpec } from '@/src/core/types/editable';
   import { TDataSetDictSlot } from '@/src/core/types/rando';
 
-  const _dataSetDataSimple: TGenericEditableData = [
-    {
-      name: 'Nickel, ion',
-      code: 'e030108f-2125-4bcb-a73b-ad72130fcca3',
-      categories: ['water', 'ground-'],
-      unit: 'kilogram',
-    },
-  ];
+  /* const _dataSetDataSimple: TGenericEditableData = [
+   *   {
+   *     name: 'Nickel, ion',
+   *     code: 'e030108f-2125-4bcb-a73b-ad72130fcca3',
+   *     categories: ['water', 'ground-'],
+   *     unit: 'kilogram',
+   *   },
+   * ];
+   */
   const dataSetData: TGenericEditableData = [
     {
       test_value: 1,
@@ -89,12 +88,15 @@
 
   extendDataSetSpec(dataSetSpec);
 
-  console.log('[DemoEditDataSet]', {
-    dataSetSpec,
-    dataSetData,
-  });
+  /*
+   * console.log('[DemoEditDataSet]', {
+   *   dataSetSpec,
+   *   dataSetData,
+   * });
+   */
 
   function onChange(data: TGenericEditableData, spec: TGenericEditableSpec) {
+    // eslint-disable-next-line no-console
     console.log('[DemoEditDataSet:onChange]', spec.id, {
       id: spec.id,
       data,

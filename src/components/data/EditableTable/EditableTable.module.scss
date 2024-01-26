@@ -1,3 +1,15 @@
+.EditableTableModal {
+  :global(.svelteui-Modal-title) {
+    color: $primaryColor;
+    font-size: 150%;
+  }
+  :global(.svelteui-Modal-body) {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+}
 .EditableTable {
   display: flex;
   flex-direction: column;

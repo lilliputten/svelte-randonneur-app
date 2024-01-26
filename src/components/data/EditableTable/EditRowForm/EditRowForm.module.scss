@@ -1,0 +1,32 @@
+.Content,
+.Actions,
+.Action,
+.EditRowForm {
+  /*!KEEP*/
+}
+.EditRowForm {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.Content {
+  position: relative;
+  overflow: auto;
+  padding: 16px;
+}
+.Actions {
+  // padding: 16px 16px;
+}
+.ActionsLeft,
+.ActionsRight,
+.Actions {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+.ActionsRight {
+  justify-content: flex-end;
+  flex: 1;
+}

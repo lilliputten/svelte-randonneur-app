@@ -56,7 +56,7 @@
   import { EditRowForm } from './EditRowForm';
   import { PaginationBlock } from './PaginationBlock';
   import { PaginationInfo } from './PaginationInfo';
-  import { HeaderCellComponent } from './HeaderCellComponent';
+  // import { HeaderCellComponent } from './HeaderCellComponent';
 
   import styles from './EditableTable.module.scss';
 
@@ -106,51 +106,53 @@
   /** Flat hash of column header specs. Will be created in `createMultiLevelTableColumns`. */
   const multiLevelColSpecsHash: Record<string, TGenericEditableSpec> = {};
 
-  /** Header cell constructor */
-  const HeaderCell: HeaderLabel<TEditableObjectData> = (params) => {
-    const {
-      id, // 'value'
-      // attrsForName, // {} (private)
-      // propsForName, // { colFilter: [Object] } (private)
-      state, // {...}
-      label, // [Function: HeaderCell]
-      colspan, // 1
-      colstart, // 0
-      // __flat, // true (private)
-      // __data, // true (private)
-      // accessorKey, // 'value' (private)
-      // accessorFn, // undefined (private)
-    } = params;
-    /* `state` format:
-     *   data: [Object],
-     *   columns: [Array],
-     *   flatColumns: [Array],
-     *   tableAttrs: [Object],
-     *   tableHeadAttrs: [Object],
-     *   tableBodyAttrs: [Object],
-     *   visibleColumns: [Object],
-     *   headerRows: [Object],
-     *   originalRows: [Object],
-     *   rows: [Object],
-     *   pageRows: [Object],
-     *   pluginStates: [Object]
-     */
-    const colSpec = multiLevelColSpecsHash[id];
-    console.log('[EditableTable:HeaderCell]', {
-      colSpec,
-      id, // 'value',
-      state, // {...},
-      label, // [Function: HeaderCell],
-      colspan, // 1,
-      colstart, // 0,
-      params,
-    });
-    return createRender(HeaderCellComponent, {
-      id: id,
-      spec: colSpec,
-      // hasActiveFilter: !!$filterValues[id],
-    });
-  };
+  /* // UNUSED (Temporarily?): HeaderCell
+   * [>* Header cell constructor <]
+   * const HeaderCell: HeaderLabel<TEditableObjectData> = (params) => {
+   *   const {
+   *     id, // 'value'
+   *     // attrsForName, // {} (private)
+   *     // propsForName, // { colFilter: [Object] } (private)
+   *     state, // {...}
+   *     label, // [Function: HeaderCell]
+   *     colspan, // 1
+   *     colstart, // 0
+   *     // __flat, // true (private)
+   *     // __data, // true (private)
+   *     // accessorKey, // 'value' (private)
+   *     // accessorFn, // undefined (private)
+   *   } = params;
+   *   [> `state` format:
+   *    *   data: [Object],
+   *    *   columns: [Array],
+   *    *   flatColumns: [Array],
+   *    *   tableAttrs: [Object],
+   *    *   tableHeadAttrs: [Object],
+   *    *   tableBodyAttrs: [Object],
+   *    *   visibleColumns: [Object],
+   *    *   headerRows: [Object],
+   *    *   originalRows: [Object],
+   *    *   rows: [Object],
+   *    *   pageRows: [Object],
+   *    *   pluginStates: [Object]
+   *    <]
+   *   const colSpec = multiLevelColSpecsHash[id];
+   *   console.log('[EditableTable:HeaderCell]', {
+   *     colSpec,
+   *     id, // 'value',
+   *     state, // {...},
+   *     label, // [Function: HeaderCell],
+   *     colspan, // 1,
+   *     colstart, // 0,
+   *     params,
+   *   });
+   *   return createRender(HeaderCellComponent, {
+   *     id: id,
+   *     spec: colSpec,
+   *     // hasActiveFilter: !!$filterValues[id],
+   *   });
+   * };
+   */
 
   /** Cell elements constructor */
   const EditableCell: DataLabel<TEditableObjectData> = ({ column, row, value }) => {
@@ -242,10 +244,6 @@
 
   const { filterValues } = pluginStates.colFilter;
 
-  $: console.log('[EditableTable:filterValues]', {
-    $filterValues,
-  });
-
   // Get pagination state (see `PaginationBlock` and `PaginationInfo`)...
   const paginationState: PaginationState = pluginStates.page;
   const {
@@ -277,6 +275,10 @@
 
   let selectedRow = writable<number | undefined>(undefined);
   $: modalOpened = $selectedRow != null;
+
+  function closeModal() {
+    $selectedRow = undefined;
+  }
 
   function stopEditRowData() {
     selectedRow.set(undefined);
@@ -461,17 +463,22 @@
 
   <!-- Edit data modal -->
   <Modal
+    class={styles.EditableTableModal}
     opened={modalOpened}
     on:close={stopEditRowData}
     title="Edit data row"
     size="xl"
     overflow="inside"
+    autofocus={false}
   >
     {#if activeRows && modalOpened && $selectedRow != null}
       <EditRowForm
+        rowIdx={$selectedRow}
         data={$tableFullDataStore[$selectedRow]}
         spec={spec.spec}
         onChange={handleRowDataChange}
+        onClose={closeModal}
+        onRemove={onRemoveRow}
       />
     {/if}
   </Modal>

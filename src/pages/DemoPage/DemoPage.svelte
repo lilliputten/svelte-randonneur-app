@@ -11,7 +11,7 @@
   import { DemoEditDataSet } from './DemoEditDataSet'; // 2024.01.24, 17:28
   import { DemoTableWithPagination } from './DemoTableWithPagination'; // 2024.01.23
   import { DemoTableWithFilters } from './DemoTableWithFilters'; // 2024.01.24, 15:58
-  import { DemoEditorHeader } from './DemoEditorHeader'; // 2024.01.25, 23:30
+  import { DemoEditorHeader } from './DemoEditorHeader'; // 2024.01.26, 14:01
 
   /* eslint-enable @typescript-eslint/no-unused-vars */
 
@@ -33,10 +33,10 @@
       <DemoTableWithPagination />
       <DemoTableWithFilters />
       <DemoEditProperties />
-      <DemoEditDataSet />
       <DemoEditableObjects />
-      -->
       <DemoEditorHeader />
+      -->
+      <DemoEditDataSet />
     </div>
   </div>
 </div>

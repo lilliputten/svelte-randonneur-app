@@ -1,6 +1,4 @@
 <script lang="ts">
-  /* eslint-disable no-console */
-
   import {
     GenericEditable,
     // EditableList,
@@ -165,6 +163,7 @@
   };
 
   function onRootChange(data: TGenericEditableData, spec: TGenericEditableSpec) {
+    // eslint-disable-next-line no-console
     console.log('[DemoEditableObjects:onRootChange]', spec.id, {
       id: spec.id,
       data,
