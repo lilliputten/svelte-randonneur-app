@@ -1,6 +1,4 @@
 <script lang="ts">
-  /* eslint-disable no-console */
-
   // @ts-expect-error: Can't find typings for this module
   import { saveAs } from 'browser-filesaver';
 
@@ -15,10 +13,6 @@
     const dataJson = JSON.stringify(data, null, 2);
     const dataBlob = new Blob([dataJson], { type: 'application/json' });
     const filename = 'edited-data.json';
-    console.log('[DemoEditorHeader:exportData]', {
-      saveAs,
-    });
-    debugger;
     try {
       saveAs(dataBlob, filename);
     } catch (error) {
@@ -31,8 +25,6 @@
         dataBlob,
         filename,
       });
-      // eslint-disable-next-line no-debugger
-      debugger;
       addToast({ message: 'Cannot export data: ' + errorMsg, type: 'error' });
     } finally {
       addToast({ message: 'File has successfully exported', type: 'success' });
