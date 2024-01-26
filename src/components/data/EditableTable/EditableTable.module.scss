@@ -50,9 +50,6 @@
       &[data-has-active-filter] {
         background-color: color.adjust($primaryColor, $lightness: -10%);
       }
-      &[data-with-filter] {
-        min-width: 150px;
-      }
     }
     .thWrapper {
       display: flex;

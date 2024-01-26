@@ -12,11 +12,8 @@
     GenericEditable,
     TGenericEditableOnChangeCallback,
   } from '@/src/components/data/GenericEditable';
-  // import { errorColor } from '@/src/core/constants/app/parsedCssVariables';
 
   import styles from './EditRowForm.module.scss';
-
-  // import styles from './EditableTable.module.scss';
 
   type TOnChangeCallback = TGenericEditableOnChangeCallback;
 

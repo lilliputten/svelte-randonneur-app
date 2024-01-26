@@ -1,42 +1,6 @@
 .GenericFilterControl {
-  // border: 1px solid blue;
+  /*!KEEP*/
 }
 .FilterIcon {
   /*!KEEP*/
 }
-/* NOTE: Moved to `GenericFilterDialog.module.scss`
-.FilterControl {
-  // border: 1px solid red;
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  background-color: $primaryColor;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  $padding: 8px;
-  padding: $padding;
-  // NOTE: Compensate table header (th) bottom border gap
-  padding-bottom: $padding - 3px;
-  gap: 8px;
-  &.active {
-    background-color: color.adjust($primaryColor, $lightness: -10%);
-  }
-}
-.InputGroup {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.Input {
-  flex: 1;
-  &,
-  & :global(input) {
-    // NOTE: These inputs situated on a dark background, so medium dark borders don't make sense here
-    border-color: transparent !important;
-  }
-}
-*/

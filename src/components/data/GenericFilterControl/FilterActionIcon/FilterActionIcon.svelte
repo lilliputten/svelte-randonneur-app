@@ -1,6 +1,6 @@
 <script lang="ts">
   import { ActionIcon } from '@svelteuidev/core';
-  import { Check, MagnifyingGlass } from 'radix-icons-svelte';
+  import { MagnifyingGlass } from 'radix-icons-svelte';
   import classNames from 'classnames';
 
   import { defaultInputHeightPx } from '@/src/core/constants/app/parsedCssVariables';
@@ -10,27 +10,19 @@
   export let className: string | undefined = undefined;
   export let toggleFilter: () => void;
 
-  export let isOpen: boolean = false;
   export let isActive: boolean = false;
   export let large: boolean = false;
 
-  const title = isOpen ? 'Close and apply filter' : 'Show filter';
+  export let filterValue: string = '';
+
+  $: title = isActive ? `Update filter conditions (${filterValue})` : 'Set filter conditions';
 </script>
 
 <ActionIcon
-  class={classNames(
-    className,
-    styles.FilterActionIcon,
-    isActive && styles.active,
-    isOpen && styles.open,
-  )}
+  class={classNames(className, styles.FilterActionIcon, isActive && styles.active)}
   {title}
   on:click={toggleFilter}
   size={large ? defaultInputHeightPx : undefined}
 >
-  {#if isOpen}
-    <Check />
-  {:else}
-    <MagnifyingGlass />
-  {/if}
+  <MagnifyingGlass />
 </ActionIcon>
