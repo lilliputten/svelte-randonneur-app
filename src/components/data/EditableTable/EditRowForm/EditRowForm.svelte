@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
   import { Button } from '@svelteuidev/core';
   import { Check, Trash, Cross2 } from 'radix-icons-svelte';
   import classNames from 'classnames';
@@ -29,6 +30,22 @@
 
   let localData: TEditableObjectData = data;
 
+  let inputGroupElement: HTMLElement;
+
+  function onOpen() {
+    // Try to find input and focus it (with delay to update dom)...
+    setTimeout(() => {
+      requestAnimationFrame(() => {
+        const input =
+          inputGroupElement?.getElementsByTagName('input')[0] ||
+          inputGroupElement?.getElementsByTagName('select')[0];
+        if (input) {
+          input.focus();
+        }
+      });
+    }, 50);
+  }
+
   function handleLocalChange(data: TGenericEditableData, _spec: TGenericEditableSpec) {
     localData = data as TEditableObjectData;
   }
@@ -40,6 +57,8 @@
     onRemove(rowIdx);
     onClose();
   }
+
+  onMount(onOpen);
 </script>
 
 <div
@@ -47,7 +66,7 @@
   data-spec-id={spec.id}
   data-spec-row-idx={rowIdx}
 >
-  <div class={styles.Content}>
+  <div class={styles.Content} bind:this={inputGroupElement}>
     <GenericEditable {spec} data={localData} onChange={handleLocalChange} />
   </div>
   <div class={styles.Actions}>
