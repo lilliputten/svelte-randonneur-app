@@ -17,15 +17,15 @@
 
   import { addToast } from '@/src/components/ui/Toasts';
   import { getApproxSize, getErrorText } from '@/src/core/helpers/basic';
-
+  import { defaultDataFileIdx, demoDataFiles } from '@/src/core/constants/demoData';
   import { TRandoData } from '@/src/core/types/rando';
   import { hasDataStore } from '@/src/store';
+  import { setRandData } from '@/src/store/actions/randoDataActions';
+
   import { loadDemoDataByIdx, getDemoDataFileId } from './loadDemoData';
   import { loadDataFile } from './loadLocalData';
 
   import styles from './LoadDataPage.module.scss';
-  import { setRandData } from '@/src/store/actions/randoDataActions';
-  import { defaultDataFileIdx, demoDataFiles } from '@/src/core/constants/demoData';
 
   let demoDataFileIdx = defaultDataFileIdx;
   let loadingDemoData = false;
