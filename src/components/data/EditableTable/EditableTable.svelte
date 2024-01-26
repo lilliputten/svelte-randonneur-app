@@ -44,6 +44,8 @@
   import { minPageSize, defaultPageSize } from '@/src/core/constants/rando';
   import { GenericEditable } from '@/src/components/data';
   import { ensureArray } from '@/src/core/helpers/basic';
+  import { TFilterParams } from '@/src/core/types/editable/TFilterParams';
+  import { GenericFilterDialog } from '@/src/components/data/GenericFilterDialog';
 
   import {
     getFlatItemId,
@@ -207,17 +209,26 @@
     });
   };
 
+  let activeFilterParams = writable<TFilterParams | undefined>(undefined);
+
+  function openFilterDialog(filterParams: TFilterParams) {
+    $activeFilterParams = filterParams;
+  }
+  function closeFilterDialog() {
+    $activeFilterParams = undefined;
+  }
+
   /** Row specification */
   const rowObjSpec = spec.spec as TEditableObjectSpec;
   /** Row item specifications */
-  // const colSpecs = rowObjSpec.spec;
   const createMultiLevelTableHeadersOpts: TCreateMultiLevelTableHeadersOpts = {
     showFlatFields,
     colSpecsHash: multiLevelColSpecsHash,
     EditableCell,
-    // HeaderCell,
+    // HeaderCell, // UNUSED
     table,
     listSpec: spec,
+    onOpenFilter: openFilterDialog,
   };
   const multiLevelTableColumns = createMultiLevelTableColumns(
     ensureArray(rowObjSpec.spec),
@@ -461,15 +472,32 @@
     </div>
   {/if}
 
+  <!-- Edit filter conditions -->
+  <Modal
+    id="GenericFilterDialog-Modal"
+    class={styles.GenericFilterDialogModal}
+    opened={!!$activeFilterParams}
+    on:close={closeFilterDialog}
+    title="Edit filter conditions"
+    size="l"
+    overflow="inside"
+  >
+    {#if $activeFilterParams}
+      <GenericFilterDialog
+        filterParams={$activeFilterParams}
+      />
+    {/if}
+  </Modal>
+
   <!-- Edit data modal -->
   <Modal
+    id="EditRowForm-Modal"
     class={styles.EditableTableModal}
     opened={modalOpened}
     on:close={stopEditRowData}
     title="Edit data row"
     size="xl"
     overflow="inside"
-    autofocus={false}
   >
     {#if activeRows && modalOpened && $selectedRow != null}
       <EditRowForm
