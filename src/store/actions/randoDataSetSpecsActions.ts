@@ -2,11 +2,7 @@ import { randoDataSetKeys, TDataSetDictSlot, TRandoDataSetKey } from '@/src/core
 import { get } from 'svelte/store';
 
 import { TEditableObjectSpec } from '@/src/core/types/editable';
-import {
-  deriveDataSetSpec,
-  extendDataSetWithFilters,
-  extendPropertiesSpec,
-} from '@/src/core/helpers/rando';
+import { deriveDataSetSpec, extendDataSetWithFilters } from '@/src/core/helpers/rando';
 
 import { randoDataStore } from '../stores/randoDataStore';
 import { randoDataSetSpecsStores } from '../stores/randoDataSetSpecsStore';
@@ -19,15 +15,7 @@ export function createRandoDataSetSpec(id: TRandoDataSetKey, data: TDataSetDictS
     return;
   }
   const spec = deriveDataSetSpec(id, data) as TEditableObjectSpec; // TEditableObjectSpec | TEditableListSpec | TEditableFieldSpec;
-  // extendPropertiesSpec(spec);
   extendDataSetWithFilters(spec);
-  /* console.log('[randoDataSetSpecsActions:createRandoDataSetSpec]', {
-   *   id,
-   *   data,
-   *   spec,
-   * });
-   */
-  // TODO: Tune-up just created dataset (fix top-level list types, add titles, etc...)
   setStore.set(spec);
 }
 

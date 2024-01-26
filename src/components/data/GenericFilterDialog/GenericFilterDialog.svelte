@@ -7,7 +7,7 @@
   import styles from './GenericFilterDialog.module.scss';
   import { FilterTextInput } from './FilterTextInput';
   import { FilterSelectInput } from './FilterSelectInput';
-  import { TFilterParams } from '@/src/core/types/editable/TFilterParams';
+  import { TFilterParams, TOpenFilterCallback } from '@/src/core/types/editable/TFilterParams';
 
   // Filter parameters...
   export let filterParams: TFilterParams;
