@@ -19,8 +19,8 @@
   }
   &:global(.page-root) {
     .AppLayout_Header {
-      border: 1px solid red;
-      margin-top: -80px;
+      // TODO: Hide header for start page?
+      margin-top: -60px;
     }
   }
   .AppLayout_Footer {
@@ -46,6 +46,9 @@
     flex: 1;
     &:empty {
       // display: none;
+    }
+    a {
+      font-size: 100%;
     }
   }
   .AppLayout_Footer_Right {

@@ -1,19 +1,18 @@
 <!--
-
   TODO:
-
   - 2024.01.18, 14:19: Add loading spinner to load data buttons while the data is loading.
-
 -->
 
 <script lang="ts">
   import { onMount } from 'svelte';
   import { writable } from 'svelte/store';
   import { goto } from '$app/navigation';
-  import { NativeSelect, Button } from '@svelteuidev/core';
+  import { Text, NativeSelect, Button } from '@svelteuidev/core';
   import { Loader } from '@svelteuidev/core';
   import { Paper } from '@svelteuidev/core';
   import classNames from 'classnames';
+
+  import { RandoLogo } from '@/src/components/app/RandoLogo';
 
   import { addToast } from '@/src/components/ui/Toasts';
   import { getApproxSize, getErrorText } from '@/src/core/helpers/basic';
@@ -21,6 +20,7 @@
   import { TRandoData } from '@/src/core/types/rando';
   import { hasDataStore } from '@/src/store';
   import { setRandData } from '@/src/store/actions/randoDataActions';
+  import { appTitle } from '@/src/core/constants/app';
 
   import { loadDemoDataByIdx, getDemoDataFileId, getDemoDataName } from './loadDemoData';
   import { loadDataFile } from './loadLocalData';
@@ -216,81 +216,97 @@
     goingOutStore && styles.goingOut && $initedStore && styles.inited,
   )}
 >
-  <div class={classNames(styles.LoadDataPage_Wrapper)}>
-    <h1 class={classNames(styles.header)}>Load data to edit</h1>
-
-    <section id="loadDemoData" class={classNames(styles.delimited)}>
-      <h2>Load demo data</h2>
-      <div class={classNames(styles.formGroup)}>
-        <!--
-        <select id="demoDataFile" bind:value={demoDataFileIdx}>
-          {#each demoDataFiles as file, idx}
-            <option value={idx} selected={idx === demoDataFileIdx}>
-              {file.id}
-            </option>
-          {/each}
-        </select>
-        -->
-        <NativeSelect
-          data={demoDataFilesSelectData}
-          id="demoDataFile"
-          bind:value={demoDataFileIdx}
-          placeholder="Select demo dataset"
-        />
-        <Button id="loadDemoDataAction" on:click={loadDemoData}>Load demo data</Button>
+  <div class={styles.Wrapper}>
+    <div class={styles.SplashSection}>
+      <div class={styles.SplashBackground}></div>
+      <div class={styles.SplashContent}>
+        <!-- Splash -->
+        <RandoLogo size={50} />
+        <Text class={styles.AppTitle} color="blue" size="xl">
+          {appTitle}
+        </Text>
       </div>
-    </section>
+    </div>
 
-    <section id="loadLocalData" class={classNames(styles.delimited)}>
-      <h2>Load local data</h2>
-      <div class={classNames(styles.formGroup)}>
-        <Button
-          class={classNames(styles.FileUploadField)}
-          id="localDataFile"
-          name="localDataFile"
-          title={localFileText}
-        >
-          <span>
-            {localFileText}
-          </span>
-          <input
-            type="file"
+    <div class={styles.LoadSection}>
+      <!--
+      <h1 class={styles.header}>Load data to edit</h1>
+      -->
+
+      <section id="loadDemoData" class={styles.delimited}>
+        <div class={styles.SectionLabel}>Load demo data</div>
+        <div class={styles.formGroup}>
+          <!--
+          <select id="demoDataFile" bind:value={demoDataFileIdx}>
+            {#each demoDataFiles as file, idx}
+              <option value={idx} selected={idx === demoDataFileIdx}>
+                {file.id}
+              </option>
+            {/each}
+          </select>
+          -->
+          <NativeSelect
+            data={demoDataFilesSelectData}
+            id="demoDataFile"
+            bind:value={demoDataFileIdx}
+            placeholder="Select demo dataset"
+          />
+          <Button id="loadDemoDataAction" on:click={loadDemoData}>Load demo data</Button>
+        </div>
+      </section>
+
+      <section id="loadLocalData" class={styles.delimited}>
+        <div class={styles.SectionLabel}>Load local data</div>
+        <div class={styles.formGroup}>
+          <Button
+            class={styles.FileUploadField}
             id="localDataFile"
             name="localDataFile"
-            accept="application/json"
-            on:change={handleLocalFile}
-          />
-        </Button>
-        <!--
-        <Button id="loadLocalDataAction" on:click={loadLocalData} disabled={!localDataFile}>
-          Load local data
-        </Button>
-        -->
-      </div>
-    </section>
+            title={localFileText}
+          >
+            <span>
+              {localFileText}
+            </span>
+            <input
+              type="file"
+              id="localDataFile"
+              name="localDataFile"
+              accept="application/json"
+              on:change={handleLocalFile}
+            />
+          </Button>
+          <!--
+          <Button id="loadLocalDataAction" on:click={loadLocalData} disabled={!localDataFile}>
+            Load local data
+          </Button>
+          -->
+        </div>
+      </section>
 
-    <!--
-    <section id="debug">
-      <div><button on:click={toggleHasData}>Toggle data: {$hasDataStore}</button></div>
-      <div>idx: {demoDataFileIdx}</div>
-    </section>
-    -->
+      <!--
+      <section id="debug">
+        <div><button on:click={toggleHasData}>Toggle data: {$hasDataStore}</button></div>
+        <div>idx: {demoDataFileIdx}</div>
+      </section>
+      -->
 
-    <!--
-      TODO: Show loaded data info?
-    -->
+      <!--
+        TODO: Show loaded data info?
+      -->
 
-    <!-- // Issue #22: Immediatelly go to main page
-    <section id="actions" class={classNames('delimited', 'vpadded')}>
-      <div class={classNames(styles.formGroup)}>
-        <Button id="goToMainAppPage" on:click={goToMainAppPage} disabled={!$hasDataStore}>
-          Go to the data browser
-        </Button>
-      </div>
-    </section>
-    -->
+      <!-- // Issue #22: Immediatelly go to main page
+      <section id="actions" class={classNames('delimited', 'vpadded')}>
+        <div class={styles.formGroup}>
+          <Button id="goToMainAppPage" on:click={goToMainAppPage} disabled={!$hasDataStore}>
+            Go to the data browser
+          </Button>
+        </div>
+      </section>
+      -->
+
+      <Paper class={styles.WaiterPanel} radius={0} shadow={undefined}>
+        <Loader />
+      </Paper>
+    </div>
   </div>
-  <Paper class={styles.WaiterPanel} radius={0} shadow={undefined}>
-    <Loader />
-  </Paper>
 </div>

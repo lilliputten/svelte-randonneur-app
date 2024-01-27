@@ -38,7 +38,54 @@
     pointer-events: none;
   }
 
-  .LoadDataPage_Wrapper {
+  .Wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .SplashSection {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    border-bottom: 1px solid $borderColor;
+    position: relative;
+    min-height: 260px;
+  }
+  .SplashBackground {
+    opacity: .3;
+    background-image: url("@/src/lib/images/splash-1.jpg");
+    background-position: bottom center;
+    background-repeat: no-repeat;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0px;
+  }
+  .SplashContent {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    margin: 20px;
+    margin-top: 50px;
+  }
+  .AppTitle {
+    font-size: 150%;
+    text-shadow: 0px 0px 3px #fff;
+  }
+
+  .LoadSection {
+    position: relative;
+    flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -47,7 +94,8 @@
     @media (min-width: 768px) {
       width: 70%;
     }
-    margin: 20px;
+    margin: 0 auto;
+    padding: 20px;
   }
 
   section {
@@ -58,13 +106,22 @@
       padding-bottom: 16px;
     }
     &.delimited {
-      border-top: 1px solid color.change(black, $alpha: 0.1);
+      // border-top: 1px solid color.change(black, $alpha: 0.1);
     }
+    text-align: center;
   }
+
+  .SectionLabel {
+    font-weight: bold;
+    color: $primaryColor;
+    margin-bottom: 12px;
+  }
+
 
   .formGroup {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
     flex-wrap: wrap;
   }
