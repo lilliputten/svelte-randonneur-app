@@ -20,7 +20,7 @@
   const os = useOs();
   const mod = os === 'macos' ? '⌘' : 'Ctrl';
 
-  const title = `${appTitle} (v.${version}, @${timestamp})`;
+  const infoTitle = `${appTitle} (v.${version}, @${timestamp})`;
 
   export let isDark: boolean;
   export let opened: boolean;
@@ -39,7 +39,7 @@
     href="/"
     override={{ '&:hover': { textDecoration: 'none !important' } }}
   >
-    <Tooltip label={title}>
+    <Tooltip label={infoTitle}>
       <Group>
         <Logo size={35} />
         <Text color="blue" size="xl" override={{ d: 'none', '@sm': { d: 'block' } }}>

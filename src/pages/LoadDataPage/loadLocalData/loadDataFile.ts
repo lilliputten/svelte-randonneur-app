@@ -19,17 +19,22 @@ export interface TLoadDataFileOptions<T> {
 
 // TODO: Add possibility to cancel the loading for user?
 
+interface TLoadedDataWithSize<T> {
+  data: T;
+  size: number;
+}
+
 export function loadDataFile<T = unknown>(
   file: File,
   opts: TLoadDataFileOptions<T> = {},
-): Promise<T> {
+): Promise<TLoadedDataWithSize<T>> {
   const {
     name: fileName,
     // type: fileType,
-    // size: fileSize,
+    size: fileSize,
   } = file;
   const { onProgress, onLoaded, onError, timeout } = opts;
-  return new Promise<T>(function loadDataFile_promise(resolve, reject) {
+  return new Promise<TLoadedDataWithSize<T>>(function loadDataFile_promise(resolve, reject) {
     const fileReader = new FileReader();
     /* console.log('[loadDataFile:onloadend] start', {
      *   fileReader,
@@ -151,7 +156,7 @@ export function loadDataFile<T = unknown>(
         if (onLoaded) {
           onLoaded({ data, fileReader });
         }
-        return resolve(data);
+        return resolve({ data, size: fileSize });
       } catch (error) {
         const errMsg = [
           'Data processing error for file "' + fileName + '"',
