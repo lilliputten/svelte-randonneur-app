@@ -7,11 +7,11 @@
 
   import { appTitle, getMainMenu } from '@/src/core/constants/app';
   import { hasDataStore } from '@/src/store';
-  import { version, timestamp } from '@/src/core/constants/app';
+  // import { version, timestamp } from '@/src/core/constants/app';
+
+  import { RandoLogo } from '@/src/components/app/RandoLogo';
 
   import { isActiveMainMenuItem } from './helpers';
-
-  import Logo from './Logo.svelte';
 
   import styles from './HeadContent.module.scss';
 
@@ -20,7 +20,7 @@
   const os = useOs();
   const mod = os === 'macos' ? '⌘' : 'Ctrl';
 
-  const infoTitle = `${appTitle} (v.${version}, @${timestamp})`;
+  // const infoTitle = `${appTitle} (v.${version}, @${timestamp})`;
 
   export let isDark: boolean;
   export let opened: boolean;
@@ -39,14 +39,16 @@
     href="/"
     override={{ '&:hover': { textDecoration: 'none !important' } }}
   >
+    <!--
     <Tooltip label={infoTitle}>
-      <Group>
-        <Logo size={35} />
-        <Text color="blue" size="xl" override={{ d: 'none', '@sm': { d: 'block' } }}>
-          {appTitle}
-        </Text>
-      </Group>
     </Tooltip>
+    -->
+    <Group>
+      <RandoLogo size={35} />
+      <Text color="blue" size="xl" override={{ d: 'none', '@sm': { d: 'block' } }}>
+        {appTitle}
+      </Text>
+    </Group>
   </Anchor>
   <Box class={styles.HeadContent_AppMenu}>
     {#each mainMenu as item}

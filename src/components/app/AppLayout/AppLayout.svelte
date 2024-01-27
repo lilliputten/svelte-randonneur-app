@@ -12,13 +12,14 @@
     ShellSection,
     SvelteUIProvider,
     colorScheme,
+    Anchor,
   } from '@svelteuidev/core';
   import classNames from 'classnames';
 
   import Toasts from '@/src/components/ui/Toasts';
   import HeadContent from './HeadContent.svelte';
   import NavContent from './NavContent.svelte';
-  import { appTitle, getMainMenu } from '@/src/core/constants/app';
+  import { appTitle, isDev } from '@/src/core/constants/app';
   import { getApproxSize } from '@/src/core/helpers/basic/numbers';
   import { version, timestamp } from '@/src/core/constants/app';
   import { randoFileInfoStore } from '@/src/store/stores/randoFileInfoStore';
@@ -26,13 +27,7 @@
   import './global-styles.scss';
   import styles from './AppLayout.module.scss';
 
-  const appInfo = `${appTitle} v.${version} @${timestamp}`;
-  $: fileInfo = $randoFileInfoStore
-    ? `${$randoFileInfoStore.type} ${$randoFileInfoStore.name} ${getApproxSize(
-        $randoFileInfoStore.size,
-        { normalize: true },
-      ).join('')}`
-    : '';
+  const appInfo = /* `${appTitle} */ `Version: ${version} @${timestamp}`;
 
   $: isDark = $colorScheme === 'dark';
 
@@ -73,9 +68,11 @@
     <Footer class={styles.AppLayout_Footer} height={30} slot="footer">
       <div class={styles.AppLayout_Footer_Left} id="DataInfo">
         {#if $randoFileInfoStore}
-          <strong>{$randoFileInfoStore.name}</strong>
+          Data file: <strong>{$randoFileInfoStore.name}</strong>
           {getApproxSize($randoFileInfoStore.size, { normalize: true }).join('')}
           ({$randoFileInfoStore.type})
+        {:else if isDev}
+          <Anchor href="/demo">Demo page</Anchor>
         {/if}
       </div>
       <div class={styles.AppLayout_Footer_Right} id="AppInfo">

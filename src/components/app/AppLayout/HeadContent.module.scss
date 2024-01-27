@@ -1,4 +1,5 @@
 .HeadContent {
+  @include defaultFont;
   flex: 1;
   .HeadContent_AppMenu {
     display: flex;
@@ -8,6 +9,7 @@
     }
   }
   .HeadContent_AppMenu_Item {
+    @include defaultFont;
     padding: 8px 12px;
     border-radius: 4px;
     text-decoration: none;
