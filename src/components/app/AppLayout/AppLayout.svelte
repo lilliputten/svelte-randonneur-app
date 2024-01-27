@@ -1,10 +1,11 @@
 <script lang="ts">
+  import { page } from '$app/stores';
   import {
     // Aside,
     // Divider,
     // Title,
     // fns,
-    // Footer,
+    Footer,
     AppShell,
     Header,
     Navbar,
@@ -12,13 +13,35 @@
     SvelteUIProvider,
     colorScheme,
   } from '@svelteuidev/core';
+  import classNames from 'classnames';
 
   import Toasts from '@/src/components/ui/Toasts';
-
   import HeadContent from './HeadContent.svelte';
   import NavContent from './NavContent.svelte';
+  import { appTitle, getMainMenu } from '@/src/core/constants/app';
+  import { getApproxSize } from '@/src/core/helpers/basic/numbers';
+  import { version, timestamp } from '@/src/core/constants/app';
+  import { randoFileInfoStore } from '@/src/store/stores/randoFileInfoStore';
+
+  import './global-styles.scss';
+  import styles from './AppLayout.module.scss';
+
+  const appInfo = `${appTitle} v.${version} @${timestamp}`;
+  $: fileInfo = $randoFileInfoStore
+    ? `${$randoFileInfoStore.type} ${$randoFileInfoStore.name} ${getApproxSize(
+        $randoFileInfoStore.size,
+        { normalize: true },
+      ).join('')}`
+    : '';
 
   $: isDark = $colorScheme === 'dark';
+
+  $: pageId =
+    $page.url.pathname
+      .replace(/[^A-Za-z0-9]+/g, ' ')
+      .trim()
+      .replace(/\s+/g, '-') || 'root';
+  $: pageClass = ['page', pageId].filter(Boolean).join('-');
 
   let opened = false;
 
@@ -33,14 +56,10 @@
   function onMenuClick() {
     opened = false;
   }
-
-  import styles from './AppLayout.module.scss';
-
-  import './global-styles.scss';
 </script>
 
 <SvelteUIProvider withNormalizeCSS withGlobalStyles themeObserver={$colorScheme}>
-  <AppShell class={styles.AppLayout}>
+  <AppShell class={classNames(styles.AppLayout, pageClass)}>
     <ShellSection className={styles.AppLayout_MainContent} grow>
       <slot>This is the main content</slot>
     </ShellSection>
@@ -50,10 +69,19 @@
     </Navbar>
 
     <!-- // TODO: Probably will be used in the future...
-    <Footer class={styles.AppLayout_Footer} height={30} slot="footer">
-      FooterContent
-    </Footer>
     -->
+    <Footer class={styles.AppLayout_Footer} height={30} slot="footer">
+      <div class={styles.AppLayout_Footer_Left} id="DataInfo">
+        {#if $randoFileInfoStore}
+          <strong>{$randoFileInfoStore.name}</strong>
+          {getApproxSize($randoFileInfoStore.size, { normalize: true }).join('')}
+          ({$randoFileInfoStore.type})
+        {/if}
+      </div>
+      <div class={styles.AppLayout_Footer_Right} id="AppInfo">
+        {appInfo}
+      </div>
+    </Footer>
 
     <Header class={styles.AppLayout_Header} slot="header" height={60}>
       <HeadContent {isDark} toggle={toggleTheme} toggleOpen={toggleOpened} {opened} />
