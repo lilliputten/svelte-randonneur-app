@@ -8,9 +8,11 @@ export const currentDemoDataFileIdx = writable<number>(defaultDataFileIdx);
 export function getCurrentDemoDataFileIdx() {
   return get(currentDemoDataFileIdx);
 }
+export function getDemoDataName(idx: number) {
+  return demoDataFiles[idx].filename;
+}
 export function getDemoDataFileUrl(idx: number) {
-  // const idx = getCurrentDemoDataFileIdx();
-  const filename = demoDataFiles[idx].filename;
+  const filename = getDemoDataName(idx);
   return demoDataPath + filename;
 }
 export function getDemoDataFileId(idx: number) {
@@ -18,7 +20,12 @@ export function getDemoDataFileId(idx: number) {
   return demoDataFiles[idx].id;
 }
 
-export function loadDemoDataByIdx<T = unknown>(idx: number): Promise<T> {
+interface TLoadedDataWithSize<T> {
+  data: T;
+  size: number;
+}
+
+export function loadDemoDataByIdx<T = unknown>(idx: number): Promise<TLoadedDataWithSize<T>> {
   const dataUrl = getDemoDataFileUrl(idx);
   // const dataId = getDemoDataFileId(idx);
   /* console.log('[loadDemoData:loadDemoDataByIdx:start]', {
@@ -57,6 +64,7 @@ export function loadDemoDataByIdx<T = unknown>(idx: number): Promise<T> {
       if (!data) {
         throw 'Received empty data';
       }
-      return data;
+      const size = jsonText.length;
+      return { data, size };
     });
 }

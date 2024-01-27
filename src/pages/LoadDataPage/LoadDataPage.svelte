@@ -22,10 +22,11 @@
   import { hasDataStore } from '@/src/store';
   import { setRandData } from '@/src/store/actions/randoDataActions';
 
-  import { loadDemoDataByIdx, getDemoDataFileId } from './loadDemoData';
+  import { loadDemoDataByIdx, getDemoDataFileId, getDemoDataName } from './loadDemoData';
   import { loadDataFile } from './loadLocalData';
 
   import styles from './LoadDataPage.module.scss';
+  import { randoFileInfoStore } from '@/src/store/stores/randoFileInfoStore';
 
   let demoDataFileIdx = defaultDataFileIdx;
   let loadingDemoData = false;
@@ -43,6 +44,7 @@
 
   function loadDemoData() {
     const dataId = getDemoDataFileId(demoDataFileIdx);
+    const fileName = getDemoDataName(demoDataFileIdx);
     /* console.log('[LoadDataPage:loadDemoData] start', {
      *   dataId,
      * });
@@ -51,13 +53,18 @@
     // Show notification
     // addToast({ message: 'Demo data loading started', type: 'info' });
     loadDemoDataByIdx<TRandoData>(demoDataFileIdx)
-      .then((data) => {
-        /* console.log('[LoadDataPage:loadDemoData] success', {
-         *   dataId,
-         *   data,
-         * });
-         */
+      .then(({ data, size }) => {
+        console.log('[LoadDataPage:loadDemoData] success', {
+          dataId,
+          data,
+          size,
+        });
         setRandData(data);
+        randoFileInfoStore.set({
+          name: fileName,
+          type: 'demo',
+          size,
+        });
         // Show notification
         addToast({ message: 'Demo data loading successfully finished', type: 'success' });
         goToMainAppPage(); // Issue #22: Immediatelly go to main page
@@ -145,13 +152,20 @@
       timeout: 5000,
       // onProgress: handleLoadingProgress,
     })
-      .then((data) => {
-        /* console.log('[LoadDataPage:loadLocalData] success', {
-         *   localDataFile,
-         *   data,
-         * });
-         */
+      .then(({ data, size }) => {
+        console.log('[LoadDataPage:loadLocalData] success', {
+          localDataFile,
+          data,
+          size,
+        });
         setRandData(data);
+        if (localDataFile) {
+          randoFileInfoStore.set({
+            name: localDataFile.name,
+            type: 'uploaded',
+            size: localDataFile.size,
+          });
+        }
         // Show notification
         addToast({ message: 'Local data loading successfully finished', type: 'success' });
         goToMainAppPage(); // Issue #22: Immediatelly go to main page
