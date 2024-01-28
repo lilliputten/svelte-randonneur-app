@@ -25,6 +25,11 @@
     background-color: color.change($primaryColor, $alpha: 0.05);
     border-bottom: 1px solid $borderColor;
   }
+  .leftColumn {
+    @media (max-width: $sideMenuTresholdMaxPx) {
+      display: none;
+    }
+  }
   .mainColumn {
     flex: 1;
   }

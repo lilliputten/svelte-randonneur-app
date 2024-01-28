@@ -10,19 +10,5 @@
     }
   }
   .content {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    padding: 16px;
-    gap: 16px;
-    > .delimiter {
-      border-top: 1px solid $borderColor;
-      $padding: 0;
-      margin-top: $padding;
-      padding-top: $padding;
-    }
-    > :global(.section) {
-      width: 100%;
-    }
   }
 }

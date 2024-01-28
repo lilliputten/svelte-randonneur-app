@@ -56,11 +56,12 @@
     // addToast({ message: 'Demo data loading started', type: 'info' });
     loadDemoDataByIdx<TRandoData>(demoDataFileIdx)
       .then(({ data, size }) => {
-        console.log('[LoadDataPage:loadDemoData] success', {
-          dataId,
-          data,
-          size,
-        });
+        /* console.log('[LoadDataPage:loadDemoData] success', {
+         *   dataId,
+         *   data,
+         *   size,
+         * });
+         */
         setRandData(data);
         randoFileInfoStore.set({
           name: fileName,
@@ -154,12 +155,13 @@
       timeout: 5000,
       // onProgress: handleLoadingProgress,
     })
-      .then(({ data, size }) => {
-        console.log('[LoadDataPage:loadLocalData] success', {
-          localDataFile,
-          data,
-          size,
-        });
+      .then(({ data }) => {
+        /* console.log('[LoadDataPage:loadLocalData] success', {
+         *   localDataFile,
+         *   data,
+         *   // size,
+         * });
+         */
         setRandData(data);
         if (localDataFile) {
           randoFileInfoStore.set({

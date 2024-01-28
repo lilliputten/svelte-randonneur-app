@@ -84,7 +84,7 @@
           {getApproxSize($randoFileInfoStore.size, { normalize: true }).join('')}
           ({$randoFileInfoStore.type})
           {#if pageId === 'root'}
-            <Anchor href="/data">(edit)</Anchor>
+            <Anchor href="/data">(browse)</Anchor>
           {/if}
         {:else if isDev}
           <Anchor href="/demo">Demo page</Anchor>

@@ -26,7 +26,11 @@
 
 <div class={classNames(className, styles.EditorHeader)} data-section-id={sectionId}>
   <div class={styles.Title}>
-    {title}
+    {#if isDataSet}
+      Data set: <strong>{title}</strong>
+    {:else}
+      {title}
+    {/if}
   </div>
   <div class={styles.MiddleMenu}>
     <!-- Middle actions -->
