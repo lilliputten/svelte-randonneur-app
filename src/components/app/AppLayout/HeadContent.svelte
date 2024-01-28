@@ -44,10 +44,6 @@
     href="/"
     override={{ '&:hover': { textDecoration: 'none !important' } }}
   >
-    <!--
-    <Tooltip label={infoTitle}>
-    </Tooltip>
-    -->
     <Group>
       <RandoLogo size={35} />
       <Text color="blue" size="xl" override={{ d: 'none', '@sm': { d: 'block' } }}>
@@ -75,13 +71,17 @@
       {/if}
     {/each}
   </Box>
-  <Tooltip label={`Toggle dark theme (${mod}-J)`}>
-    <ActionIcon variant="default" on:click={toggle} size={30} use={[[hotkey, [['mod+J', toggle]]]]}>
-      {#if isDark}
-        <Moon />
-      {:else}
-        <Sun />
-      {/if}
-    </ActionIcon>
-  </Tooltip>
+  <ActionIcon
+    variant="default"
+    on:click={toggle}
+    size={30}
+    use={[[hotkey, [['mod+J', toggle]]]]}
+    title={`Toggle dark theme (${mod}-J)`}
+  >
+    {#if isDark}
+      <Moon />
+    {:else}
+      <Sun />
+    {/if}
+  </ActionIcon>
 </Group>
