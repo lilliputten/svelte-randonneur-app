@@ -2,8 +2,18 @@
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  padding: 16px;
   gap: 16px;
+  &:not([data-in-side-menu]) {
+    padding: 16px;
+  }
+  .SectionsTitle {
+    font-size: 160%;
+    margin: 16px 0;
+    margin-top: 28px;
+    padding: 16px 0;
+    text-align: center;
+    border-top: 1px solid $borderColor;
+  }
   > .delimiter {
     border-top: 1px solid $borderColor;
     $padding: 0;
@@ -12,5 +22,14 @@
   }
   > :global(.section) {
     width: 100%;
+  }
+  &[data-in-side-menu] {
+    :global(button) {
+      // TODO: To use proper way to modify inner `Section` elements (to pass down class name)
+      justify-content: center;
+      font-size: 140%;
+      padding: 23px;
+      font-weight: normal;
+    }
   }
 }

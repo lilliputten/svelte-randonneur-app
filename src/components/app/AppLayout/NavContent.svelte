@@ -5,6 +5,7 @@
 
   import { getMainMenu } from '@/src/core/constants/app';
   import { hasDataStore } from '@/src/store';
+  import { SectionsMenu } from '@/src/components/RandoEditor/SectionsMenu';
 
   import { isActiveMainMenuItem } from './helpers';
 
@@ -12,22 +13,15 @@
 
   const mainMenu = getMainMenu();
 
-  // TODO: Close navbar on menu click
-
-  /* // TODO: To use anchor element reference to catch click to close nav pane?
-   * Using:
-   *   `let tableComponent: HTMLElement;`
-   *   with `bind:this={tableComponent}`
-   */
-
-  export let isDark: boolean;
-  export let onMenuClick: () => void;
+  export let handleMenuClose: () => void;
 </script>
 
 <Stack class={classNames(styles.NavContent)} override={{ p: 20 }}>
+  <!--
   <Box css={{ bc: isDark ? '$blue400' : '$blue50', p: '$mdPX', br: '$md', userSelect: 'none' }}>
     <Text align="center">Application menu</Text>
   </Box>
+  -->
   <Stack class={classNames(styles.items)} spacing={4}>
     {#each mainMenu as item}
       <!-- Use hook for process menu conditions? -->
@@ -41,11 +35,12 @@
             styles.item,
             isActiveMainMenuItem(item, $page.url.pathname) && styles.active,
           )}
-          on:click={onMenuClick}
+          on:click={handleMenuClose}
         >
           {item.text}
         </a>
       {/if}
     {/each}
+    <SectionsMenu inSideMenu onChangeSection={handleMenuClose} />
   </Stack>
 </Stack>

@@ -53,7 +53,7 @@
     opened = !opened;
   }
 
-  function onMenuClick() {
+  function handleMenuClose() {
     opened = false;
   }
 </script>
@@ -72,7 +72,7 @@
     </ShellSection>
 
     <Navbar class={styles.AppLayout_Navbar} slot="navbar" hidden={!opened}>
-      <NavContent {isDark} {onMenuClick} />
+      <NavContent {handleMenuClose} />
     </Navbar>
 
     <!-- // TODO: Probably will be used in the future...

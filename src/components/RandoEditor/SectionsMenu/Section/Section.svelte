@@ -10,7 +10,7 @@
   export let className: string = '';
   export let isActive: boolean = false;
   export let sectionId: TRandoSectionId;
-  export let onChangeSection: (sectionId: TRandoSectionId) => void;
+  export let onSectionClick: (sectionId: TRandoSectionId) => void;
 
   const title = sectionTitles[sectionId];
 </script>
@@ -20,7 +20,7 @@
   id={sectionId}
   {title}
   variant={isActive ? 'filled' : 'light'}
-  on:click={onChangeSection.bind(null, sectionId)}
+  on:click={onSectionClick.bind(null, sectionId)}
   fullSize
 >
   {title}

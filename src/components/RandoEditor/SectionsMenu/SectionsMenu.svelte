@@ -5,18 +5,27 @@
 
   import { Section } from './Section';
 
+  export let inSideMenu: boolean = false;
+  export let onChangeSection: ((id: TRandoSectionId) => void) | undefined = undefined;
+
   // Set current section...
-  function onChangeSection(id: TRandoSectionId) {
+  function onSectionClick(id: TRandoSectionId) {
     currentSectionIdStore.set(id);
+    if (onChangeSection) {
+      onChangeSection(id);
+    }
   }
 </script>
 
-<div class="SectionsMenu">
+<div class="SectionsMenu" data-in-side-menu={inSideMenu ? true : undefined}>
   {#if $allSectionsStore}
+    {#if inSideMenu}
+      <div class="SectionsTitle">Data sections</div>
+    {/if}
     {#each $allSectionsStore as id}
-      <Section sectionId={id} isActive={id === $currentSectionIdStore} {onChangeSection} />
+      <Section sectionId={id} isActive={id === $currentSectionIdStore} {onSectionClick} />
       {#if id === 'properties'}
-        <!-- Add visual delimiter after properties section -->
+        <!-- NOTE: Adding visual delimiter after properties section -->
         <div class="delimiter section" />
       {/if}
     {/each}
