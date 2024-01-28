@@ -108,7 +108,7 @@
             class={styles.removeRowIcon}
             variant="light"
             on:click={handleRemoveItem}
-            size={parseInt(cssVariables.defaultInputHeight)}
+            size={parseInt(cssVariables.defaultInputHeightPx)}
             title="Remove item"
           >
             <Trash />
@@ -121,7 +121,7 @@
       class={styles.addRowIcon}
       variant="light"
       on:click={handleAddItem}
-      size={parseInt(cssVariables.defaultInputHeight)}
+      size={parseInt(cssVariables.defaultInputHeightPx)}
       title="Add new item"
     >
       <Plus />

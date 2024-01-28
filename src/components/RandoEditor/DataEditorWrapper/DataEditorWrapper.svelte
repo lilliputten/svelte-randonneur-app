@@ -2,6 +2,7 @@
   import classNames from 'classnames';
   // @ts-expect-error: Can't find typings for this module
   import { saveAs } from 'browser-filesaver';
+  import { writable } from 'svelte/store';
 
   import { TRandoSectionId } from '@/src/core/types/rando';
   import { saveRandoDataSets, saveRandoProperties, randoDataStore } from '@/src/store';
@@ -10,9 +11,9 @@
   import { EditProperties } from '@/src/components/RandoEditor/EditProperties';
   import { EditDataSet, TEditDataSetApi } from '@/src/components/RandoEditor/EditDataSet';
   import { EditorHeader } from '@/src/components/RandoEditor/EditorHeader';
+  import { randoFileInfoStore } from '@/src/store/stores/randoFileInfoStore';
 
   import styles from './DataEditorWrapper.module.scss';
-  import { writable } from 'svelte/store';
 
   export let sectionId: TRandoSectionId;
 
@@ -26,7 +27,8 @@
     // TODO: Save to local file
     const dataJson = JSON.stringify(data, null, 2);
     const dataBlob = new Blob([dataJson], { type: 'application/json' });
-    const filename = 'edited-data.json';
+    let filename = $randoFileInfoStore?.name || 'exported-data.json';
+    filename = filename.replace(/(\.json$|$)/i, '-exported.json');
     try {
       saveAs(dataBlob, filename);
     } catch (error) {

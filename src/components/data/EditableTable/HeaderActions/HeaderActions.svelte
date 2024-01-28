@@ -7,8 +7,8 @@
 
   import styles from './HeaderActions.module.scss';
 
-  const { defaultInputHeight } = cssVariables;
-  const inputHeight = parseInt(defaultInputHeight);
+  const { defaultInputHeightPx } = cssVariables;
+  const inputHeight = parseInt(defaultInputHeightPx);
 
   type TCallback = () => void;
 

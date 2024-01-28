@@ -60,13 +60,15 @@
   </div>
   <div class={styles.Actions}>
     <div class={styles.ActionsLeft}>
-      <Button class={styles.Action} color="green" variant="filled" on:click={handleClose}>
-        <Check slot="leftIcon" />
-        Ok
-      </Button>
       <Button class={styles.Action} color="red" variant="filled" on:click={handleReset}>
         <Cross2 slot="leftIcon" />
         Reset filter
+      </Button>
+    </div>
+    <div class={styles.ActionsRight}>
+      <Button class={styles.Action} color="green" variant="filled" on:click={handleClose}>
+        <Check slot="leftIcon" />
+        Ok
       </Button>
     </div>
   </div>

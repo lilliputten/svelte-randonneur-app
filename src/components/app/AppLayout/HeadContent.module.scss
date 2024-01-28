@@ -1,6 +1,19 @@
 .HeadContent {
   @include defaultFont;
   flex: 1;
+  &.rootPage {
+    .AppTitle {
+      @media (min-height: $headerHeightTresholdMinPx) {
+        display: none;
+      }
+    }
+  }
+  .AppTitle {
+    transition: all $transitionTimeMs;
+    &:hover {
+      opacity: .8;
+    }
+  }
   .HeadContent_AppMenu {
     display: flex;
     gap: 4px;
@@ -13,9 +26,10 @@
     padding: 8px 12px;
     border-radius: 4px;
     text-decoration: none;
+    transition: all $transitionTimeMs;
     &:hover {
       background-color: color.change($primaryColor, $alpha: 0.1);
-      text-decoration: underline;
+      // text-decoration: underline;
     }
   }
   .HeadContent_AppMenu_ItemActive {

@@ -17,8 +17,8 @@
   $: hasPagination = $hasPreviousPage || $hasNextPage;
   $: lastPage = $pageCount - 1;
 
-  const { defaultInputHeight } = cssVariables;
-  const inputHeight = parseInt(defaultInputHeight);
+  const { defaultInputHeightPx } = cssVariables;
+  const inputHeight = parseInt(defaultInputHeightPx);
 
   /** Show {showDiam} page icons before and after current one. */
   const showDiam = 2;

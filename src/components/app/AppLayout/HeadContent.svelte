@@ -15,6 +15,10 @@
 
   import styles from './HeadContent.module.scss';
 
+  $: pageUrl = $page.url.pathname;
+
+  $: isRootPage = !pageUrl || pageUrl === '/';
+
   const mainMenu = getMainMenu();
 
   const os = useOs();
@@ -29,12 +33,13 @@
 </script>
 
 <Group
-  class={classNames(styles.HeadContent)}
+  class={classNames(styles.HeadContent, isRootPage && styles.rootPage)}
   override={{ height: '100%', px: 20 }}
   position="apart"
 >
   <Burger {opened} on:click={toggleOpen} override={{ d: 'block', '@sm': { d: 'none' } }} />
   <Anchor
+    class={styles.AppTitle}
     underline={false}
     href="/"
     override={{ '&:hover': { textDecoration: 'none !important' } }}
@@ -62,7 +67,7 @@
           href={item.url}
           class={classNames(
             styles.HeadContent_AppMenu_Item,
-            isActiveMainMenuItem(item, $page.url.pathname) && styles.HeadContent_AppMenu_ItemActive,
+            isActiveMainMenuItem(item, pageUrl) && styles.HeadContent_AppMenu_ItemActive,
           )}
         >
           {item.text}

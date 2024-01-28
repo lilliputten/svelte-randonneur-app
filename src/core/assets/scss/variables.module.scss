@@ -7,6 +7,8 @@
 
 /* stylelint-disable-next-line selector-pseudo-class-no-unknown */
 :export {
+  headerHeightTresholdMinPx: $headerHeightTresholdMinPx;
+
   transitionTimeMs: $transitionTimeMs;
   animationTimeMs: $animationTimeMs;
   disappearTimeMs: $disappearTimeMs;
@@ -55,5 +57,5 @@
 
   // Input elements
 
-  defaultInputHeight: $defaultInputHeight;
+  defaultInputHeightPx: $defaultInputHeightPx;
 }
