@@ -1,16 +1,22 @@
+import { get } from 'svelte/store';
+
 import {
   TRandoDataSets,
   randoDataSetKeys,
   TRandoData,
   TRandoDataSetKey,
+  TRandoSectionId,
 } from '@/src/core/types/rando';
-import { get } from 'svelte/store';
 
 import { randoDataStore } from '../stores/randoDataStore';
-import { randoDataSetsStores } from '../stores/randoDataSetsStore';
+
 import { clearAllRandoDataSetSpecs, createRandoDataSetSpec } from './randoDataSetSpecsActions';
 
-// Issue #5: Derive data typings for all the data sets...
+import {
+  allSectionsStore,
+  randoDataSetsStores,
+  currentSectionIdStore,
+} from '../stores/randoDataSetsStore';
 
 /** Extract randoneeur data sets from common data store */
 export function extractRandoDataSets() {
@@ -20,9 +26,27 @@ export function extractRandoDataSets() {
     const data = randoData?.[id];
     // Set data into sets store...
     setStore.set(data);
-    // Create data set specification...
+    // Create data set specification (in dedicated store)...
     createRandoDataSetSpec(id, data);
   });
+
+  // Set available sections list...
+  const availableRandoDataSetKeys = getAvailableRandoDataSetKeys();
+  const allSections: TRandoSectionId[] = [
+    // prettier-ignore
+    'properties',
+    ...availableRandoDataSetKeys,
+  ];
+  allSectionsStore.set(allSections);
+
+  // Set default current section id...
+  const currentSectionId = get(currentSectionIdStore);
+  if (
+    currentSectionId !== allSections[0] &&
+    (!currentSectionId || !allSections.includes(currentSectionId))
+  ) {
+    currentSectionIdStore.set(allSections[0]);
+  }
 }
 
 export function clearRandoDataSets() {
@@ -31,6 +55,7 @@ export function clearRandoDataSets() {
     setStore.set(undefined);
   });
   clearAllRandoDataSetSpecs();
+  allSectionsStore.set(undefined);
 }
 
 /** Save randoneeur data sets back to common data store */

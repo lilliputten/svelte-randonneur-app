@@ -16,7 +16,7 @@ export const mainMenu: TMainMenu[] = [
     compare: 'exact',
   },
   {
-    text: 'Data',
+    text: 'Browser',
     url: '/data',
     conditions: 'hasData', // TODO: Make it conditional: show (enable) only if data has already loaded
   },

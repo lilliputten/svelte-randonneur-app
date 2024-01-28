@@ -1,11 +1,7 @@
 <script lang="ts">
   import { TRandoSectionId } from '@/src/core/types/rando';
 
-  import { Section } from './Section';
-
-  export let allSections: TRandoSectionId[];
-  export let sectionId: TRandoSectionId;
-  export let onChangeSection: (sectionId: TRandoSectionId) => void;
+  import { SectionsMenu } from '../SectionsMenu';
 </script>
 
 <div class="SectionsNavigator">
@@ -19,13 +15,7 @@
         <p>{idx + 1}</p>
       {/each}
       -->
-      {#each allSections as id}
-        <Section sectionId={id} isActive={id === sectionId} {onChangeSection} />
-        {#if id === 'properties'}
-          <!-- Add visual delimiter after properties section -->
-          <div class="delimiter section" />
-        {/if}
-      {/each}
+      <SectionsMenu />
     </div>
   </div>
 </div>

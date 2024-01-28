@@ -16,6 +16,20 @@ export function extendDataSetSpec(
   opts: TExtendPropertiesSpecOpts = {},
 ) {
   const { id, type } = spec;
+  if (!id || !type) {
+    const error = new Error('Malformed spec object: ' + JSON.stringify(spec));
+    // eslint-disable-next-line no-console
+    console.error('[extendDataSetSpec]', error.message, {
+      error,
+      spec,
+      level,
+      parentId,
+      opts,
+    });
+    // eslint-disable-next-line no-debugger
+    debugger;
+    throw error;
+  }
   const thisId = [parentId, id].filter(Boolean).join('.');
   if (level && !spec.label && !opts.dontAddLabels) {
     spec.label = spec.title || makeTitleFromPropertyId(id);

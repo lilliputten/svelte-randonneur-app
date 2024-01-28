@@ -2,10 +2,15 @@
   import classNames from 'classnames';
   // @ts-expect-error: Can't find typings for this module
   import { saveAs } from 'browser-filesaver';
-  import { writable } from 'svelte/store';
+  import { get, writable } from 'svelte/store';
 
   import { TRandoSectionId } from '@/src/core/types/rando';
-  import { saveRandoDataSets, saveRandoProperties, randoDataStore } from '@/src/store';
+  import {
+    saveRandoDataSets,
+    saveRandoProperties,
+    randoDataStore,
+    randoDataSetsStores,
+  } from '@/src/store';
   import { getErrorText } from '@/src/core/helpers/basic';
   import { addToast } from '@/src/components/ui/Toasts';
   import { EditProperties } from '@/src/components/RandoEditor/EditProperties';
@@ -80,7 +85,7 @@
     <div class={styles.content}>
       {#if sectionId === 'properties'}
         <EditProperties />
-      {:else}
+      {:else if sectionId && get(randoDataSetsStores[sectionId])}
         <EditDataSet dataSetId={sectionId} {setHasFilters} bind:api={editDataSetApi} />
       {/if}
       <!--
