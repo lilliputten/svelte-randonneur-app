@@ -1,6 +1,6 @@
 Project: svelte-randonneur-app
-Version: 0.0.9
+Version: 0.0.10
 Branch: 55-ui-ux-styles-misc-updates
-Commit: 44fbdb8
-Fixed: 2024.01.27, 21:39 +0700
-Built: 2024.01.27 21:49 +0700
+Commit: 80c2925
+Fixed: 2024.01.28, 20:52 +0700
+Built: 2024.01.28 20:54 +0700
