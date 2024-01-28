@@ -22,7 +22,7 @@
       test_value: 1,
       source: {
         name: '1,4-Butanediol',
-        categories: ['Emissions to water', 'river'],
+        categories: ['Emissions to water', 'river', 'xtra'],
         unit: 'kg',
       },
       target: {

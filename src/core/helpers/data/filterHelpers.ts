@@ -8,8 +8,15 @@ export const textContainsFilter = <T = TFilterMatcherDefaultType>({
   filterValue,
   value,
 }: TFilterMatcherParams<T>) => {
+  if (value === '' || value == null) {
+    return false;
+  }
   if (filterValue === '') {
     return true;
   }
-  return String(value).toLowerCase().includes(String(filterValue).toLowerCase());
+  if (Array.isArray(value)) {
+    return value.includes(filterValue);
+  }
+  const cmpFilterValue = String(filterValue).toLowerCase();
+  return String(value).toLowerCase().includes(cmpFilterValue);
 };
