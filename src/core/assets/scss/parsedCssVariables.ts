@@ -1,6 +1,6 @@
 import cssVariables from '@/src/core/assets/scss/variables.module.scss';
 
-const defaultInputHeightPx = parseInt(cssVariables.defaultInputHeight);
+const defaultInputHeight = parseInt(cssVariables.defaultInputHeightPx);
 
 const {
   primaryColor,
@@ -15,7 +15,7 @@ const {
 
 export {
   // Dimensions...
-  defaultInputHeightPx,
+  defaultInputHeight,
 
   // Colors...
   primaryColor,

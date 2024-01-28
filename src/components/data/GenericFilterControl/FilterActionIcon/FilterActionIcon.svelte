@@ -3,7 +3,7 @@
   import { MagnifyingGlass } from 'radix-icons-svelte';
   import classNames from 'classnames';
 
-  import { defaultInputHeightPx } from '@/src/core/constants/app/parsedCssVariables';
+  import { defaultInputHeight } from '@/src/core/assets/scss/parsedCssVariables';
 
   import styles from './FilterActionIcon.module.scss';
 
@@ -22,7 +22,7 @@
   class={classNames(className, styles.FilterActionIcon, isActive && styles.active)}
   {title}
   on:click={toggleFilter}
-  size={large ? defaultInputHeightPx : undefined}
+  size={large ? defaultInputHeight : undefined}
 >
   <MagnifyingGlass />
 </ActionIcon>

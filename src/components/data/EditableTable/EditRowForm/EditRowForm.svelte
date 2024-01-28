@@ -71,19 +71,19 @@
   </div>
   <div class={styles.Actions}>
     <div class={styles.ActionsLeft}>
-      <Button class={styles.Action} color="green" variant="filled" on:click={handleSave}>
-        <Check slot="leftIcon" />
-        Save
-      </Button>
-      <Button class={styles.Action} variant="filled" on:click={onClose}>
-        <Cross2 slot="leftIcon" />
-        Cancel
-      </Button>
-    </div>
-    <div class={styles.ActionsRight}>
       <Button class={styles.Action} color="red" variant="filled" on:click={handleRemove}>
         <Trash slot="leftIcon" />
         Remove
+      </Button>
+    </div>
+    <div class={styles.ActionsRight}>
+      <Button class={styles.Action} variant="default" on:click={onClose}>
+        <Cross2 slot="leftIcon" />
+        Cancel
+      </Button>
+      <Button class={styles.Action} color="green" variant="filled" on:click={handleSave}>
+        <Check slot="leftIcon" />
+        Save
       </Button>
     </div>
   </div>

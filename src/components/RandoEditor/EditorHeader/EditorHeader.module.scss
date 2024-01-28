@@ -28,5 +28,18 @@
   button {
     // Make buttons a bit more compact
     padding: 0 8px;
+    .text {
+      text-align: left;
+    }
+    @media (max-width: 500px) {
+      width: $defaultInputHeightPx;
+      height: $defaultInputHeightPx;
+      .text {
+        display: none;
+      }
+      :global(.left-section) {
+        margin-right: 0;
+      }
+    }
   }
 }

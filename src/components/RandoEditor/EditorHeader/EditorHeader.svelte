@@ -36,9 +36,10 @@
         color="green"
         variant="subtle"
         on:click={handleAddNewDataSetRow}
+        title="Add dataset row"
       >
         <Plus slot="leftIcon" />
-        Add dataset row
+        <span class={styles.text}>Add dataset row</span>
       </Button>
     {/if}
     {#if isDataSet && hasFilters}
@@ -47,17 +48,23 @@
         color="red"
         variant="subtle"
         on:click={handleResetAllFilters}
+        title="Reset all filters"
       >
         <Cross2 slot="leftIcon" />
-        Reset all filters
+        <span class={styles.text}>Reset all filters</span>
       </Button>
     {/if}
   </div>
   <div class={styles.RightMenu}>
     <!-- Right actions -->
-    <Button class={styles.RightButton} variant="subtle" on:click={handleExportData}>
+    <Button
+      class={styles.RightButton}
+      variant="subtle"
+      on:click={handleExportData}
+      title="Export data"
+    >
       <Download slot="leftIcon" />
-      Export data
+      <span class={styles.text}>Export data</span>
     </Button>
   </div>
 </div>

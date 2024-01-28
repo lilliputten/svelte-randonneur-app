@@ -19,7 +19,10 @@
   import Toasts from '@/src/components/ui/Toasts';
   import HeadContent from './HeadContent.svelte';
   import NavContent from './NavContent.svelte';
-  import { appTitle, isDev } from '@/src/core/constants/app';
+  import {
+    // appTitle,
+    isDev,
+  } from '@/src/core/constants/app';
   import { getApproxSize } from '@/src/core/helpers/basic/numbers';
   import { version, timestamp } from '@/src/core/constants/app';
   import { randoFileInfoStore } from '@/src/store/stores/randoFileInfoStore';
@@ -31,8 +34,10 @@
 
   $: isDark = $colorScheme === 'dark';
 
+  $: pageUrl = $page.url.pathname;
+  $: isRootPage = !pageUrl || pageUrl === '/';
   $: pageId =
-    $page.url.pathname
+    pageUrl
       .replace(/[^A-Za-z0-9]+/g, ' ')
       .trim()
       .replace(/\s+/g, '-') || 'root';
@@ -54,7 +59,14 @@
 </script>
 
 <SvelteUIProvider withNormalizeCSS withGlobalStyles themeObserver={$colorScheme}>
-  <AppShell class={classNames(styles.AppLayout, pageClass)}>
+  <AppShell
+    class={classNames(
+      styles.AppLayout,
+      pageClass,
+      isRootPage && styles.rootPage,
+      isDark && styles.dark,
+    )}
+  >
     <ShellSection className={styles.AppLayout_MainContent} grow>
       <slot>This is the main content</slot>
     </ShellSection>

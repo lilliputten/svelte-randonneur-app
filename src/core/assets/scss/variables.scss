@@ -6,6 +6,11 @@
 // DEMO
 $demoColor: color.change(yellow, $alpha: 0.5);
 
+// Header
+
+$headerHeightTresholdMinPx: 450px;
+$headerHeightTresholdMaxPx: $headerHeightTresholdMinPx - 0.01px;
+
 // Timeouts...
 
 $transitionTimeMs: 250ms;
@@ -75,4 +80,4 @@ $graphLabelFontDarkColor: #333;
 
 // Input elements
 
-$defaultInputHeight: 36px;
+$defaultInputHeightPx: 36px;

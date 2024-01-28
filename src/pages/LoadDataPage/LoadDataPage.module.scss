@@ -53,13 +53,16 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    border-bottom: 1px solid $borderColor;
+    border-bottom: 1px solid color.change($neutralColor, $alpha: 0.2);
     position: relative;
-    min-height: 260px;
+    // min-height: 260px;
+    @media (max-height: $headerHeightTresholdMaxPx) {
+      display: none;
+    }
   }
   .SplashBackground {
-    opacity: .3;
-    background-image: url("@/src/lib/images/splash-1.jpg");
+    opacity: 0.7;
+    background-image: url('@/src/lib/images/splash-1.jpg');
     background-position: bottom center;
     background-repeat: no-repeat;
     position: absolute;
@@ -68,6 +71,9 @@
     right: 0;
     bottom: 0px;
   }
+  &.dark .SplashBackground {
+    background-image: url('@/src/lib/images/splash-1-dark.jpg');
+  }
   .SplashContent {
     position: relative;
     display: flex;
@@ -75,12 +81,12 @@
     justify-content: center;
     align-items: center;
     gap: 16px;
-    margin: 20px;
-    margin-top: 50px;
+    // margin: 20px;
+    // margin-top: 50px;
+    top: 10%;
   }
   .AppTitle {
     font-size: 150%;
-    text-shadow: 0px 0px 3px #fff;
   }
 
   .LoadSection {
@@ -117,9 +123,9 @@
     margin-bottom: 12px;
   }
 
-
   .formGroup {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 8px;

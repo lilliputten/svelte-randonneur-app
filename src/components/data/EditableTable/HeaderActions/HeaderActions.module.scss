@@ -3,7 +3,7 @@
   // display: contents;
 }
 .addRowIcon {
-  color: #fff;
+  color: #fff !important;
   &:hover {
     background-color: color.adjust($primaryColor, $lightness: -5%) !important;
   }

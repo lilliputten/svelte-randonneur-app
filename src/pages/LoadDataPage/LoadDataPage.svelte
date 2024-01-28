@@ -7,7 +7,7 @@
   import { onMount } from 'svelte';
   import { writable } from 'svelte/store';
   import { goto } from '$app/navigation';
-  import { Text, NativeSelect, Button } from '@svelteuidev/core';
+  import { colorScheme, Text, NativeSelect, Button } from '@svelteuidev/core';
   import { Loader } from '@svelteuidev/core';
   import { Paper } from '@svelteuidev/core';
   import classNames from 'classnames';
@@ -27,6 +27,8 @@
 
   import styles from './LoadDataPage.module.scss';
   import { randoFileInfoStore } from '@/src/store/stores/randoFileInfoStore';
+
+  $: isDark = $colorScheme === 'dark';
 
   let demoDataFileIdx = defaultDataFileIdx;
   let loadingDemoData = false;
@@ -214,6 +216,7 @@
     styles.LoadDataPage,
     loading && styles.loading,
     goingOutStore && styles.goingOut && $initedStore && styles.inited,
+    isDark && styles.dark,
   )}
 >
   <div class={styles.Wrapper}>
@@ -229,32 +232,6 @@
     </div>
 
     <div class={styles.LoadSection}>
-      <!--
-      <h1 class={styles.header}>Load data to edit</h1>
-      -->
-
-      <section id="loadDemoData" class={styles.delimited}>
-        <div class={styles.SectionLabel}>Load demo data</div>
-        <div class={styles.formGroup}>
-          <!--
-          <select id="demoDataFile" bind:value={demoDataFileIdx}>
-            {#each demoDataFiles as file, idx}
-              <option value={idx} selected={idx === demoDataFileIdx}>
-                {file.id}
-              </option>
-            {/each}
-          </select>
-          -->
-          <NativeSelect
-            data={demoDataFilesSelectData}
-            id="demoDataFile"
-            bind:value={demoDataFileIdx}
-            placeholder="Select demo dataset"
-          />
-          <Button id="loadDemoDataAction" on:click={loadDemoData}>Load demo data</Button>
-        </div>
-      </section>
-
       <section id="loadLocalData" class={styles.delimited}>
         <div class={styles.SectionLabel}>Load local data</div>
         <div class={styles.formGroup}>
@@ -280,6 +257,28 @@
             Load local data
           </Button>
           -->
+        </div>
+      </section>
+
+      <section id="loadDemoData" class={styles.delimited}>
+        <div class={styles.SectionLabel}>Load demo data</div>
+        <div class={styles.formGroup}>
+          <!--
+          <select id="demoDataFile" bind:value={demoDataFileIdx}>
+            {#each demoDataFiles as file, idx}
+              <option value={idx} selected={idx === demoDataFileIdx}>
+                {file.id}
+              </option>
+            {/each}
+          </select>
+          -->
+          <NativeSelect
+            data={demoDataFilesSelectData}
+            id="demoDataFile"
+            bind:value={demoDataFileIdx}
+            placeholder="Select demo dataset"
+          />
+          <Button id="loadDemoDataAction" on:click={loadDemoData}>Load demo data</Button>
         </div>
       </section>
 

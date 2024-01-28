@@ -8,8 +8,8 @@
 
   import styles from './RowActions.module.scss';
 
-  const { defaultInputHeight } = cssVariables;
-  const inputHeight = parseInt(defaultInputHeight);
+  const { defaultInputHeightPx } = cssVariables;
+  const inputHeight = parseInt(defaultInputHeightPx);
 
   type TCallback = () => void;
 
