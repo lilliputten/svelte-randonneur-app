@@ -3,6 +3,7 @@
   import { browser } from '$app/environment';
   import { goto } from '$app/navigation';
 
+  import { appTitle } from '@/src/core/constants/app';
   import { currentSectionIdStore, hasDataStore } from '@/src/store';
 
   import { addToast } from '@/src/components/ui/Toasts';
@@ -42,7 +43,7 @@
 </script>
 
 <svelte:head>
-  <title>Edit data</title>
+  <title>Data browser — {appTitle}</title>
 </svelte:head>
 
 {#if ready}

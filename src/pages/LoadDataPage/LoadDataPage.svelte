@@ -210,7 +210,7 @@
 </script>
 
 <svelte:head>
-  <title>Load data</title>
+  <title>Start — {appTitle}</title>
 </svelte:head>
 
 <div
@@ -224,7 +224,7 @@
   <div class={styles.Wrapper}>
     <div class={styles.SplashSection}>
       <div class={styles.SplashBackground}></div>
-      <div class={styles.SplashContent}>
+      <div class={styles.SplashContent} title={appTitle}>
         <!-- Splash -->
         <RandoLogo size={50} />
         <Text class={styles.AppTitle} color="blue" size="xl">
