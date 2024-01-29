@@ -16,11 +16,13 @@
 
   /* eslint-enable @typescript-eslint/no-unused-vars */
 
+  import { appTitle } from '@/src/core/constants/app';
+
   // TODO: Add demo page selector
 </script>
 
 <svelte:head>
-  <title>Demo</title>
+  <title>Demo — {appTitle}</title>
 </svelte:head>
 
 <div class="DemoPage">

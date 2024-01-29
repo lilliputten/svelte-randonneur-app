@@ -44,7 +44,7 @@
     href="/"
     override={{ '&:hover': { textDecoration: 'none !important' } }}
   >
-    <Group>
+    <Group title={appTitle}>
       <RandoLogo size={35} />
       <Text color="blue" size="xl" override={{ d: 'none', '@sm': { d: 'block' } }}>
         {appTitle}

@@ -21,6 +21,10 @@ body {
   @include defaultFont;
 }
 
+#svelte-root {
+  display: contents;
+}
+
 body,
 #svelte-root,
 #SVELTEUI_PROVIDER {
