@@ -1,6 +1,6 @@
 Project: svelte-randonneur-app
-Version: 0.0.13
-Branch: 69-installation-instructions
-Commit: 728694a
-Fixed: 2024.01.30, 19:36 +0700
-Built: 2024.01.30 19:37 +0700
+Version: 0.0.14
+Branch: 70-pages-and-records
+Commit: 9f67671
+Fixed: 2024.01.30, 22:06 +0700
+Built: 2024.01.30 22:08 +0700
