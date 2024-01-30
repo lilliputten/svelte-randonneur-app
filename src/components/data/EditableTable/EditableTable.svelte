@@ -68,6 +68,7 @@
   import { PaginationInfo } from './PaginationInfo';
 
   import styles from './EditableTable.module.scss';
+  import { disappearTimeMs } from '@/src/core/assets/scss/parsedCssVariables';
 
   type TOnChangeCallback = (data: TEditableListData, spec: TEditableListSpec) => void;
 
@@ -77,6 +78,9 @@
   export let data: TEditableListData = [];
   export let onChange: TOnChangeCallback | undefined = undefined;
   export let setHasFilters: ((hasFilters: boolean) => void) | undefined = undefined;
+
+  /** The table dom node */
+  let tableElement: HTMLTableElement;
 
   const flatData: TEditableObjectData[] = data.map((rowData) =>
     makeFlatFromFullData(rowData as TEditableObjectData),
@@ -305,7 +309,30 @@
     triggerChange();
     // Go to the last page...
     $pageIndex = $pageCount - 1;
-    // TODO: Highlight added page?
+    // Start animation effect for the row...
+    setTimeout(() => {
+      requestAnimationFrame(() => {
+        // Found and highlight just added row...
+        const itemNo = $tableFlatDataStore.length - 1;
+        const itemNode = tableElement?.querySelector('tr[id="' + itemNo + '"]');
+        /* console.log('[EditableTable:addDataRow] animate new row', {
+         *   itemNode,
+         *   itemNo,
+         *   tableElement,
+         *   $tableFlatDataStore,
+         * });
+         */
+        if (itemNode) {
+          itemNode.classList.toggle(styles.animation, true);
+          setTimeout(() => {
+            requestAnimationFrame(() => {
+              itemNode.classList.toggle(styles.animation, false);
+            });
+          }, disappearTimeMs);
+        }
+      });
+      // Start with a delay to let time update dom...
+    }, 50);
   }
 
   function onRemoveRow(rowIdx: number) {
@@ -377,6 +404,7 @@
   <table
     {...$tableAttrs}
     class={classNames(styles.EditableTable_Table, activeRows && styles.activeRows)}
+    bind:this={tableElement}
   >
     <thead>
       {#each $headerRows as headerRow (headerRow.id)}
