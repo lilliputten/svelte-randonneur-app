@@ -31,7 +31,6 @@
       <!--
       <DemoEditableFields />
       <DemoTable />
-      <DemoEditableTable />
       <DemoDates />
       <DemoTableWithPagination />
       <DemoTableWithFilters />

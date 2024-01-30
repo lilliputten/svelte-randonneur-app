@@ -19,19 +19,18 @@
    */
   const dataSetData: TGenericEditableData = [
     {
-      test_value: 1,
       source: {
         name: '1,4-Butanediol',
         categories: ['Emissions to water', 'river', 'xtra'],
         unit: 'kg',
       },
-      target: {
-        uuid: 'd6911d36-3fec-41fe-8ef9-540f6543a240',
-        name: '1,4-Butanediol',
-        context: 'water/surface water',
-        unit: 'kg',
-      },
-      conversion_factor: 1.0,
+      // target: {
+      //   uuid: 'd6911d36-3fec-41fe-8ef9-540f6543a240',
+      //   name: '1,4-Butanediol',
+      //   context: 'water/surface water',
+      //   unit: 'kg',
+      // },
+      // conversion_factor: 1.0,
       comment: 'Identical names',
     },
     {

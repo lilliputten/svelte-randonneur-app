@@ -79,9 +79,26 @@
     .tdWrapper {
       /*!KEEP*/
     }
+    tr {
+      // NOTE: Animate background color changes
+      transition: all $transitionTimeMs;
+    }
+    tr.animation {
+      animation-name: animateBgColor;
+      animation-duration: $disappearTimeMs;
+      animation-iteration-count: 1;
+      animation-timing-function: ease-in-out;
+      @keyframes animateBgColor {
+        from {
+          background-color: color.change($primaryColor, $alpha: 0.4);
+        }
+        to {
+          background-color: transparent;
+        }
+      }
+    }
     &.activeRows {
-      tbody tr {
-        transition: all $transitionTimeMs;
+      tbody tr:not(.animation) {
         cursor: pointer;
         &:hover {
           background-color: color.change($primaryColor, $alpha: 0.1);
