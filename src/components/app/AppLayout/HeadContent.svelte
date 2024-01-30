@@ -47,11 +47,7 @@
     on:click={toggleMenu}
     override={{ d: 'block', '@sm': { d: 'none' } }}
   />
-  <a
-    class={styles.AppTitle}
-    href="/"
-    on:click={closeMenu}
-  >
+  <a class={styles.AppTitle} href="/" on:click={closeMenu}>
     <Group title={appTitle}>
       <RandoLogo size={35} />
       <Text color="blue" size="xl" override={{ d: 'none', '@sm': { d: 'block' } }}>
