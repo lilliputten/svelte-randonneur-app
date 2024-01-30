@@ -5,6 +5,7 @@ export const scalarValueTypes = [
   'number',
   'boolean',
   'select',
+  'date',
 ] as const;
 export type TScalarValueType = (typeof scalarValueTypes)[number];
 export type TScalarValuesListType = TScalarValueType[];

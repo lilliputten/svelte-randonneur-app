@@ -25,6 +25,12 @@
 
   const { id, type } = spec;
 
+  $: console.log('[EditableField]', type, id, {
+    value,
+    type,
+    id,
+  });
+
   const dispatch = createEventDispatcher();
 
   // TODO: Store local value copy?
@@ -64,6 +70,15 @@
     <Switch class={styles.Switch} checked={!!value} label={spec.label} on:change={handleChange} />
   {:else if type === 'string'}
     <TextInput {value} label={spec.label} placeholder={spec.title} on:change={handleChange} />
+  {:else if type === 'date'}
+    <!-- TODO: To use 'DateInput' -->
+    <TextInput
+      value="2018-07-22"
+      label={spec.label}
+      placeholder={spec.title}
+      on:change={handleChange}
+      type="date"
+    />
   {:else if type === 'number'}
     <NumberInput
       value={value != null ? Number(value) : undefined}
