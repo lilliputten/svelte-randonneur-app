@@ -1,9 +1,9 @@
 {
   "name": "svelte-randonneur-app",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "changed": "2024.01.25, 13:15",
-  "timetag": "240130-1936",
-  "timestamp": "2024.01.30, 19:36 +0700",
+  "timetag": "240130-2206",
+  "timestamp": "2024.01.30, 22:06 +0700",
   "private": true,
   "type": "module",
   "dependencies": {
