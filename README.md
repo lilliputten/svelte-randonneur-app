@@ -1,36 +1,68 @@
 <!--
 @since 2023.12.23, 16:55
-@changed 2024.01.29, 20:25
+@changed 2024.01.30, 19:29
 -->
 
 # svelte-randonneur-app
 
-Data browser editor for the randonneur project.
+Data browser editor for the [randonneur](https://github.com/brightway-lca/randonneur) project data.
 
-- Version: 0.0.12
-- Last changes timestamp: 2024.01.29, 20:48 +0700
+- Version: 0.0.13
+- Last changes timestamp: 2024.01.30, 19:36 +0700
 
-## Svelte dev environment
+## Resources
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+Repository: https://github.com/lilliputten/svelte-randonneur-app
 
-### Developing
+Deploy demo server (with recent build): https://svelte-randonneur-app.lilliputten.ru
 
-Once you've created a project and installed dependencies with `npm install`, start a development server:
 
-```bash
-npm run start
+## Project workflow
 
-# or start the server and open the app in a new browser tab
-npm run start -- --open
+
+### Build
+
+Install all required node dependencies:
+
+```
+npm install
 ```
 
-### Building
+Start dev server (locate in browser with `http://localhost:3000`):
 
-To create a production version of your app:
+```
+npm run start
+```
 
-```bash
+Make build:
+
+```
 npm run build
 ```
 
-You can preview the production build with `npm run preview`.
+You can preview the production build with svelte's `npm run preview` or with smth like `npx serve build`.
+
+
+### Publishing build
+
+For successful publishing the build application the environment should be
+propeply set up (see npm script command `postinstall-publish-submodule`).
+
+```
+npm run build-and-publish
+```
+
+To just publish previously created build:
+
+```
+npm run publish
+```
+
+Builds published into the `publish` branch. See utilities configuration in
+`utils/config.sh`. Builds deploy is set up using github web hooks.
+
+
+### Svelte dev environment
+
+This app is powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+
