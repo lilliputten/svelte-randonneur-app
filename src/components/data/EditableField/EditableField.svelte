@@ -70,6 +70,7 @@
       label={spec.label}
       placeholder={spec.title}
       on:change={handleChange}
+      hideControls
     />
   {:else if type === 'select'}
     <NativeSelect
