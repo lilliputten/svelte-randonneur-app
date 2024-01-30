@@ -43,18 +43,18 @@
       .replace(/\s+/g, '-') || 'root';
   $: pageClass = ['page', pageId].filter(Boolean).join('-');
 
-  let opened = false;
+  let menuOpened = false;
 
   function toggleTheme() {
     colorScheme.update((v) => (v === 'light' ? 'dark' : 'light'));
   }
 
-  function toggleOpened() {
-    opened = !opened;
+  function toggleMenu() {
+    menuOpened = !menuOpened;
   }
 
   function handleMenuClose() {
-    opened = false;
+    menuOpened = false;
   }
 </script>
 
@@ -71,7 +71,7 @@
       <slot>This is the main content</slot>
     </ShellSection>
 
-    <Navbar class={styles.AppLayout_Navbar} slot="navbar" hidden={!opened}>
+    <Navbar class={styles.AppLayout_Navbar} slot="navbar" hidden={!menuOpened}>
       <NavContent {handleMenuClose} />
     </Navbar>
 
@@ -96,7 +96,7 @@
     </Footer>
 
     <Header class={styles.AppLayout_Header} slot="header" height={60}>
-      <HeadContent {isDark} toggle={toggleTheme} toggleOpen={toggleOpened} {opened} />
+      <HeadContent {isDark} {toggleTheme} {toggleMenu} closeMenu={handleMenuClose} {menuOpened} />
     </Header>
   </AppShell>
   <Toasts />
