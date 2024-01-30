@@ -1,5 +1,8 @@
 .GenericFilterDialogModal {
   /*!KEEP*/
+  :global(.svelteui-Modal-overlay) {
+    opacity: 0.25;
+  }
 }
 .EditableTableModal {
   :global(.svelteui-Modal-title) {
