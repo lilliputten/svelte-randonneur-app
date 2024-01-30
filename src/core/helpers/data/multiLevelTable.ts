@@ -122,7 +122,7 @@ export function createMultiLevelTableColumns(
       if (filter) {
         colFilter = {
           // fn: textPrefixFilter,
-          fn: textContainsFilter,
+          fn: textContainsFilter.bind(null, item),
           render: (params) => {
             const {
               id, // "value"

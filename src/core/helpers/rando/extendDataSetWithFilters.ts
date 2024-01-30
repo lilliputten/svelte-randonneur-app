@@ -5,16 +5,14 @@ import {
   TGenericEditableSpec,
 } from '@/src/core/types/editable';
 import { ensureArray } from '@/src/core/helpers/basic';
+import { useSelectFilterForColumns } from '@/src/core/constants/rando';
 
 interface TExtendDataSetWithFiltersOptions {
   // TODO
 }
 
-// TODO: Move to constants...
-const selectFiltersFor = ['unit', 'categories', 'role'];
-
 function detectFilterTypeByLastId(id: string): TFilterItem {
-  return selectFiltersFor.includes(id) ? 'select' : true;
+  return useSelectFilterForColumns.includes(id) ? 'select' : true;
 }
 
 function getObjSpecFilters(

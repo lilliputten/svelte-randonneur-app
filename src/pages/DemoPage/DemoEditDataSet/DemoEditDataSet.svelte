@@ -36,6 +36,7 @@
     {
       source: {
         categories: ['X'],
+        unit: 'g',
       },
     },
   ];
