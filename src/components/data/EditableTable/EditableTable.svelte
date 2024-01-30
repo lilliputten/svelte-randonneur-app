@@ -315,13 +315,6 @@
         // Found and highlight just added row...
         const itemNo = $tableFlatDataStore.length - 1;
         const itemNode = tableElement?.querySelector('tr[id="' + itemNo + '"]');
-        /* console.log('[EditableTable:addDataRow] animate new row', {
-         *   itemNode,
-         *   itemNo,
-         *   tableElement,
-         *   $tableFlatDataStore,
-         * });
-         */
         if (itemNode) {
           itemNode.classList.toggle(styles.animation, true);
           setTimeout(() => {
@@ -331,7 +324,7 @@
           }, disappearTimeMs);
         }
       });
-      // Start with a delay to let time update dom...
+      // Start with a delay to let time to update dom...
     }, 50);
   }
 

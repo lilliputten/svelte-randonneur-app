@@ -6,6 +6,27 @@ index 0000000..930c491
 @@ -0,0 +1,2 @@
 +[*]
 +indent_size = 4
+diff --git a/node_modules/svelte-headless-table/lib/plugins/addPagination.d.ts b/node_modules/svelte-headless-table/lib/plugins/addPagination.d.ts
+index be36a47..2b677d9 100644
+--- a/node_modules/svelte-headless-table/lib/plugins/addPagination.d.ts
++++ b/node_modules/svelte-headless-table/lib/plugins/addPagination.d.ts
+@@ -13,6 +13,7 @@ export declare type PaginationConfig = {
+ export interface PaginationState {
+     pageSize: Writable<number>;
+     pageIndex: Writable<number>;
++    itemCount: Readable<number>;
+     pageCount: Readable<number>;
+     hasPreviousPage: Readable<boolean>;
+     hasNextPage: Readable<boolean>;
+@@ -24,6 +25,7 @@ export declare const createPageStore: ({ items, initialPageSize, initialPageInde
+         set: (newPageSize: number) => void;
+     };
+     pageIndex: Writable<number>;
++    itemCount: Readable<number>;
+     pageCount: Readable<number>;
+     serverItemCount: Readable<number> | undefined;
+     hasPreviousPage: Readable<boolean>;
+diff --git a/node_modules/svelte-headless-table/plugins/addColumnFilters.js b/node_modules/svelte-headless-table/plugins/addColumnFilters.js
 index 691e328..318c0a0 100644
 --- a/node_modules/svelte-headless-table/plugins/addColumnFilters.js
 +++ b/node_modules/svelte-headless-table/plugins/addColumnFilters.js
@@ -50,3 +71,47 @@ index 691e328..318c0a0 100644
                  const props = derived([], () => {
                      const columnOption = columnOptions[headerCell.id];
                      if (columnOption === undefined) {
+diff --git a/node_modules/svelte-headless-table/plugins/addPagination.js b/node_modules/svelte-headless-table/plugins/addPagination.js
+index 81fcc8a..7d11d20 100644
+--- a/node_modules/svelte-headless-table/plugins/addPagination.js
++++ b/node_modules/svelte-headless-table/plugins/addPagination.js
+@@ -21,11 +21,13 @@ export const createPageStore = ({ items, initialPageSize, initialPageIndex, serv
+         return $pageCount;
+     }
+     let pageCount;
++    let itemCount;
+     if (serverSide && serverItemCount != null) {
++        itemCount = serverItemCount;
+         pageCount = derived([pageSize, serverItemCount], calcPageCountAndLimitIndex);
+     }
+     else {
+-        const itemCount = derived(items, ($items) => $items.length);
++        itemCount = derived(items, ($items) => $items.length);
+         pageCount = derived([pageSize, itemCount], calcPageCountAndLimitIndex);
+     }
+     const hasPreviousPage = derived(pageIndex, ($pageIndex) => {
+@@ -41,6 +43,7 @@ export const createPageStore = ({ items, initialPageSize, initialPageIndex, serv
+             set: setPageSize,
+         },
+         pageIndex,
++        itemCount,
+         pageCount,
+         serverItemCount,
+         hasPreviousPage,
+@@ -50,7 +53,7 @@ export const createPageStore = ({ items, initialPageSize, initialPageIndex, serv
+ export const addPagination = ({ initialPageIndex = 0, initialPageSize = 10, serverSide = false, serverItemCount, } = {}) => () => {
+     const prePaginatedRows = writable([]);
+     const paginatedRows = writable([]);
+-    const { pageSize, pageIndex, pageCount, hasPreviousPage, hasNextPage } = createPageStore({
++    const { pageSize, pageIndex, itemCount, pageCount, hasPreviousPage, hasNextPage } = createPageStore({
+         items: prePaginatedRows,
+         initialPageIndex,
+         initialPageSize,
+@@ -60,6 +63,7 @@ export const addPagination = ({ initialPageIndex = 0, initialPageSize = 10, serv
+     const pluginState = {
+         pageSize,
+         pageIndex,
++        itemCount,
+         pageCount,
+         hasPreviousPage,
+         hasNextPage,
