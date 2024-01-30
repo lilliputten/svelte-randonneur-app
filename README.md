@@ -16,14 +16,11 @@ Repository: https://github.com/lilliputten/svelte-randonneur-app
 
 Deploy demo server (with recent build): https://svelte-randonneur-app.lilliputten.ru
 
-
 ## Project workflow
-
 
 ### Svelte dev environment
 
 This app is powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
-
 
 ### Build
 
@@ -47,7 +44,6 @@ npm run build
 
 You can preview the production build with svelte's `npm run preview` or with smth like `npx serve build`.
 
-
 ### Publishing build
 
 For successful publishing the build application the environment should be
@@ -66,7 +62,6 @@ npm run publish
 Builds published into the `publish` branch. See utilities configuration in
 `utils/config.sh`. Builds deploy is set up using github web hooks.
 
-
 ### Download build
 
 It's possible to download and server locally recent or specific builds.
@@ -80,4 +75,3 @@ https://codeload.github.com/lilliputten/svelte-randonneur-app/zip/refs/heads/pub
 To download a specific version archive, use:
 
 https://codeload.github.com/lilliputten/svelte-randonneur-app/zip/refs/tags/publish.0.0.13
-
