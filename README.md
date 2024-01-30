@@ -10,7 +10,6 @@ Data browser editor for the randonneur project.
 - Version: 0.0.12
 - Last changes timestamp: 2024.01.29, 20:48 +0700
 
-
 ## Svelte dev environment
 
 Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).

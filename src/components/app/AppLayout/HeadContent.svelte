@@ -27,22 +27,30 @@
   // const infoTitle = `${appTitle} (v.${version}, @${timestamp})`;
 
   export let isDark: boolean;
-  export let opened: boolean;
-  export let toggle: () => void;
-  export let toggleOpen: () => void;
+  export let menuOpened: boolean;
+  export let toggleTheme: () => void;
+  export let toggleMenu: () => void;
+  export let closeMenu: () => void;
 </script>
 
 <Group
-  class={classNames(styles.HeadContent, isRootPage && styles.rootPage)}
+  class={classNames(
+    styles.HeadContent,
+    isRootPage && styles.rootPage,
+    menuOpened && styles.menuOpened,
+  )}
   override={{ height: '100%', px: 20 }}
   position="apart"
 >
-  <Burger {opened} on:click={toggleOpen} override={{ d: 'block', '@sm': { d: 'none' } }} />
-  <Anchor
+  <Burger
+    opened={menuOpened}
+    on:click={toggleMenu}
+    override={{ d: 'block', '@sm': { d: 'none' } }}
+  />
+  <a
     class={styles.AppTitle}
-    underline={false}
     href="/"
-    override={{ '&:hover': { textDecoration: 'none !important' } }}
+    on:click={closeMenu}
   >
     <Group title={appTitle}>
       <RandoLogo size={35} />
@@ -50,7 +58,7 @@
         {appTitle}
       </Text>
     </Group>
-  </Anchor>
+  </a>
   <Box class={styles.HeadContent_AppMenu}>
     {#each mainMenu as item}
       <!-- Use hook for process menu conditions? -->
@@ -73,9 +81,9 @@
   </Box>
   <ActionIcon
     variant="default"
-    on:click={toggle}
+    on:click={toggleTheme}
     size={30}
-    use={[[hotkey, [['mod+J', toggle]]]]}
+    use={[[hotkey, [['mod+J', toggleTheme]]]]}
     title={`Toggle dark theme (${mod}-J)`}
   >
     {#if isDark}

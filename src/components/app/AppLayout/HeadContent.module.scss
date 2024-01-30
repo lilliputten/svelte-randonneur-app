@@ -1,7 +1,7 @@
 .HeadContent {
   @include defaultFont;
   flex: 1;
-  &.rootPage {
+  &.rootPage:not(.menuOpened) {
     .AppTitle {
       @media (min-height: $headerHeightTresholdMinPx) {
         display: none;
@@ -10,6 +10,7 @@
   }
   .AppTitle {
     transition: all $transitionTimeMs;
+    text-decoration: none;
     &:hover {
       opacity: 0.8;
     }
