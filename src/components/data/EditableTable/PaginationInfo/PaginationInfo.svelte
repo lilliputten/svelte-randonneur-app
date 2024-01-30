@@ -12,8 +12,14 @@
 </script>
 
 <div class={styles.PaginationInfo}>
-  Displayed page <strong>{$pageIndex + 1}</strong> out of <strong>{$pageCount}</strong>
+  {#if $pageCount}
+    Displayed page <strong>{$pageIndex + 1}</strong> out of <strong>{$pageCount}</strong>
+  {:else}
+    Nothing to display
+  {/if}
+  {#if totalCount}
   (total {#if totalPagesCount !== $pageCount}pages: <strong>{totalPagesCount}</strong>,
   {/if} records:
   <strong>{totalCount}</strong>)
+  {/if}
 </div>
