@@ -1,4 +1,4 @@
-section {
+section.Toasts {
   position: fixed;
   top: 0;
   left: 0;
@@ -9,4 +9,5 @@ section {
   justify-content: center;
   flex-direction: column;
   z-index: 1000;
+  pointer-events: none;
 }
