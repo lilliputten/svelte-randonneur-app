@@ -7,7 +7,6 @@
 
   import { appTitle, getMainMenu } from '@/src/core/constants/app';
   import { hasDataStore } from '@/src/store';
-  // import { version, timestamp } from '@/src/core/constants/app';
 
   import { RandoLogo } from '@/src/components/app/RandoLogo';
 
