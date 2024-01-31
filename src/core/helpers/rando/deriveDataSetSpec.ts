@@ -8,7 +8,7 @@ import {
   // TScalarValue,
   TScalarValueType,
 } from '@/src/core/types/editable';
-import { isScalarType } from '@/src/components/data/EditableTable/EditableTableHelpers';
+import { isDateType, isScalarType } from '@/src/components/data/EditableTable/EditableTableHelpers';
 
 export interface TDeriveOpts {
   // maxDictListSize?: number;
@@ -59,6 +59,8 @@ function getNewValWithOldVal(
     if (typeof oldVal !== 'string') {
       return newVal;
     }
+    // WTF?
+    return oldVal;
   } else {
     return undefined;
   }
@@ -141,7 +143,10 @@ export function deriveListItemSpec(
 
 function createScalarSpec(id: string, value: TDataSetDictItemValue) {
   const dataType = typeof value;
-  const type = isScalarType(dataType) ? (dataType as TScalarValueType) : 'string';
+  let type = isScalarType(dataType) ? (dataType as TScalarValueType) : 'string';
+  if (type === 'string' && isDateType(value)) {
+    type = 'date';
+  }
   const scalarSpec: TEditableFieldSpec = {
     id,
     type,

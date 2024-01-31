@@ -21,6 +21,24 @@ export function isScalarSpec(spec: TGenericEditableSpec): boolean {
   return isScalarType(type);
 }
 
+/** Regex used to test iso dates
+ * @see:
+ * - [Date and Time Formats](https://www.w3.org/TR/NOTE-datetime)
+ * - [4.7. Validate ISO 8601 Dates and Times - Regular Expressions Cookbook, 2nd Edition [Book]](https://www.oreilly.com/library/view/regular-expressions-cookbook/9781449327453/ch04s07.html)
+ * - [Regex to match an ISO 8601 datetime string - Stack Overflow](https://stackoverflow.com/questions/3143070/regex-to-match-an-iso-8601-datetime-string/3143231#3143231)
+ * TODO: Move to constants?
+ */
+const isoDateRegex =
+  /(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+)|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d)|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d)/;
+
+/** Check for ISO date string, eg: 2023-12-22T01:23:45.67Z */
+export function isDateType(value: unknown): boolean {
+  if (typeof value !== 'string') {
+    return false;
+  }
+  return isoDateRegex.test(value);
+}
+
 /** Create flat data object from real row data */
 export function makeFlatFromFullData(
   data: TEditableObjectData,

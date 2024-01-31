@@ -99,6 +99,8 @@
      * });
      */
     if (isEscape) {
+      ev.preventDefault();
+      ev.stopPropagation();
       closeCalendarPopup();
     }
   }
