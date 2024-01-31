@@ -236,5 +236,33 @@ describe('deriveDataSetSpec', () => {
       const result: TGenericEditableSpec = deriveDataSetSpec('sample', data);
       expect(result).toStrictEqual(expectedResult);
     });
+    it('dataset with a list of optional dates', () => {
+      const data: TDataSetDictSlot = {
+        root: [
+          {
+            date: undefined,
+          },
+          {
+            date: '2020-01-01T00:00:00.00Z',
+          },
+          {
+            date: undefined,
+          },
+        ],
+      } as unknown as TDataSetDictSlot;
+      const expectedResult: TGenericEditableSpec = {
+        id: 'sample',
+        type: 'object',
+        spec: [
+          {
+            id: 'root',
+            type: 'list',
+            spec: { id: 'root-item', type: 'object', spec: [{ id: 'date', type: 'date' }] },
+          },
+        ],
+      };
+      const result: TGenericEditableSpec = deriveDataSetSpec('sample', data);
+      expect(result).toStrictEqual(expectedResult);
+    });
   });
 });

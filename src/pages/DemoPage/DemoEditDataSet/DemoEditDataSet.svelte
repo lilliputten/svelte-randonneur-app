@@ -19,6 +19,9 @@
    */
   const dataSetData: TGenericEditableData = [
     {
+      created: undefined,
+    },
+    {
       created: '2023-12-22T01:23:45.67Z',
       source: {
         name: '1,4-Butanediol',
@@ -35,7 +38,7 @@
       comment: 'Identical names',
     },
     {
-      created: '2020-01-01T00:00:00.00Z',
+      created: undefined,
       source: {
         categories: ['X'],
         unit: 'g',
@@ -44,6 +47,8 @@
   ];
   const dataSetSpec = deriveDataSetSpec('sample', dataSetData as TDataSetDictSlot);
   extendDataSetWithFilters(dataSetSpec);
+
+  // console.log('[DemoEditDataSet:dataSetSpec]', dataSetSpec.spec);
 
   /* const sampleDataSetSpec: TGenericEditableSpec = {
    *   id: 'sample',
