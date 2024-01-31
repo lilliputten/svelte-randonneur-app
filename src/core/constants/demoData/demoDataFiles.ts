@@ -1,3 +1,4 @@
+// NOTE: It's not the same as `demoPageUrl`
 export const demoDataPath = '/data/';
 export const demoDataFiles = [
   {

@@ -1,3 +1,4 @@
+import { browserPageUrl, demoPageUrl, rootPageUrl } from '@/src/core/constants/app';
 import { dev } from '$app/environment';
 
 import { getHasData } from '@/src/store';
@@ -12,17 +13,17 @@ export interface TMainMenu {
 export const mainMenu: TMainMenu[] = [
   {
     text: 'Start',
-    url: '/',
+    url: rootPageUrl,
     compare: 'exact',
   },
   {
     text: 'Browser',
-    url: '/data',
+    url: browserPageUrl,
     conditions: 'hasData', // TODO: Make it conditional: show (enable) only if data has already loaded
   },
   dev && {
     text: 'Demo',
-    url: '/demo',
+    url: demoPageUrl,
   },
 ].filter(Boolean) as TMainMenu[];
 

@@ -3,7 +3,7 @@
   import { page } from '$app/stores';
   import classNames from 'classnames';
 
-  import { getMainMenu } from '@/src/core/constants/app';
+  import { browserPageUrl, getMainMenu } from '@/src/core/constants/app';
   import { hasDataStore } from '@/src/store';
   import { SectionsMenu } from '@/src/components/RandoEditor/SectionsMenu';
 
@@ -37,7 +37,7 @@
         </a>
       {/if}
     {/each}
-    {#if pageUrl === '/data'}
+    {#if pageUrl === browserPageUrl}
       <SectionsMenu inSideMenu onChangeSection={handleMenuClose} />
     {/if}
   </Stack>
