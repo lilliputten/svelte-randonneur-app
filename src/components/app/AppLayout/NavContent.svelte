@@ -13,6 +13,8 @@
 
   const mainMenu = getMainMenu();
 
+  $: pageUrl = $page.url.pathname;
+
   export let handleMenuClose: () => void;
 </script>
 
@@ -26,21 +28,17 @@
     {#each mainMenu as item}
       <!-- Use hook for process menu conditions? -->
       {#if item.conditions !== 'hasData' || $hasDataStore}
-        <!--
-        css={{ py: 12, px: 12, bc: isActive(item) ? '$blue50' : 'transparent', br: '$md' }}
-      -->
         <a
           href={item.url}
-          class={classNames(
-            styles.item,
-            isActiveMainMenuItem(item, $page.url.pathname) && styles.active,
-          )}
+          class={classNames(styles.item, isActiveMainMenuItem(item, pageUrl) && styles.active)}
           on:click={handleMenuClose}
         >
           {item.text}
         </a>
       {/if}
     {/each}
-    <SectionsMenu inSideMenu onChangeSection={handleMenuClose} />
+    {#if pageUrl === '/data'}
+      <SectionsMenu inSideMenu onChangeSection={handleMenuClose} />
+    {/if}
   </Stack>
 </Stack>
