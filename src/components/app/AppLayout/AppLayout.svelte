@@ -19,7 +19,7 @@
   import Toasts from '@/src/components/ui/Toasts';
   import HeadContent from './HeadContent.svelte';
   import NavContent from './NavContent.svelte';
-  import { browserPageUrl, demoPageUrl, isDev, version, timestamp } from '@/src/core/constants/app';
+  import { isDev, version, timestamp, demoPageUrl, browserPageUrl } from '@/src/core/constants/app';
   import { getApproxSize } from '@/src/core/helpers/basic/numbers';
   import { randoFileInfoStore } from '@/src/store/stores/randoFileInfoStore';
 

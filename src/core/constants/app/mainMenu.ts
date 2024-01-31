@@ -1,7 +1,10 @@
-import { browserPageUrl, demoPageUrl, rootPageUrl } from '@/src/core/constants/app';
 import { dev } from '$app/environment';
 
 import { getHasData } from '@/src/store';
+
+export const rootPageUrl = '/';
+export const browserPageUrl = '/data';
+export const demoPageUrl = '/demo';
 
 export interface TMainMenu {
   text: string;
