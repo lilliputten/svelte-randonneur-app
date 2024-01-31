@@ -7,8 +7,8 @@
 
 Data browser editor for the [randonneur](https://github.com/brightway-lca/randonneur) project data.
 
-- Version: 0.0.15
-- Last changes timestamp: 2024.01.30, 23:19 +0700
+- Version: 0.0.16
+- Last changes timestamp: 2024.01.31, 21:08 +0700
 
 ## Resources
 
