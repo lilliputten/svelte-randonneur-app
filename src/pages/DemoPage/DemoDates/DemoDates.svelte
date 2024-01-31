@@ -52,29 +52,33 @@
     });
   }
 
-  function handleTextDate(ev: CustomEvent<string>) {
-    const input = ev.currentTarget as HTMLInputElement;
-    const text = input?.value;
-    // const text = ev.detail;
+  function handleChangedDate(text: string) {
     textValue = text;
     const newDate = new Date(text);
     if (isValidDate(newDate)) {
       dateValue = newDate;
     }
-    console.log('selectDate', {
+    console.log('handleChangedDate', {
       dateValue,
       textValue,
       text,
-      ev,
     });
-    debugger;
   }
 
-  // function dateInputChange(ev: unknown) {
-  //   console.log('[DemoDates:dateInputChange]', {
-  //     ev,
-  //   });
-  // }
+  function handleTextDate(ev: CustomEvent<string>) {
+    const input = ev.currentTarget as HTMLInputElement;
+    const text = input?.value;
+    handleChangedDate(text);
+  }
+
+  function dateInputChange(ev: CustomEvent<string>) {
+    const text = ev.detail;
+    console.log('[DemoDates:dateInputChange]', {
+      text,
+      ev,
+    });
+    handleChangedDate(text);
+  }
 </script>
 
 <div class="DemoDates">
@@ -122,9 +126,14 @@
       TODO: To create `DateInput` input type. Use in `EditableField`.
     -->
 
-    <DateInput value={textValue} on:change={handleTextDate} />
+    <DateInput value={textValue} on:change={dateInputChange} />
 
-    <EditableField spec={{ id: 'testDate', type: 'date' }} value={textValue} />
+    <EditableField
+      spec={{ id: 'testDate', type: 'date', label: 'Date', title: 'Date' }}
+      value={textValue}
+    />
+    <!--
+    -->
   </div>
 </div>
 

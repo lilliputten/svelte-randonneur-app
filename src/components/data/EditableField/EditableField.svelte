@@ -4,6 +4,7 @@
   import classNames from 'classnames';
 
   import { TEditableFieldSpec, TEditableFieldData } from '@/src/core/types/editable';
+  import { DateInput } from '@/src/components/forms/DateInput';
 
   import styles from './EditableField.module.scss';
 
@@ -25,11 +26,12 @@
 
   const { id, type } = spec;
 
-  $: console.log('[EditableField]', type, id, {
-    value,
-    type,
-    id,
-  });
+  /* $: console.log('[EditableField]', type, id, {
+   *   value,
+   *   type,
+   *   id,
+   * });
+   */
 
   const dispatch = createEventDispatcher();
 
@@ -38,16 +40,11 @@
   function handleChange(ev: CustomEvent<number> | Event) {
     const target = ev.target as HTMLInputElement;
     let value: TEditableFieldData;
-    console.log('[EditableField:handleChange]', {
-      target,
-      ev,
-    });
-    debugger;
     if (type === 'boolean') {
       value = !!target.checked;
-    } else if (type === 'string' || type === 'date') {
+    } else if (type === 'string') {
       value = target.value;
-    } else if (type === 'number') {
+    } else if (type === 'number' || type === 'date') {
       if ('detail' in ev) {
         value = ev.detail;
       }
@@ -76,13 +73,11 @@
   {:else if type === 'string'}
     <TextInput {value} label={spec.label} placeholder={spec.title} on:change={handleChange} />
   {:else if type === 'date'}
-    <!-- TODO: To use 'DateInput' -->
-    <TextInput
-      value="2018-07-00"
+    <DateInput
       label={spec.label}
       placeholder={spec.title}
+      value={String(value)}
       on:change={handleChange}
-      type="date"
     />
   {:else if type === 'number'}
     <NumberInput
