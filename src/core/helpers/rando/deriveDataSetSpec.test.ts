@@ -45,6 +45,23 @@ describe('deriveDataSetSpec', () => {
       const result: TGenericEditableSpec = deriveDataSetSpec('testObj', data);
       expect(result).toStrictEqual(expectedResult);
     });
+    it('date', () => {
+      const data: TDataSetDictSlot = {
+        testDate: '2023-12-22T01:23:45.67Z',
+      };
+      const expectedResult: TGenericEditableSpec = {
+        id: 'testObj',
+        spec: [
+          {
+            id: 'testDate',
+            type: 'date',
+          },
+        ],
+        type: 'object',
+      };
+      const result: TGenericEditableSpec = deriveDataSetSpec('testObj', data);
+      expect(result).toStrictEqual(expectedResult);
+    });
   });
   describe('should derive complex types', () => {
     it('properties object', () => {
@@ -188,6 +205,31 @@ describe('deriveDataSetSpec', () => {
                 },
               ],
             },
+          },
+        ],
+      };
+      const result: TGenericEditableSpec = deriveDataSetSpec('sample', data);
+      expect(result).toStrictEqual(expectedResult);
+    });
+    it('dataset with a list of dates', () => {
+      const data: TDataSetDictSlot = {
+        root: [
+          {
+            date: '2023-12-22T01:23:45.67Z',
+          },
+          {
+            date: '2020-01-01T00:00:00.00Z',
+          },
+        ],
+      } as unknown as TDataSetDictSlot;
+      const expectedResult: TGenericEditableSpec = {
+        id: 'sample',
+        type: 'object',
+        spec: [
+          {
+            id: 'root',
+            type: 'list',
+            spec: { id: 'root-item', type: 'object', spec: [{ id: 'date', type: 'date' }] },
           },
         ],
       };
