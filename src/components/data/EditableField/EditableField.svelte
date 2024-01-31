@@ -38,9 +38,14 @@
   function handleChange(ev: CustomEvent<number> | Event) {
     const target = ev.target as HTMLInputElement;
     let value: TEditableFieldData;
+    console.log('[EditableField:handleChange]', {
+      target,
+      ev,
+    });
+    debugger;
     if (type === 'boolean') {
       value = !!target.checked;
-    } else if (type === 'string') {
+    } else if (type === 'string' || type === 'date') {
       value = target.value;
     } else if (type === 'number') {
       if ('detail' in ev) {
@@ -73,7 +78,7 @@
   {:else if type === 'date'}
     <!-- TODO: To use 'DateInput' -->
     <TextInput
-      value="2018-07-22"
+      value="2018-07-00"
       label={spec.label}
       placeholder={spec.title}
       on:change={handleChange}
