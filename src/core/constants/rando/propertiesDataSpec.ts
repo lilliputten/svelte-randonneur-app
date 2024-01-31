@@ -22,7 +22,7 @@ export const propertiesDataSpec: TGenericEditableSpec = {
     { id: 'version', type: 'string' },
     { id: 'description', type: 'string' },
     { id: 'homepage', type: 'string' },
-    { id: 'created', type: 'string' }, // Should be a 'date' type
+    { id: 'created', type: 'date' },
     {
       id: 'contributors',
       type: 'list',
