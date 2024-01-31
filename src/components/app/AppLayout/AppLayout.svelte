@@ -19,12 +19,8 @@
   import Toasts from '@/src/components/ui/Toasts';
   import HeadContent from './HeadContent.svelte';
   import NavContent from './NavContent.svelte';
-  import {
-    // appTitle,
-    isDev,
-  } from '@/src/core/constants/app';
+  import { browserPageUrl, demoPageUrl, isDev, version, timestamp } from '@/src/core/constants/app';
   import { getApproxSize } from '@/src/core/helpers/basic/numbers';
-  import { version, timestamp } from '@/src/core/constants/app';
   import { randoFileInfoStore } from '@/src/store/stores/randoFileInfoStore';
 
   import './global-styles.scss';
@@ -84,10 +80,10 @@
           {getApproxSize($randoFileInfoStore.size, { normalize: true }).join('')}
           ({$randoFileInfoStore.type})
           {#if pageId === 'root'}
-            <Anchor href="/data">(browse)</Anchor>
+            <Anchor href={browserPageUrl}>(browse)</Anchor>
           {/if}
         {:else if isDev}
-          <Anchor href="/demo">Demo page</Anchor>
+          <Anchor href={demoPageUrl}>Demo page</Anchor>
         {/if}
       </div>
       <div class={styles.AppLayout_Footer_Right} id="AppInfo">

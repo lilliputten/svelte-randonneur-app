@@ -20,13 +20,13 @@
   import { TRandoData } from '@/src/core/types/rando';
   import { hasDataStore } from '@/src/store';
   import { setRandData } from '@/src/store/actions/randoDataActions';
-  import { appTitle } from '@/src/core/constants/app';
+  import { appTitle, browserPageUrl } from '@/src/core/constants/app';
+  import { randoFileInfoStore } from '@/src/store/stores/randoFileInfoStore';
 
   import { loadDemoDataByIdx, getDemoDataFileId, getDemoDataName } from './loadDemoData';
   import { loadDataFile } from './loadLocalData';
 
   import styles from './LoadDataPage.module.scss';
-  import { randoFileInfoStore } from '@/src/store/stores/randoFileInfoStore';
 
   $: isDark = $colorScheme === 'dark';
 
@@ -204,7 +204,7 @@
   function goToMainAppPage() {
     if ($hasDataStore) {
       goingOutStore.set(true);
-      goto('/data');
+      goto(browserPageUrl);
     }
   }
 </script>
