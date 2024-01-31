@@ -7,7 +7,7 @@
   import { DemoEditableTable } from './DemoEditableTable';
   import { DemoEditableObjects } from './DemoEditableObjects'; // 2024.01.25, 23:30
   import { DemoDates } from './DemoDates'; // 2024.01.31, 19:38
-  import { DemoEditProperties } from './DemoEditProperties'; // 2024.01.24, 16:45
+  import { DemoEditProperties } from './DemoEditProperties'; // 2024.01.31, 21:59
   import { DemoEditDataSet } from './DemoEditDataSet'; // 2024.01.31, 21:12
   import { DemoTableWithPagination } from './DemoTableWithPagination'; // 2024.01.23
   import { DemoTableWithFilters } from './DemoTableWithFilters'; // 2024.01.24, 15:58
@@ -37,9 +37,9 @@
       <DemoEditorHeader />
       <DemoDataEditorWrapper />
       <DemoDates />
-      <DemoEditDataSet />
-      -->
       <DemoEditProperties />
+      -->
+      <DemoEditDataSet />
     </div>
   </div>
 </div>
