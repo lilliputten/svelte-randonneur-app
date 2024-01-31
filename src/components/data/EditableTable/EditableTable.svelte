@@ -37,6 +37,7 @@
   import { PaginationState } from 'svelte-headless-table/lib/plugins/addPagination';
   import classNames from 'classnames';
 
+  import { addToast } from '@/src/components/ui/Toasts';
   import {
     TEditableListSpec,
     TEditableListData,
@@ -322,6 +323,13 @@
               itemNode.classList.toggle(styles.animation, false);
             });
           }, disappearTimeMs);
+        } else {
+          // TODO: Show warning toast...
+          addToast({
+            message:
+              "The row has been already created but couldn't be found, possibly due to the current filter settings. Try to clear or change filters.",
+            type: 'info',
+          });
         }
       });
       // Start with a delay to let time to update dom...
