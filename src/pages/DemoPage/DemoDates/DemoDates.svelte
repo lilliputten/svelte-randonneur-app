@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { DateInput, DatePicker } from 'date-picker-svelte';
+  import { DatePicker } from 'date-picker-svelte';
   import { Month } from '@svelteuidev/dates';
   import { ActionIcon, Box, Button, Center, Popper, TextInput } from '@svelteuidev/core';
   import { Calendar } from 'radix-icons-svelte';
@@ -12,6 +12,7 @@
 
   import { EditableField } from '@/src/components/data';
   import { isValidDate } from '@/src/core/helpers/basic/dates';
+  import { DateInput } from '@/src/components/forms/DateInput';
   // import { TEditableFieldSpec } from '@/src/core/types/editable';
 
   // let buttonReference: HTMLAnchorElement | HTMLButtonElement;
@@ -26,11 +27,11 @@
   const createdDateStrZ = '2023-12-22T01:23:45.67Z';
 
   let textValue = createdDateStrZ;
-  let value = new Date(textValue);
+  let dateValue = new Date(textValue);
 
   /*
    * const dateFormat = 'YYYY-MM-DD HH:mm:ss'; // TODO: To use iso format (above)
-   * const dayjsDate = dayjs(value);
+   * const dayjsDate = dayjs(dateValue);
    * const fmtDate = dayjsDate.format(dateFormat);
    * // eslint-disable-next-line no-console
    * console.log('[DemoDates] Test', {
@@ -41,10 +42,10 @@
 
   function selectDate(ev: CustomEvent<Date>) {
     const date = ev.detail;
-    value = date;
+    dateValue = date;
     textValue = date.toISOString();
     console.log('selectDate', {
-      value,
+      dateValue,
       textValue,
       date,
       ev,
@@ -58,16 +59,22 @@
     textValue = text;
     const newDate = new Date(text);
     if (isValidDate(newDate)) {
-      value = newDate;
+      dateValue = newDate;
     }
     console.log('selectDate', {
-      value,
+      dateValue,
       textValue,
       text,
       ev,
     });
     debugger;
   }
+
+  // function dateInputChange(ev: unknown) {
+  //   console.log('[DemoDates:dateInputChange]', {
+  //     ev,
+  //   });
+  // }
 </script>
 
 <div class="DemoDates">
@@ -77,22 +84,24 @@
     <EditableField spec={{ id: 'testString', type: 'string' }} />
 
     <h2>DateInput:</h2>
-    <DateInput bind:value />
+    <DateInput bind:dateValue />
     -->
 
     <h2>DatePicker:</h2>
-    <DatePicker {value} timePrecision="second" on:select={selectDate} />
+    <DatePicker value={dateValue} timePrecision="second" on:select={selectDate} />
 
     <!--
     <h2>Month:</h2>
-    <Month bind:value month={value} onChange={(val) => (value = val)} />
+    <Month bind:dateValue month={dateValue} onChange={(val) => (dateValue = val)} />
     -->
 
+    <!-- // NOTE: Already implemented in `DateInput`...
     <h2>Button & Popper:</h2>
-    <!--
-    <Button bind:element={buttonReference} on:click={toggleCalendarPopup}>{value.toISOString()}</Button>
-    -->
-    <TextInput bind:element={inputReference} value={value.toISOString()} on:change={handleTextDate}>
+    <TextInput
+      bind:element={inputReference}
+      value={dateValue.toISOString()}
+      on:change={handleTextDate}
+    >
       <svelte:fragment slot="rightSection">
         <ActionIcon on:click={toggleCalendarPopup} title="Toggle date selector">
           <Calendar />
@@ -107,33 +116,15 @@
       placement="start"
       gutter={4}
     >
-      <DatePicker {value} timePrecision="second" on:select={selectDate} />
+      <DatePicker value={dateValue} timePrecision="second" on:select={selectDate} />
     </Popper>
 
-    <!--
       TODO: To create `DateInput` input type. Use in `EditableField`.
     -->
 
-    <EditableField spec={{ id: 'testDate', type: 'date' }} value={value.toISOString()} />
+    <DateInput value={textValue} on:change={handleTextDate} />
 
-    <!--
-    // prettier-ignore
-    <EditableField
-      spec={{ id: 'testBoolean', type: 'boolean', title: 'Test boolean' }}
-      value={false}
-    />
-    <EditableField spec={{ id: 'testString', type: 'string' }} />
-    <EditableField spec={{ id: 'testNumber', type: 'number', title: 'Test number' }} value={1} />
-    <EditableField
-      spec={{
-        id: 'testSelect',
-        type: 'select',
-        title: 'Test select',
-        selectData: [{ label: 'A', value: 'a' }, { label: 'B', value: 'b' }, 'C', 'D'],
-      }}
-      value={'C'}
-    />
-    -->
+    <EditableField spec={{ id: 'testDate', type: 'date' }} value={textValue} />
   </div>
 </div>
 
