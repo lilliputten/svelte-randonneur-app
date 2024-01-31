@@ -46,7 +46,7 @@ function getNewValWithOldVal(
   oldVal: TDataSetDictItemValue,
 ): TDataSetDictItemValue {
   if (newVal == null || oldVal == null) {
-    return newVal;
+    return newVal || oldVal;
   } else if (typeof newVal === 'object') {
     if (typeof oldVal !== 'object') {
       return newVal;

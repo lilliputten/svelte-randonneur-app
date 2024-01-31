@@ -20,8 +20,8 @@
   // TODO: Pass over all props from `TextInputProps`...
   // @see `node_modules/@svelteuidev/core/dist/components/TextInput/TextInput.svelte.d.ts`
 
-  $: textValue = value || new Date().toISOString();
-  $: dateValue = getValidOrCurrentDate(new Date(textValue));
+  $: textValue = value; // NOTE: Allows empty values!
+  $: dateValue = textValue ? getValidOrCurrentDate(new Date(textValue)) : new Date();
 
   let inputReference: HTMLInputElement;
   let popupReference: HTMLDivElement;
@@ -147,7 +147,7 @@
 <div class={classNames(className, styles.DateInput)}>
   <TextInput
     bind:element={inputReference}
-    value={textValue}
+    value={textValue || ''}
     on:change={handleTextDate}
     {label}
     {placeholder}

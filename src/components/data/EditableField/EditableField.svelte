@@ -76,7 +76,7 @@
     <DateInput
       label={spec.label}
       placeholder={spec.title}
-      value={String(value)}
+      value={value ? String(value) : ''}
       on:change={handleChange}
     />
   {:else if type === 'number'}
